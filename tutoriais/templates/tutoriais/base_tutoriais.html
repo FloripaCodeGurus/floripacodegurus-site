@@ -1,0 +1,484 @@
+{% load static %}
+
+<DOCTYPE html>
+<!--[if IE 9]> <html class="no-js ie9 fixed-layout" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js " lang="en"> <!--<![endif]-->
+<head>
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Meta -->
+    <title>Tutoriais</title>
+    <meta name="keywords" content="Python, Django, Kivy, Data Science, Ciência de dados, Big Data, PostgreSql, BioPython, Pandas, Numpy, Matplotlib, C#, CSharp, Tutoriais, Conteúdo gratuito">
+
+    <meta name="description" content="Aprenda programação Python para desenvolvimento de aplicações Desktop, Web, Mobile, Ciência de dados, Big Data,BioPython, Robótica Kids, Arduino, Marketing Digital, Front-end, PHP, Java ,Ruby e C#. Toda semana um novo tutorial, nos conteúdos novas técnicas, acompanhe-nos e participem de nossos treinamentos.">
+    <meta name="author" content="Floripa Code Gurus">
+
+    <meta name="robots" content="index,follow" />
+
+    <!--SITE LOCK VEIRIFICATION-->
+    <meta name="sitelock-site-verification" content="9462" />
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="/escola/static/css/images/favicon.ico" type="image/x-icon" />
+<!--    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">-->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i" rel="stylesheet">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139868810-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-139868810-1');
+    </script>
+
+    <meta name="google-site-verification" content="UPyBbVphEji-ucJT4hbC5X4PuJXxGKVJpEdN1fOhFuM" />
+
+
+
+    <link rel="stylesheet" href="{% static 'escola/css/mobile.css' %}" media="screen and (max-width: 480px)">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/mystyle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/style.css' %}">
+    <!--[if lt IE 9]>
+    <script src="escola/static/js/vendor/html5shiv.min.js"></script>
+    <script src="escola/static/js/vendor/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+<!-- LOADER -->
+<div id="preloader">
+    <img class="preloader" src="https://f001.backblazeb2.com/file/site-code-gurus/images/loader.gif" alt="">
+</div><!-- end loader -->
+<!-- END LOADER -->
+
+<!--Facebook curtir contador -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.3"></script>
+
+<div id="wrapper">
+    <!-- BEGIN # MODAL LOGIN -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                    <form id="login-form">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="flaticon-add" aria-hidden="true"></span>
+                        </button>
+                        <div class="modal-body">
+                            <input class="form-control" type="text" placeholder="What you are looking for?" required>
+                        </div>
+                    </form><!-- End # Login Form -->
+                </div><!-- End # DIV Form -->
+            </div>
+        </div>
+    </div>
+    <!-- END # MODAL LOGIN -->
+
+    <header class="header">
+        <div class="topbar clearfix">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="col-md-6 col-sm-6 text-left">
+                        <p>
+                            <strong><i class="fa fa-whatsapp"></i></strong> <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a> &nbsp;&nbsp;
+                            <strong><i class="fa fa-envelope"></i></strong> <a href="mailto:#">administracao@floripacodegurus.com.br</a>
+                        </p>
+                    </div><!-- end left -->
+                    <div class="col-md-6 col-sm-6 hidden-xs text-right">
+                        <div class="social">
+
+                            <a class="facebook" href="https://www.facebook.com/codegurs/" data-tooltip="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                            <a class="twitter" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+
+                            <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+
+                            <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
+
+                        </div><!-- end social -->
+                    </div><!-- end left -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end topbar -->
+
+
+        <!-- MENU NAVBAR  -->
+
+        <div class="container">
+            <nav class="navbar navbar-default yamm">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="logo-normal">
+                        <a class="navbar-brand" href="{% url 'indice' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/logo.png" alt=""></a>
+                    </div>
+                </div>
+
+                <!--NAVBAR -->
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'indice' %}">Home</a></li>
+                        <li class="dropdown yamm-fw yamm-half"><a href="#" data-toggle="dropdown" class="dropdown-toggle active">Cursos<b class="fa fa-angle-down"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="yamm-content clearfix">
+                                        <div class="row-fluid">
+                                            <div class="col-md-6 col-sm-6">
+                                                <h4>Curso em destaque</h4>
+                                                <ul>
+                                                    <li><a href="{% url 'biopython' %}">BioPython 1</a></li>
+                                                    <li><a href="../cursos.html"><strong>Todos os cursos</strong></a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="menu-widget text-center">
+                                                    <div class="image-wrap entry">
+                                                        <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_biopython4.png" alt="Banner Biopython" class="img-responsive">
+                                                        <div class="magnifier">
+                                                            <a href="{% url 'biopython' %}" title=""><i class="flaticon-add"></i></a>
+                                                        </div>
+                                                    </div> <!--end image-wrap-->
+
+                                                    <h5><a href="{% url 'biopython' %}">BioPython</a></h5>
+                                                    <small>R$990,00</small>
+                                                    <a href="{% url 'biopython' %}" class="menu-button">Ver Curso</a>
+                                                </div><!-- end widget -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li><a href="#">Equipe</a></li>
+                        <!--CONTATOS -->
+                        <li><a href="{% url 'contato' %}">Contato</a></li>
+                        <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
+                        <li class="iconitem"><a class="shopicon" href="../cursos.html"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
+                    </ul>
+                </div>
+            </nav><!-- end navbar -->
+        </div><!-- end container -->
+    </header>
+
+       	{% block content %}
+
+
+		{% endblock content %}
+
+
+        <!-- SIDE BAR-->
+        <div class="sidebar col-md-4">
+            <div class="widget clearfix">
+                <div class="banner-widget">
+                    <a href="{% url 'indice' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_tuto_guru.jpg" alt="Banner Floripa Code Gurus" class="img-responsive img-rounded"></a>
+                </div>
+            </div>
+
+            <div class="widget clearfix">
+                <h3  id="tutoriais-h3" class="widget-title">Posts Populares </h3>
+                <div class="post-widget">
+                    <div class="media">
+                        <a href="{% url 'biopython' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_bio.png" alt="Biopython" class="img-responsive alignleft img-rounded"></a>
+                        <div class="media-body">
+                            <h5 class="mt-0"><a href="{% url 'biopython' %}">Já ouviu falar de BioPython?</a></h5>
+                            <div class="blog-meta">
+                                <ul class="list-inline">
+                                    <li>4 days ago</li>
+                                    <li><span>by</span> <a href="#">Equipe Gurus</a></li>
+                                </ul>
+                            </div><!-- end blog-meta -->
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <a href="{% url 'pythonmodulo1' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_php.png" alt="Desenvolvimento Web" class="img-responsive alignleft img-rounded"></a>
+                        <div class="media-body">
+                            <h5 class="mt-0"><a href="{% url 'djangomodulo1' %}">Desenvolvimento web para inicianentes</a></h5>
+                            <div class="blog-meta">
+                                <ul class="list-inline">
+                                    <li>5 days ago</li>
+                                    <li><span>by</span> <a href="#">Equipe Gurus</a></li>
+                                </ul>
+                            </div><!-- end blog-meta -->
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <a href="../django1.html"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_django.jpg" alt="Django framework web" class="img-responsive alignleft img-rounded"></a>
+                        <div class="media-body">
+                            <h5 class="mt-0"><a href="{% url 'djangomodulo1' %}">Django, o poderoso framework web escrito em Python</a></h5>
+                            <div class="blog-meta">
+                                <ul class="list-inline">
+                                    <li>6 days ago</li>
+                                    <li><span>by</span> <a href="#">Fabio Classo</a></li>
+                                </ul>
+                            </div><!-- end blog-meta -->
+                        </div>
+                    </div>
+                </div><!-- end post-widget -->
+            </div><!-- end widget -->
+
+
+            <div class="widget clearfix">
+                <h3 class="widget-title">Receba nossa Newsletter</h3>
+                <div class="newsletter-widget">
+                    <p>Você pode cancelar sua inscrição a qualquer momento.Veja nossa política de privacidade.</p>
+
+                    <!--NEWSLETTER-->
+                    <!-- Begin Mailchimp Signup Form -->
+                    <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+                    <style type="text/css">
+                                    #mc_embed_signup{background:#000; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                                    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                                       We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                                </style>
+                    <div id="mc_embed_signup_lateral">
+                        <form action="https://floripacodegurus.us20.list-manage.com/subscribe/post?u=7a35a165b6daddff16e71de51&amp;id=307e0a8719" method="post" id="mc-embedded-subscribe-form-lateral" name="mc-embedded-subscribe-form-lateral" class="validate" target="_blank" novalidate>
+                            <div id="mc_embed_signup_scroll">
+
+                                <div class="mc-field-group" id="lateral">
+
+                                    <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL_lateral" placeholder="Digite seu email aqui">
+
+                                </div>
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display:none"></div>
+                                    <div class="response" id="mce-success-response" style="display:none"></div>
+                                </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                    <input type="text" name="b_7a35a165b6daddff16e71de51_307e0a8719" tabindex="-1" value="">
+                                </div>
+
+
+                                <div class="clear">
+                                    <input type="submit" value="Subscribe" name="subscribe" id="botao_subscribe" class="btn btn-primary">
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                    <!--End mc_embed_signup-->
+
+                </div> <!-- end newsletter -->
+
+
+            </div><!-- end widget -->
+
+            <div class="widget clearfix">
+                <h3 class="widget-title">Tags Populares</h3>
+                <div class="tags-widget">
+                    <ul class="list-inline">
+                        <li><a href="cursos.html">cursos</a></li>
+                        <li><a href="{% url 'pythonmodulo1' %}">Python módulo 1</a></li>
+                        <li><a href="{% url 'pythonmodulo2' %}">Python módulo 2</a></li>
+                        <li><a href="{% url 'djangomodulo1' %}">Desenvolvimento web</a>
+                        </li>
+                        <li><a href="#">Professores</a></li>
+                        <li><a href="{% url 'biopython' %}">BioPython</a></li>
+                        <li><a href="#">Java Script</a></li>
+                        <li><a href="#">Kivy</a></li>
+                    </ul>
+                </div><!-- end list-widget -->
+            </div><!-- end widget -->
+        </div><!-- END SIDE BAR-->
+    </div><!-- end row -->
+    </div><!-- end boxed -->
+    </div><!-- end container -->
+</section>
+
+
+<!--FOOTER-->
+    <footer class="section footer noover">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Receba nossa Newsletter</h3>
+                        <div class="newsletter-widget">
+                            <p>Você pode cancelar sua inscrição a qualquer momento.Veja nossa <a href="#">política de privacidade</a>.</p>
+
+                            <!--NEWSLETTER-->
+                            <!-- Begin Mailchimp Signup Form -->
+                            <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+                            <style type="text/css">
+                                #mc_embed_signup{background:#000; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                                /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                                   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                            </style>
+                            <div id="mc_embed_signup">
+                                <form action="https://floripacodegurus.us20.list-manage.com/subscribe/post?u=7a35a165b6daddff16e71de51&amp;id=307e0a8719" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+                                    <div id="mc_embed_signup_scroll">
+                                        <div class="mc-field-group">
+                                            <label for="mce-EMAIL">e-mail  <span class="asterisk"></span>
+                                            </label>
+
+                                            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Digite seu email aqui">
+
+                                        </div>
+                                        <div id="mce-responses" class="clear">
+                                            <div class="response" id="mce-error-response" style="display:none"></div>
+                                            <div class="response" id="mce-success-response" style="display:none"></div>
+                                        </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                            <input type="text" name="b_7a35a165b6daddff16e71de51_307e0a8719" tabindex="-1" value="">
+                                        </div>
+
+
+                                        <div class="clear">
+                                            <input type="submit" value="Subscribe" name="subscribe" id="botao_subscribe" class="btn btn-primary">
+                                        </div>
+
+
+                                    </div>
+                                    <!--mc_embed_signup_scroll-->
+
+                                </form>
+                            </div>
+                            <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                            <!--End mc_embed_signup-->
+                        </div> <!-- end newsletter -->
+
+                        <!--Container midias sociais-->
+                        <!--Facebook curtir-->
+                        <div id="facebook-like" class="fb-like" data-href="https://www.facebook.com/codegurs/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+                        <div class="colum-midias">
+                            <a id="twitter-like" href="https://twitter.com/guruscode?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @guruscode</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+                    </div><!-- end widget clear fix -->
+                </div><!-- end col-lg-4 col-md-4 -->
+
+
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Trabalhe conosco</h3>
+                        <p>Que tal dar aulas e ainda fazer parte de nossa equipe de desenvolvimento?</p>
+                        <a href="#" class="readmore">Seja um dos nossos Professores</a>
+                    </div><!-- end widget -->
+                    <!--BANNER PAGSEGURO -->
+                    <a href="https://pagseguro.uol.com.br/"><img id='bannerpagseguro' src="https://f001.backblazeb2.com/file/site-code-gurus/images/bannerpagseguro.jpg"></a>
+                    <!--END BANNER PAGSEGURO -->
+
+                    <!--PAY PAL -->
+                    <a href="https://www.paypal.com/br/webapps/mpp/home"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/paypal_floripa_code_gurus.png" alt="PayPal" class="img-responsive" style="margin-top: 1em;"></a>
+                    <!--END BANNER PAY PAL -->
+
+                </div><!-- end col -->
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Tags Populares</h3>
+                        <div id="tags-widgets-footer"class="tags-widget">
+                            <ul class="list-inline">
+                                <li><a href="cursos.html">cursos</a></li>
+                                <li><a href="{% url 'pythonmodulo1' %}">Python módulo 1</a></li>
+                                <li><a href="{% url 'pythonmodulo2' %}">Python módulo 2</a></li>
+                                <li><a href="{% url 'djangomodulo1' %}">Desenvolvimento web</a>
+                                </li>
+                                <li><a href="#">Professores</a></li>
+                                <li><a href="{% url 'biopython' %}">BioPython</a></li>
+                                <li><a href="#">Java Script</a></li>
+                                <li><a href="#">Kivy</a></li>
+                            </ul>
+
+                        </div><!-- end list-widget -->
+                    </div><!-- end widget -->
+                </div><!-- end col -->
+
+                <div class="col-lg-2 col-md-2">
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Suporte</h3>
+                        <div class="list-widget">
+                            <ul>
+                                <li><a href="#">Termos de uso</a></li>
+                                <li><a href="#">Direitos</a></li>
+                                <li><a href="{% url 'indice' %}">Preços</a></li>
+                                <li><a href="{% url 'indice' %}">Home</a></li>
+                            </ul>
+                        </div><!-- end list-widget -->
+
+                        <a href="#" onclick="window.open('https://www.sitelock.com/verify.php?site=floripacodegurus.com.br','SiteLock','width=600,height=600,left=160,top=170');" ><img class="img-responsive" alt="SiteLock" title="SiteLock" src="//shield.sitelock.com/shield/floripacodegurus.com.br" /></a>
+
+                    </div><!-- end widget -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+
+
+    </footer><!-- end footer -->
+
+
+
+    <div class="copyrights">
+        <div class="container">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <div class="cop-logo">
+                        <a href="{% url 'indice' %}"><img src="{% static 'escola/css/images/logo.png' %}" alt=""></a>
+                    </div>
+                </div>
+
+                <div class="pull-right">
+                    <div class="footer-links">
+                        <ul class="list-inline">
+                            <li>Desenvolvido por: <a href="https://www.linkedin.com/in/fabio-reis-classo-46881425/">Fabio Classo</a></li>
+                            <li>Distribuido por: <a href="https://www.floripacodegurus.com.br" target="_blank">Floripa Code Gurus</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end container -->
+    </div><!-- end copy -->
+</div><!-- end wrapper -->
+
+    <!-- jQuery Files -->
+    <script src="{% static 'escola/js/jquery.min.js' %}"></script>
+    <script src="{% static 'escola/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'escola//js/carousel.js' %}"></script>
+    <script src="{% static 'escola/js/animate.js' %}"></script>
+    <script src="{% static 'escola/js/custom.js' %}"></script>
+
+    <!-- VIDEO BG PLUGINS -->
+    <script src="{% static 'escola/js/videobg.js' %}"></script>
+
+    <!-- Twitter universal website tag code -->
+    <script>
+        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+        // Insert Twitter Pixel ID and Standard Event data below
+        twq('init','o24vr');
+        twq('track','PageView');
+        </script>
+    <!-- End Twitter universal website tag code -->
+
+</body>
+</html>

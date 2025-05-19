@@ -1,0 +1,93 @@
+{% extends 'escola/base.html' %}
+
+{% block content %}
+
+        <section class="section db p120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tagline-message page-title text-center">
+                            <h3>Entre em contato</h3>
+                            <ul class="breadcrumb">
+                                <li><a href="{% url 'indice' %}">Home</a></li>
+                                <li class="active">Entre em contato</li>
+                            </ul>
+                        </div>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section -->
+
+        <section class="section gb nopadtop">
+            <div class="container">
+                <div class="boxed boxedp4">
+
+
+                    <!-- MAPA -->
+
+                  
+                 <div class="container" id="localizacao">
+                        <iframe id="mapa"src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3536.613184072058!2d-48.51267008520249!3d-27.57451298284715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9527388d0567bc95%3A0x2436e034daad8d8e!2sR.+Patr%C3%ADcio+Farias%2C+131+-+Itacorubi%2C+Florian%C3%B3polis+-+SC%2C+88034-132!5e0!3m2!1sen!2sbr!4v1559851929408!5m2!1sen!2sbr" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                    
+                    <hr>
+
+                    <div class="row contactv2 text-center">
+                        <div class="col-md-4">
+                            <div class="small-box">
+                                <i class="flaticon-email wow fadeIn"></i>
+                                <h4>Fale com nosso consultor</h4>
+                                <!-- <small>Telefone/whats: <a href="https://api.whatsapp.com/send?phone=5548996187525">+55 48 99618-7525</a></small> -->
+                                <br>    
+                                 <small>Telefone/whats: <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a></small>
+                                <p><a id="atendimento-email" href="mail:to">atendimento@floripacodegurus.com.br</a></p>
+                            </div><!-- end small-box -->
+                        </div><!-- end col -->
+
+                        <div class="col-md-4">
+                            <div class="small-box">
+                                <i class="flaticon-map-with-position-marker wow fadeIn"></i>
+                                <h4>Conheça nosso espaço</h4>
+                                <small><a href="http://cool2work.com.br/
+                                ">Cool2work</a></small>
+                                <small>R. Patrício Farias, 131 - Itacorubi, Florianópolis - SC, 88034-132</small>
+                                <p><a href="https://goo.gl/maps/CcfXwKket2k7JmWo8">Veja no Google Maps</a></p>
+                            </div><!-- end small-box -->
+                        </div><!-- end col -->
+
+                        <div class="col-md-4">
+                            <div class="small-box">
+                                <i class="flaticon-share wow fadeIn"></i>
+                                <h4>Redes Sociais</h4>
+                                <a href="https://twitter.com/GurusCode"><small>Twitter: @GurusCode</small></a>
+                                <a href="https://www.facebook.com/codegurs/"><small>Facebook: @codegurus</small></a>
+                                <a href="https://www.instagram.com/floripa_code_gurus/"><small>Instagram: floripa_code_gurus</small></a>
+                            </div><!-- end small-box -->
+                        </div><!-- end col -->
+                    </div><!-- end contactv2 -->
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="section-title text-center">
+                                <h3>Cadastre-se</h3>
+                                <p>Cadastre-se para receber nossas promoções. Marque os cursos de seu interesse. E se quiser, ainda pode deixar uma comentário. </p>
+                            </div><!-- end title -->
+
+                            <!--insert.php-->
+                            <form action="process-form.php" method="post" class="big-contact-form" role="search">
+                                <p><input type="text" name="nome"  class="form-control" placeholder="Nome:"></p>
+                                <p><input type="text" name="email" class="form-control" placeholder="Email:" ></p>
+                                <p><input type="text" name="telefone"class=" form-control" placeholder="Telefone"></p>
+                                <p><textarea name="assunto" class="form-control" placeholder="Assunto:" rows="5" cols="30"></textarea></p>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-primary">Reset</button>
+                            </form>
+                             </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end container -->
+            </div>
+        </section>
+
+{% endblock content %}
+
+     

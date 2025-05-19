@@ -1,0 +1,848 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+
+        <section class="section db p120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tagline-message page-title text-center">
+                            <h3>Tutoriais</h3>
+                            <ul class="breadcrumb">
+                                <li><a href="{% url 'indice' %}">Home</a></li>
+                                <li><a href="{% url 'tutoriais' %}">Tutoriais</a></li>
+                                <li class="active">Expressões regulares 1</li>
+                            </ul>
+                        </div>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section -->
+
+
+
+        <section class="section gb nopadtop">
+            <div class="container">
+                <div class="boxed">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="content blog-list">
+                                <div class="blog-wrapper clearfix">
+                                    <div class="blog-meta">
+                                        <small><a href="#">Tips & Tricks</a></small>
+                                        <h3>Expressões Regulares em Python, parte 1</h3>
+                                        <ul class="list-inline">
+                                             <li>04 de junho 2019</li>
+                                            <li><span>escrito por:</span> <a href="#">Fabio Classo</a></li>
+                                        </ul>
+                                    </div><!-- end blog-meta -->
+
+                    <div class="tags-widget">   
+                        <ul class="list-inline">
+                            <li><a href="../python1.html">python</a></li>
+                            <li><a href="../django1.html">Desenvolvimento Web</a></li>
+                            <li><a href="../python2.html">Trilha Python</a></li>
+                            <!-- <li><a href="#">development</a></li>
+                            <li><a href="#">language</a></li> -->
+                         </ul>
+                     </div><!-- end list-widget -->
+
+                    <div class="blog-media">
+                        <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/blog_03_regex1.png" alt="" class="img-responsive img-rounded">
+                    </div><!-- end media
+
+                                    <h4>Você conhece o módulo regex?</h4>
+
+                                    <!-- <div class="blog-media">
+                                        <img src="tutoriais/currency/currency2.png" alt="" class="img-responsive img-rounded">
+                                    </div><!-- end media --> 
+
+                    <div class="blog-desc-big">
+                        <p id="tutoriais-p">Uma expressão regular ou regex, é uma sequência especial de caracteres que ajuda você a encontrar outras strings ou conjuntos de strings, usando uma sintaxe especializada mantida em um padrão. Expressões regulares são amplamente usadas no mundo UNIX.</p>
+                        <p id="tutoriais-p">O módulo <b>re</b> fornece suporte completo para expressões regulares semelhantes a Perl no Python. O módulo re gera a exceção <b>re.error</b> se ocorrer um erro ao compilar ou usar uma expressão regular.</p>
+                        <p id="tutoriais-p">Existem vários caracteres, que teriam um significado especial ao serem usados ​​na expressão regular. Para evitar qualquer confusão ao lidar com expressões regulares, usamos rawstrings como r'expression'.</p>
+                        <p id="tutoriais-p">Um rawstring é um literal de string (prefixado com um r) no qual as regras normais de escape são suspensas para que tudo seja literal.</p>
+                    <textarea id="area-texto"rows="2">
+print('\tTab')
+print(r'\tTab') # aqui, capturamos o "Tab"
+                    </textarea> 
+
+                    <div class="blog-media" id='img-4'>
+                        <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/tab.png" alt="" class="img-responsive img-rounded">
+                    </div><!-- end media -->
+                    <hr class="invis">
+                    <h4># 1 - Para utilizarmos expressões regulares em Python, precisamos importar o modulo re para nosso programa: <strong>import re</strong></h4>
+                        
+                    <hr class="invis">
+                    <h4>Padrões básicos de Expressões Regulares</h4>
+                    <table id="regex1">
+                        <tr>
+                            <th>Função</th>
+                            <th>Descrição</th>
+                        </tr>
+                        <tr>
+                            <td>. (ponto)</td>
+                            <td>Corresponde a qualquer caractere, exceto nova linha</td>
+                        </tr>
+                        <tr>
+                            <td>\d</td>
+                            <td>Corresponde a dígitos [0-9]</td>
+                        </tr>
+                        <tr>
+                            <td>\D</td>
+                            <td>Não dígitos</td>
+                        </tr>
+                        <tr>
+                            <td>\w</td>
+                            <td>Caracteres de palavra(word caracters) [a-zA-z0-9]</td>
+                        </tr>
+                        <tr>
+                            <td>\W</td>
+                            <td>Corresponde a qualquer caractere não palavra</td>
+                        </tr>
+                        <tr>
+                            <td>\s</td>
+                            <td>Espaço em branco</td>
+                        </tr>
+                        <tr>
+                            <td>\S</td>
+                            <td>Corresponde a qualquer caracteres que não seja espaço em branco</td>
+                        </tr>
+                                            <!-- <tr>
+                                                <td>\b</td>
+                                                <td>Caractere de borda (boundary)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>\B</td>
+                                                <td>Caractere fora de borda(Not Boundary</td>
+                                            </tr> -->
+                        <tr>
+                            <td>\t</td>
+                            <td>Tabulação</td>
+                        </tr>
+                        <tr>
+                            <td>\n</td>
+                            <td>Nova linha</td>
+                        </tr>
+                        <tr>
+                            <td>\r</td>
+                            <td>Retorno</td>
+                        </tr>
+                    </table>
+
+                                        <hr class="invis">
+                                        <h4>Nos exemplos abaixo utilizaresmos as funções complile e finditer do módulos re.</h4>
+
+                                        <p id="tutoriais-p"><strong style="color: #000;">re.compile</strong> - compila um padrão de expressão regular em um objeto de expressão regular, que pode ser usado para correspondência usando seus métodos match (), search () e outros, descritos mais a frente neste tutorial.</p>
+
+                                        <p id="tutoriais-p"><strong style="color: #000;">re.finditer</strong> - retorna um iterador produzindo objetos de correspondência sobre todas as correspondências não sobrepostas para o padrão RE em string. A seqüência de caracteres é lida da esquerda para a direita e as correspondências são retornadas na ordem encontrada. </p>
+                                        <hr class="invis">
+
+                                  <textarea id="area-texto"rows="5"> #!/usr/bin/env python3
+import re
+padrao = re.compile(r'abc')
+matches = padrao.finditer("abcdefghijklmnopqrstuvwxyz")
+for match in matches:
+        print(match)
+                                </textarea>
+                                          <hr class="invis">
+                                          <p><strong style="color: #000;">Produzindo a saída:</strong></p>
+                                <textarea id="area-texto"rows="1"><re.Match object; span=(0, 3), match='abc'> 
+                                </textarea>
+                                           <hr class="invis">
+
+                                        <p id="tutoriais-p">No caso acima deu match da posição 0 a 3 (exclusive),a tag "span" nos informa a exata posição da ocorrência, retornando um re.Match object.</p>
+
+                                        <p id="tutoriais-p">Para nos certirficarmos se está correto, façamos o seguinte teste: rode no terminal</p>
+
+                                        <textarea id="area-texto" rows="2"> 
+print("abcdefghijklmnopqrstuvwxyz"[0:3])
+                                        </textarea>
+                                        <br>
+                                        <p id="tutoriais-p">Obteremos como saída: "abc</p>
+
+                                    </div><!-- end desc -->
+                                </div><!-- end blog -->
+                            </div><!-- end content -->
+
+
+
+                                    <h4># 2 - Para nosso estudo ficar mais dinâmico vamos usar dois arquivos externos, que podemos ser baixados nos links abaixo:</h4>
+                                    <ul id="tutorial-ul">
+                                        <li><a href="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/Pytho2-tutorials_regex1_texto1.txt">text1.txt</li></p>
+                                        <li><a href="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/Pytho2-tutorials_regex1_data.txt">data.txt</a></li>    
+                                    </ul>
+                                    
+                                    <br>
+                                <p id="tutoriais-p">Conteúdo de text01.txt</p>
+    <textarea id="area-texto"rows="10"> text_to_search="""
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+
+Ha  HaHa
+
+Meta caracteres (Precisa do caractere "\" escaped):
+. ^ $ * + ? { } [ ] \ | ( )
+
+floripacodegurus.com.br
+
+321-555-4321
+123.555.1234
+123*555*1234
+800-555-1234
+900-555-1234
+
+Mr. Schafer
+Mr Smith
+Ms Davis
+Mrs. Robinson
+Mr. T
+
+cat
+mat
+pat
+bat
+rat
+"""
+
+emails = """
+FabioClasso@gmail.com
+fabio.classo@floripacodegurus.edu
+fabio-74-classo@my-work.net
+"""
+
+urls = """
+https://www.google.com
+http://floripacodegurus.com
+https://youtube.com
+https://www.nasa.gov
+https://floripacodegurus.com.br
+"""
+
+sentence = 'Start a sentence and then bring it to an end'
+
+    </textarea>
+                                    <hr class="invis">
+                                    <p>Conteúdo de data.txt</p>
+                                    <textarea id="area-texto" rows="10">
+Fabio Classo
+999-777-3152
+fabio@floripacodegurus.com.br
+
+Dave Martin
+615-555-7164
+davemartin@email.com
+
+Chalie Hunter
+800-555-4556
+ch@email.com
+
+Eric Martin
+615-555-9988
+ericm@email.com
+
+Lauren Hill
+987-555-5665
+laurenh@lh.com
+
+Donal Trump
+123-555-1234
+dotrump@whitehouse.com
+
+Peter Parker
+876-555-9876
+peterparker@dailynews.com
+
+
+Mary Jane Watson
+900-555-4000
+mjw@email.com
+                                        
+                                    </textarea>
+
+<hr class="invis">
+                                <h4># 3 - Seguindo a ordem da tabela de Padrões básicos de expressões regulares - item #1</h4>
+
+                                <p id="tutoriais-p">Usaremos o código abaixo alterando apenas o padrão a ser buscado pelo compile e a origem dos dados.</p>
+                                <p id="tutoriais-p">Usando o caracter ponto (.)</p>
+                                <hr class="invis">
+                                <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+
+import re
+
+padrao = re.compile(r'.')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)
+                                </textarea>
+
+
+                    <div class="blog-media" id="img-5">
+                                <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_ponto1.png"alt="" class="img-responsive img-rounded">
+                    </div><!-- end media -->
+
+
+                    <hr class="invis">
+                     <div class="blog-media" id="img-5">
+                                <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_ponto2.png"alt="" class="img-responsive img-rounded">
+                    </div><!-- end media -->
+                    
+                    <p id="tutoriais-p">Como podemos observar a saída utilizando o caracter '.' captura praticamente tudo,se quisermos criar filtros mais específicos temos que evitar seu uso. </p>
+
+                        <h4>Capturando apenas dígitos com \d</h4>
+                                <hr class="invis">
+                                <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+
+import re
+
+padrao = re.compile(r'\d')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)
+                            </textarea>
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_d.png"alt="" class="img-responsive img-rounded">
+                            </div>
+
+
+                            <h4>Excluindo dígitos com \D</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\D')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_nao_dig1.png"alt="Nao digitos 1" class="img-responsive img-rounded">
+                            </div>
+
+
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_nao_dig2.png"alt="Nao digitos 2" class="img-responsive img-rounded">
+                            </div>
+
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_nao_dig3.png"alt="Nao digitos 3" class="img-responsive img-rounded">
+                            </div>
+
+                            <h4>Caracteres de palavras - Word Caracteres \w</h4>
+                            <p id="tutoriais-p">(a-z, A-Z, 0-9, _)</p>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+
+import re
+
+padrao = re.compile(r'\w')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_wordcaracteres.png"alt="Nao digitos 1" class="img-responsive img-rounded">
+                            </div>
+
+                            <h4>Caracteres de não palavras - Not Word Caracteres \W</h4>
+                            <p id="tutoriais-p">O contrário de \w</p>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\W')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_W1.png"alt="Nao digitos 1" class="img-responsive img-rounded">
+                            </div>
+
+
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_W2.png"alt="Nao digitos 1" class="img-responsive img-rounded">
+                            </div>
+
+                            <h4>Espaços, nova linha e tabulações com \s</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\s')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_espacos.png"alt="Nao digitos 1" class="img-responsive img-rounded">
+                            </div>
+
+                            <h4>Evitando espaços, nova linha e tabulações com \S</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\S')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_nao_espaco1.png"alt="Nao espacos 1" class="img-responsive img-rounded">
+                            </div>
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_nao_espaco2.png"alt="Nao espacos 2" class="img-responsive img-rounded">
+                            </div>
+                            <hr>
+                            <h4>#4 - Âncoras</h4>
+                            <table id="regex1">
+                                <tr>
+                                    <th>Função</th>
+                                    <th>Descrição</th>
+                                </tr>
+                                <tr>
+                                    <td>^</td>
+                                    <td>Corresponde ao início da pesquisa na expressão</td>
+                                </tr>
+                                <tr>
+                                    <td>$</td>
+                                    <td>Corresponde ao final da pesquisa na expressão</td>
+                                </tr>
+                            </table>
+
+                            <hr class="invis">
+                            <h4>Usamos o ^ para verificar corresnpondência de caracteres no início da string</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+import re
+
+frase = 'Floripa Code Gurus Escola de Tecnologia em Florianopolis'
+
+padrao = re.compile(r'^Floripa')
+matches = padrao.finditer(frase)
+for match in matches:
+     print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_ancora1.png"alt="Ancora ^" class="img-responsive img-rounded">
+                            </div>
+                            <p id="tutoriais-p">span=(0, 7) retorna a posição onde foram encontrados os caracteres pesquisados</p>
+                            <p id="tutoriais-p">Se alterarmos para qualquer outra palavra ou caracteres que nao esteja no início da string, nada será retornado.Mesmo estando na string.</p>
+                            <hr class="invis">
+
+                            <textarea id="area-texto"rows="5">
+import re
+
+frase = 'Floripa Code Gurus Escola de Tecnologia em Florianopolis'
+
+padrao = re.compile(r'^Gurus')
+matches = padrao.finditer(frase)
+for match in matches:
+     print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_ancora2.png"alt="Ancora ^" class="img-responsive img-rounded">
+                            </div>
+
+
+                            <hr class="invis">
+                            <h4>Usamos o $ para verificar correspondência de caracteres no final da string</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+import re
+
+frase = 'Floripa Code Gurus Escola de Tecnologia em Florianopolis'
+
+padrao = re.compile(r'Florianopolis$')
+matches = padrao.finditer(frase)
+for match in matches:
+     print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_ancora3.png"alt="Ancora $" class="img-responsive img-rounded">
+                            </div>
+                            <p id="tutoriais-p">span=(43, 56) retorna a posição onde foram encontrados os caracteres pesquisados</p>
+
+                            <h4>#5 - Intervalos de pesquisa - Ranges</h4>
+                            <hr class="invis">
+                            <textarea id="area-texto"rows="5">
+import re
+
+padrao = re.compile(r'[a-zA-z]')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+                            
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_range1.png"alt="Ranges" class="img-responsive img-rounded">
+                            </div>
+                            <hr class="invis">
+                            <div class="blog-media" id="img-5"><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_range2.png"alt="Ranges" class="img-responsive img-rounded">
+                            </div>
+                            <p id="tutoriais-p">No caso realizamos a pesquisa no range [a-zA-z], ou seja, letras minúsculas e maiúsculas de 'a' a 'z' e de 'A' a 'Z'.</p>
+
+
+
+                            <hr class="invis">
+                            <h4>#6 Capturando números de telefones</h4>
+                            <hr class="invis">
+                            <p id="tutoriais-p">No nosso arquivo temos os seguintes números:</p>
+                            <ul id="tutorial-ul">
+                                <li>321-555-4321</li>
+                                <li>123.555.1234</li>
+                                <li>123*555*1234</li>
+                                <li>800-555-1234</li>
+                                <li>900-555-1234</li>
+                            </ul>
+                            <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\d\d\d.\d\d\d.\d\d\d\d')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+
+                                    <div class="blog-media" id="img-5">
+                                        <img src="
+                                            https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex2.png" alt="" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                               <p id="tutoriais-p">Utilizamos como padrão: <strong>padrao = re.compile(r'\d\d\d.\d\d\d.\d\d\d\d')</strong> </p>
+                               <p id="tutoriais-p"><strong>"\d"</strong> corresnponde a carcteres do tipo dígito e <strong>"."</strong> corresponde a qualquer caractere, exceto espaços, como vimos na tabela acima.</p>
+                               <br>
+                               
+                               <p id="tutoriais-p">A primeira coisa que é possível notar aqui, é o uso contínuo de \d, não seria mais conveniente fazer algo tipo (\d * 3)? </p>
+                               <p id="tutoriais-p">É aqui que vamos utilizar quantificadores.</p>
+
+                               <hr class="invis">
+                               <h4>#7 - Quantificadores</h4>
+                               <ul id="tutorial-ul">
+                                    <li>* 0 ou mais de um correspondência</li>
+                                    <li>+ 1 ou mais de uma correspondência</li>
+                                    <li>? 0 ou 1 correspondência</li>
+                                    <li>{3} Numero exato de correspondências</li>
+                                    <li>{3,4} intervalo/range incianco em 3 e terminando em 4</li>
+                               </ul>
+
+                              <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'\d{3}.\d{3}.\d{4}')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+
+                                    <div class="blog-media" id="img-5">
+                                        <img src="
+                                            https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_telefones1.png" alt="Telefones 1" class="img-responsive img-rounded">
+                                    </div><!-- end media -->  
+
+                                    <p id="tutoriais-p">Aqui usamos <b>re.compile(r'\d{3}.\d{3}.\d{4}')</b>, onde o número entre chaves corresponde a quantidade exata de dígitos procurados.</p>
+
+                                <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'[89]00[-]\d{3}.\d{4}')
+with open("texto1.txt", 'r', encoding='utf-8') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+
+                            <hr  class="invis">
+                            <!--emails-->
+                            <h4>#8 - Capturando emails</h4>    
+                            <!-- <div class="blog-media" id="img-5">
+                                <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_telefones2.png" alt="Telefones 1" class="img-responsive img-rounded">
+                            </div> -->
+                            <!-- end media -->  
+
+                            <p id="tutoriais-p">Vamos capturar os emails existentes nos nosso arquivo texto1.txt</p>
+
+                             <textarea id="area-texto"rows="3">
+emails = """
+FabioClasso@gmail.com
+fabio.classo@floripacodegurus.edu
+fabio-74-classo@my-work.net"""</textarea>
+                                 
+
+                                    <p id="tutoriais-p">Nosso padrao inicial será <b>"padrao = re.compile(r'A-Za-z')+"</b></p>
+
+                                <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+emails = """
+FabioClasso@gmail.com
+fabio.classo@floripacodegurus.edu
+fabio-74-classo@my-work.net
+"""
+padrao = re.compile(r'[A-Za-z]+')
+matches = padrao.finditer(emails)
+for match in matches:
+    print(match)</textarea>
+
+
+
+                            <!-- <div class="blog-media" id="img-5">
+                                <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/regex_telefones2.png" alt="Telefones 1" class="img-responsive img-rounded">
+                            </div> -->
+                            <!-- end media -->  
+
+                            <p id="tutoriais-p"><b>Temos como saída:</b></p>
+                            <textarea id="area-texto"rows="5">
+<re.Match object; span=(1, 12), match='FabioClasso'>
+<re.Match object; span=(13, 18), match='gmail'>
+<re.Match object; span=(19, 22), match='com'>
+<re.Match object; span=(23, 28), match='fabio'>
+<re.Match object; span=(29, 35), match='classo'>
+<re.Match object; span=(36, 52), match='floripacodegurus'>
+<re.Match object; span=(53, 56), match='edu'>
+<re.Match object; span=(57, 62), match='fabio'>
+<re.Match object; span=(66, 72), match='classo'>
+<re.Match object; span=(73, 75), match='my'>
+<re.Match object; span=(76, 80), match='work'>
+<re.Match object; span=(81, 84), match='net'>
+                            </textarea>
+
+                            <p id="tutoriais-p">Adicionando um <b>@'</b> depois do grupo <b>'[A-Za-z]+'</b></p>
+                            <textarea id="area-texto"rows="4">
+padrao = re.compile(r'[A-Za-z]+@')
+matches = padrao.finditer(emails)
+for match in matches:
+    print(match)</textarea>
+
+
+                            <p id="tutoriais-p">Temos:</p>
+                            <textarea id="area-texto"rows="3">
+<re.Match object; span=(1, 13), match='FabioClasso@'>
+<re.Match object; span=(29, 36), match='classo@'>
+<re.Match object; span=(66, 73), match='classo@'>
+                            </textarea>
+
+                            <hr class="invis">
+ <p id="tutoriais-p">Não conseguimos capturar os emails fabio.classo@floripacodegurus.edu  e fabio-74-classo@my-work.net.</p>
+ <p id="tutoriais-p">Para isso precisamos inserir no grupo entre colchetes os metacaracteres '.' e '-' e ainda  \d ou um grupo [0-9] para dígitos.</p>
+
+<textarea id="area-texto"rows="3">
+padrao = re.compile(r'[A-Za-z0-9\.\-]+@')
+
+matches = padrao.finditer(emails)
+for match in matches:
+    print(match)</textarea>
+
+                            <p id="tutoriais-p"><b>Temos como saída:</b></p>
+                            <textarea id="area-texto"rows="3">
+<re.Match object; span=(1, 13), match='FabioClasso@'>
+<re.Match object; span=(23, 36), match='fabio.classo@'>
+<re.Match object; span=(57, 73), match='fabio-74-classo@'>
+                            </textarea>
+
+                            <p id="tutoriais-p">Para os caracteres da segunda parte dos endereços de email, ou seja, após o "@", adicionamos mais um grupos de caracters [A-Za-z\-]+</p>
+                            <textarea id="area-texto"rows="3">padrao = re.compile(r'[A-Za-z0-9\.\-]+@[A-Za-z\-]+')
+
+matches = padrao.finditer(emails)
+for match in matches:
+    print(match)</textarea>
+
+                            <p id="tutoriais-p"><b>Temos como saída:</b></p>
+                            <textarea id="area-texto"rows="3">
+<re.Match object; span=(1, 18), match='FabioClasso@gmail'>
+<re.Match object; span=(23, 52), match='fabio.classo@floripacodegurus'>
+<re.Match object; span=(57, 80), match='fabio-74-classo@my-work'></textarea>
+
+                            <p id="tutoriais-p">Pra fechar adicionamos <b>'\.(com|edu|net)'</b> para capturarmos o metacaracter <b>'.'</b> e agrupamos com, edu e net usando a função AND representada pelo <b>"|"</b> (pipe).</p>
+                            <p id="tutoriais-p"><strong>Código final</strong></p>
+                             <textarea id="area-texto"rows="5">
+#!/usr/bin/env python3
+import re
+
+emails = """
+FabioClasso@gmail.com
+fabio.classo@floripacodegurus.edu
+fabio-74-classo@my-work.net"""
+
+padrao = re.compile(r'[A-Za-z0-9\.\-]+@[A-Za-z\-]+\.(com|edu|net)')
+matches = padrao.finditer(emails)
+for match in matches:
+    print(match)</textarea>
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                             <textarea id="area-texto"rows="3">
+<re.Match object; span=(1, 22), match='FabioClasso@gmail.com'>
+<re.Match object; span=(23, 56), match='fabio.classo@floripacodegurus.edu'>
+<re.Match object; span=(57, 84), match='fabio-74-classo@my-work.net'>
+                             </textarea>
+
+                             <hr class="invis">
+                             <h4>Utlizando o arquivo externo data.txt, lembre-se de salvar no mesmo diretório ou indicá-lo no programa.</h4>
+                            <textarea id="area-texto"rows="3">
+#!/usr/bin/env python3
+import re
+
+padrao = re.compile(r'[A-Za-z0-9\.\-]+@[A-Za-z\-]+\.(com)(\.br)?')
+with open('data.txt', 'r') as file:
+    conteudo = file.read()
+    matches = padrao.finditer(conteudo)
+    for match in matches:
+        print(match)</textarea>
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                            <textarea id="area-texto"rows="4">
+<re.Match object; span=(26, 55), match='fabio@floripacodegurus.com.br'>
+<re.Match object; span=(82, 102), match='davemartin@email.com'>
+<re.Match object; span=(131, 143), match='ch@email.com'>
+<re.Match object; span=(170, 185), match='ericm@email.com'>
+<re.Match object; span=(212, 226), match='laurenh@lh.com'>
+<re.Match object; span=(253, 275), match='dotrump@whitehouse.com'>
+<re.Match object; span=(303, 328), match='peterparker@dailynews.com'>
+<re.Match object; span=(361, 374), match='mjw@email.com'>
+                            </textarea>
+
+
+                            <!--urls-->
+                             <hr class="invis">
+                             <h4># 9 - Capturando endereços de urls</h4>
+                             <p id="tutoriais-p">Nossa tarefa agora é capturar os seguintes endereços de urls contidos no nosso arquivo:</p>
+                              <textarea id="area-texto"rows="4">urls = """
+    https://www.google.com
+    http://floripacodegurus.com.br
+    https://youtube.com
+    https://www.nasa.gov"""</textarea>
+                            <p  id="tutoriais-p">Começamos com capturando o que as urls teem em comum <b>"http"</b> deixando o <b>"s"</b> como opcional, utilizando o quantificador <b>"?"</b></p>
+
+                            <textarea id="area-texto"rows="3">
+padrao = re.compile(r'https?')
+
+matches = padrao.finditer(urls)
+for match in matches:
+    print(match)</textarea>
+
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                            <textarea id="area-texto"rows="4">
+<re.Match object; span=(5, 10), match='https'>
+<re.Match object; span=(32, 36), match='http'>
+<re.Match object; span=(67, 72), match='https'>
+<re.Match object; span=(91, 96), match='https'></textarea>
+
+                            <p id="tutoriais-p">Em seguida temos <b>"://"</b> em todos os endereços  e <b>"www."</b> em apenas dois enderços, vamos usar novamente o quantificador <b>"?"</b> para traná-los opcionais.</p>
+                            <textarea id="area-texto"rows="3">
+padrao = re.compile(r'https?://(www\.)?')
+
+matches = padrao.finditer(urls)
+for match in matches:
+    print(match)</textarea>
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                             <textarea id="area-texto"rows="4">
+<re.Match object; span=(5, 17), match='https://www.'>
+<re.Match object; span=(32, 39), match='http://'>
+<re.Match object; span=(67, 75), match='https://'>
+<re.Match object; span=(91, 103), match='https://www.'></textarea>
+
+
+                             <p id="tutoriais-p">Para o próximo grupo de caracteres, depois do <b>www.</b> vou utilizar a opção <b>"\w"</b> para caracteres de palavra, ao invés de <b>[a-z] e em seguinda o qunatificador <b>"+"</b>.</b></p>
+
+                            <textarea id="area-texto"rows="4">
+padrao = re.compile(r'https?://(www\.)?\w+')
+
+matches = padrao.finditer(urls)
+for match in matches:
+    print(match)</textarea>
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                            <textarea id="area-texto"rows="4">
+<re.Match object; span=(5, 23), match='https://www.google'>
+<re.Match object; span=(32, 55), match='http://floripacodegurus'>
+<re.Match object; span=(67, 82), match='https://youtube'>
+<re.Match object; span=(91, 107), match='https://www.nasa'></textarea>
+                             
+                             <p id="tutoriais-p">Adicionamos <b>(\.\w+)</b> e agora somos capazes de pegar quase tudo</p>
+                             <textarea id="area-texto"rows="4">
+padrao = re.compile(r'https?://(www\.)?\w+(\.\w+)')
+
+matches = padrao.finditer(urls)
+for match in matches:
+    print(match)</textarea>
+
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                            <textarea id="area-texto"rows="4">
+<re.Match object; span=(5, 27), match='https://www.google.com'>
+<re.Match object; span=(32, 59), match='http://floripacodegurus.com'>
+<re.Match object; span=(67, 86), match='https://youtube.com'>
+<re.Match object; span=(91, 111), match='https://www.nasa.gov'>
+                            </textarea>
+
+                             <p id="tutoriais-p">Faltou apenas o <b>".br"</b> de <b>"http://floripacodegurus.com.br"</b> que vamos capturar adicionando um grupo opcional <b>"(\.br)?"</b>.</p>
+                             <p id="tutoriais-p"><b>Código final</b></p>
+                             <textarea id="area-texto"rows="6">
+import re
+
+urls = """
+    https://www.google.com
+    http://floripacodegurus.com.br
+    https://youtube.com
+    https://www.nasa.gov
+"""
+padrao = re.compile(r'https?://(www\.)?(\w+)(\.\w+)(\.br)?')
+
+matches = padrao.finditer(urls)
+for match in matches:
+    print(match)</textarea>
+
+                            <p id="tutoriais-p"><b>Saída:</b></p>
+                            <textarea id="area-texto"rows="4">
+<re.Match object; span=(5, 27), match='https://www.google.com'>
+<re.Match object; span=(32, 62), match='http://floripacodegurus.com.br'>
+<re.Match object; span=(67, 86), match='https://youtube.com'>
+<re.Match object; span=(91, 111), match='https://www.nasa.gov'>
+                            </textarea>
+
+                            <hr>
+
+                            <h4>Nos vemos na parte 2 desse tutorial</h4>
+                            <small><b>Referências:</b><a href="https://coreyms.com/">coreyschafer.com</a></small>
+
+
+                            <!-- <div class="blog-media" id="img-6">
+                                        <img src="        
+                                    tutoriais/currency/currency5.png" alt="" class="img-responsive img-rounded">
+                                    </div> --> 
+                                    <!-- end media -->
+
+
+                            <hr class="invis">
+                            <!--BOTAO CURTIR FACEBOOK-->
+                            <!-- <div class="fb-like" data-href="https://www.facebook.com/codegurs/" data-width="" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div> -->
+                            <!--BOTAO CURTIR FACEBOOK-->
+
+                           
+                        </div><!-- end col -->
+{% endblock content %}

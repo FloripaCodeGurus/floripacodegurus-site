@@ -1,0 +1,162 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+
+        <section class="section db p120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tagline-message page-title text-center">
+                            <h3>Tutoriais</h3>
+                            <ul class="breadcrumb">
+                                <li><a href="{% url 'indice' %}">Home</a></li>
+                                <li><a href="{% url 'tutoriais' %}">Tutoriais</a></li>
+                                <li class="active">Coversor de moedas</li>
+                            </ul>
+                        </div>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section -->
+
+        <section class="section gb nopadtop">
+            <div class="container">
+                <div class="boxed">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="content blog-list">
+                                <div class="blog-wrapper clearfix">
+                                    <div class="blog-meta">
+                                        <small><a href="#">Tips & Tricks</a></small>
+                                        <h3>Desenvolvendo um conversor de moedas em Python</h3>
+                                        <ul class="list-inline">
+                                            <li>20 de março de 2019</li>
+                                            <li><span>escrito por:</span> <a href="#">Fabio Classo</a></li>
+                                        </ul>
+                                    </div><!-- end blog-meta -->
+
+                                     <div class="tags-widget">   
+                                            <ul class="list-inline">
+                                                <li><a href="../python1.html">python</a></li>
+                                                <li><a href="../django1.html">Desenvolvimento Web</a></li>
+                                                <li><a href="../python2.html">Trilha Python</a></li>
+                                                <!-- <li><a href="#">development</a></li>
+                                                <li><a href="#">language</a></li> -->
+                                            </ul>
+                                        </div><!-- end list-widget -->
+
+                                    <div class="blog-media">
+                                        <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency.gif" alt="Currency Layer" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                                    <h4>Neste tutorial vou desenvolver uma pequena aplicação que converte Dólares (USD) para outras moedas, para tal utilizarei a API Currency Layer (https://currencylayer.com/).</h4>
+                                    <hr class="invis">
+
+                                    <div class="blog-media">
+                                        <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency.png" alt="Currency Layer Banner" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                                    <hr class="invis">
+
+                                    <div class="blog-media">
+                                        <img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency2.png" alt="arquivo json" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                                    <div class="blog-desc-big">
+
+                                        <p id="tutoriais-p">Após receber a chave de acesso basta anexá-la ao parâmentro de requisição do endpoint, ou seja , no código da nossa aplicação
+
+                                        A origem de nossos dados é um arquivo json, para obtê-lo vamos utilizar a biblioteca Python urllib e para manipulá-lo a biblioteca json.</p>
+
+                                        <hr class="invis">
+                                        <h4># 1 - Obtendo nossa fonte de dados , observação o link abaixo não vai funcionar, você precisa criar o seu.</h4>
+                                        <hr class="invis">
+
+                                  <textarea id="area-texto"rows="5"> import json
+ from urllib.request import urlopen
+ with urlopen("http://www.apilayer.net/api/live?access_key=19b97a033fd712c76d6060f44fbbe&format=1") as response:
+          source = response.read()
+          data  = json.loads(source)
+          print(data)
+  print(data)
+                                  </textarea>
+                                          <hr class="invis">
+
+
+                                        <p id="tutoriais-p"> Observe que Python interpreta um arquivo json como se fosse um dicionario, use o comando <b>type(data)</b>.
+                                        <br>
+                                        <br><b>Recebemos a saída:</b> class "dict"
+                                        Observem que uma das chaves do dicionário é 'quotes' e o valor 'quotes' é outro dicionário cujas chaves são os nomes das moedas e seus respectivos valores, os valores de conversão.<br>
+                                        <br>
+                                         Fazendo um laço For em 'quotes', obtemos as chaves e os valores:</p>
+
+                                  <textarea id="area-texto"rows="2"> for moedas, valores in data['quotes'].items():
+               print(moedas, valores)
+                                  </textarea>
+
+                                    </div><!-- end desc -->
+                                </div><!-- end blog -->
+                            </div><!-- end content -->
+
+                            <div class="blog-media" id='img-4'>
+                                        <img src="
+                                            https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency3.png" alt="moedas do mundo" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                                    <h4># 2 - Vamos criar um dicionário vazio para podermos trabalhar com esses valores - usd_rates = dict()</h4>
+                                    <br>
+
+    <textarea id="area-texto"rows="5"> print(f"Convertendo 1 Dólar (USD) para Reais(BRL) => {usd_rates['USDBRL']}")
+ usd_rates = dict()
+ for moedas, valores in data['quotes'].items():
+      usd_rates[moedas] = valores
+      # passando moedas como keys do dicionario e valores como values
+ print(usd_rates)
+    </textarea>
+                                    <hr class="invis">
+                                    <h4># 3 - Agora basta selecionar a moeda a qual você quer fazer a conversão.</h4>
+                                    <br>
+
+                                    <div class="blog-media" id="img-5">
+                                        <img src="
+                                            https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency4.png" alt="USD para BRL" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+                                    <br>
+                                    <h4># 4 - Código final:</h4>
+
+                                <textarea id="area-texto"rows="5">import json
+from urllib.request import urlopen
+with urlopen("http://www.apilayer.net/api/live?access_key=19b97a033fd712c76d6060f44fbbe&format=1") as response:
+            source = response.read()
+            data  = json.loads(source)
+            usd_rates = dict()
+            for moedas, valores in data['quotes'].items():
+                    usd_rates[moedas] = valores
+
+print(f"Convertendo 1 Dólar (USD) para Reais(BRL) => {usd_rates['USDBRL']}")
+print(f"Convertendo 1 Dólar (USD) para EURO(EUR) => {usd_rates['USDEUR']}")
+print(f"Convertendo 1 Dólar (USD) para Pesos Argentinos(ARS) => {usd_rates['USDARS']}")
+print(f"Convertendo 1 Dólar (USD) para Dolar Australiano (AUD) => {usd_rates['USDAUD']}")
+print(f"Convertendo 1 Dólar (USD) para Dolar Canadense (CAD) => {usd_rates['USDCAD']}")
+print(f"Convertendo 1 Dólar (USD) para Peso Chileno (CLP) => {usd_rates['USDCLP']}")
+print(f"Convertendo 1 Dólar (USD) para Peso Cubano (CUP) => {usd_rates['USDCUP']}")
+                                </textarea>
+
+
+
+                                    <div class="blog-media" id="img-6">
+                                        <img src="        
+                                    https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency5.png" alt="código final" class="img-responsive img-rounded">
+                                    </div><!-- end media -->
+
+
+                            <hr class="invis">
+                            <!--BOTAO CURTIR FACEBOOK-->
+                            <!-- <div class="fb-like" data-href="https://www.facebook.com/codegurs/" data-width="" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div> -->
+                            <!--BOTAO CURTIR FACEBOOK-->
+
+                           
+                        </div><!-- end col -->
+
+{% endblock content %}

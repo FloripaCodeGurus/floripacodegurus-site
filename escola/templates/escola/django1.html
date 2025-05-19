@@ -1,0 +1,215 @@
+{% extends 'escola/base.html' %}
+
+{% block content %}
+
+        <!--PARALLAX-->
+        <section id="parallax" class="parallax event-section" data-stellar-background-ratio="0.5" style="background-image:url('https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/python_code3.gif');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tagline-message event-title text-center">
+                            <h3 id="h3django">Conheça nossa trilha Django</h3>
+                            <p id="frase_django">Sua carreira de Desenvolvedor Web Python começa aqui</p>
+
+                        </div>
+                        <div class="btn-wrapper">
+                        <div class="text-center">
+                            <a id="home-buttons" href="{% url 'tutoriais' %}" class="btn btn-primary wow slideInLeft">Tutoriais</a> &nbsp;&nbsp;&nbsp;<a id="home-buttons" href="#" class="btn btn-default wow slideInRight">Trabalhe conosco</a>
+                        </div>
+                    </div><!-- end row -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section -->
+
+        <!--PARALLAX-->
+
+        <section class="section">
+            <div class="container">
+                <div class=" ">
+                    <div class="row">
+                        <div class="col-md-6 shop-media">
+                            <div class="row">
+                                <div class="col-md-12">
+                                <div class="image-wrap entry">
+                                    <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_django1.png" alt="" class="img-responsive">
+                                    <div class="magnifier" id="texto_azul">
+                                        <a rel=""title=""><h4>
+                                            Django módulo 1</h4>
+                                            <p>Levando seu código Python para Web</p></a>
+                                    </div>
+                                </div><!-- end image-wrap -->
+                                </div>
+                            </div><!-- end row -->
+
+                            <hr class="invis">
+
+                           <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_postgres.png" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div> 
+
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_amazon.png" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_django_reinhardt.png" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div>
+                            </div><!-- end row -->
+                        </div><!-- end col -->
+
+                        <div class="col-md-6">
+                            <div class="shop-desc">
+                                <h3>Django módulo 1</h3>
+                                <small>R$899,00</small>
+                                <p id="descricao-p">Django é um framework para desenvolvimento rápido para web, escrito em Python, que utiliza o padrão model-template-view (MTV). Foi criado originalmente como sistema para gerenciar um site jornalístico na cidade de Lawrence, no Kansas. Tornou-se um projeto de código aberto e foi publicado sob a licença BSD em 2005. O nome Django foi inspirado no músico de jazz <a href="https://pt.wikipedia.org/wiki/Django_Reinhardt">Django Reinhardt</a>.
+                                </p>
+                                <p id="descricao-p">Django é um framework de alto nível, escrito em Python que encoraja o desenvolvimento limpo de aplicações web.
+                                </p>
+                                <p id="descricao-p">Desenvolvido por experientes desenvolvedores, Django toma conta da parte pesada do desenvolvimento web, como tratamento de requisições, mapeamento objeto-relacional, preparação de respostas HTTP, para que, dessa forma, você gaste seu esforço com aquilo que realmente interessa: <strong>suas regras de negócio!</strong>
+                                </p>
+                                <p id="descricao-p"> - E muito mais... leia a ementa completa logo abaixo</p>
+
+                                <div id="professor-div"class="shop-meta">
+                                    <!-- INICIO DO BOTAO PAYPAL-->
+                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                        <input type="hidden" name="cmd" value="_s-xclick">
+                                        <input type="hidden" name="hosted_button_id" value="D4WW28GBFVJNU">
+                                        <input id="botao-paypal-pagseguro" type="image" src="https://f001.backblazeb2.com/file/site-code-gurus/images/checkout-logo-small-alt-en-2x.png" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+                                        <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+                                    </form>
+                                    <!--FIM DO BOTAO PAYPAL-->
+
+                                   <!-- INICIO DO BOTAO PAGSEGURO -->
+                                    <a  href="https://pag.ae/7VEPUDNut/button" target="_blank" title="Pagar com PagSeguro">
+                                        <img id="botao-paypal-pagseguro" src="https://f001.backblazeb2.com/file/site-code-gurus/promo/botao-pagseguro-medio.png" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+                                    </a>
+                                    <!-- FIM DO BOTAO PAGSEGURO -->
+
+                                    <ul class="list-inline">
+                                        <li  id="categorias-li"><strong><a href="{% url 'djangomodulo1' %}">Categorias:</strong> Trilha Python</a></li>
+                                    </ul>
+                                    <p id="professor-p"><strong><a href="#">Professor:</strong> Fabio Classo</a></p>
+                                </div><!-- end shop meta -->
+                            </div><!-- end desc -->
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+                    <hr class="invis">
+
+                    <div class="row">   
+                        <div class="col-md-12">
+                            <div class="shop-extra">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#home">Descrição</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">Ementa do Curso</a></li>
+                                    <!-- <li><a data-toggle="tab" href="#menu2">Reviews (2)</a></li> -->
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        
+                                        <h4  id="curso">Quem está por trás disso?</h4>
+                                        <p id="descricao-p">O Django foi desenvolvido originalmente no World Online, o departamento WEB de um jornal em Lawrence, Kansas, USA. O Django agora é mantido por um time <a href="https://www.djangoproject.com/foundation/teams/">internacional de voluntários.</a>
+                                        </p>
+                                        <hr>
+                                        
+                                        <h4  id="curso">Quais sites usam Django?</h4>
+                                        <p id="descricao-p"><a href="https://djangosites.org/">DjangoSites.org</a> possui uma lista crescente de sites construídos utilizando Django.</p>
+
+                                        <hr>
+                                        <h4  id="curso">Mapeamento Objeto-Relacional (ORM)</h4>
+                                        <p id="descricao-p">Com o <a href="https://pt.wikipedia.org/wiki/ORM">ORM</a> do Django você define a modelagem de dados através de classes em Python. Com isso é possível gerar suas tabelas no banco de dados e manipulá-las sem necessidade de utilizar SQL (o que também é possível).</p>
+
+                                        <hr>
+                                        <h4  id="curso">Interface Administrativa</h4>
+                                        <p id="descricao-p">No Django é possível gerar automaticamente uma interface para administração dos modelos criados através do ORM.</p>
+
+                                        <hr>
+                                        <h4  id="curso">Sistema de Templates</h4>
+                                        <p id="descricao-p">O Django tem uma linguagem de templates poderosa, extensível e amigável. Com ela você pode separar design, conteúdo e código em Python. </p>
+
+                                        <hr>
+                                        <h4  id="curso">O sistema de Cache do Django</h4>
+                                        <p id="descricao-p">A estrutura de cache do Django oferece oportunidades muito significativas para ganhos de desempenho, salvando o conteúdo dinâmico para que ele não precise ser calculado para cada solicitação.</p>
+                                        <p id="descricao-p">Por conveniência, o Django oferece diferentes níveis de granularidade de cache: você pode armazenar em cache a saída de visualizações específicas, ou apenas as partes que são difíceis de produzir, ou até mesmo um site inteiro.</p>
+                                        <p id="descricao-p">A implementação do armazenamento em cache não deve ser considerada como uma alternativa para melhorar o código que está com desempenho ruim porque foi gravado incorretamente. É um dos passos finais para produzir um código com bom desempenho, não um atalho.
+                                        </p>
+
+                                        <hr>
+                                        <h4  id="curso">Ferramentas utilizadas no curso:</h4>
+                                        <ul id="decricao-ul">
+                                            <li><a href="https://git-scm.com/">Git</a>  e <a href="https://github.com/">Git Hub</a></li>
+                                            <li><a href="https://www.sublimetext.com/3">Sublime Text 3</a></li>
+                                            <li><a href="https://www.jetbrains.com/pycharm/">Pycharm</a></li>
+                                            <li><a href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a></li>
+                                            <li><a href="https://aws.amazon.com/">Amazon Web Service - aws</a></li>
+                                            <li><a href="https://www.postgresql.org/">PostgreSQl</a></li>
+                                        </ul>
+
+                                        <hr>
+                                        <h4  id="curso">Neste curso desenvolveremos 3 projetos</h4>
+                                        <ul id="decricao-ul">
+                                            <li>Desenvolvendo um Blog</li>
+                                            <li>Desenvolvendo um e-commerce</li>
+                                            <li>Portifólio App com autenticação por redes sociais (Twitter e LinkedIn)</li>
+                                        </ul>
+                                         <h4  id="curso">juntamente com o seguinte conteúdo:</h4>
+                                        <ul id="decricao-ul">
+                                            <li>O que é Django Web Framework?</li>
+                                            <li>Utilizando ambiente virtual</li>
+                                            <li>O padrão MVT</li>
+                                            <li>Usando HTML Templates</li>
+                                            <li>Blocos de código Django</li>
+                                            <li>Herança de templates</li>
+                                            <li>Usando a biblioteca de componentes front-end BootStrap</li>
+                                            <li>CRUD</li>
+                                            <li>Paginação</li>
+                                            <li>Email</li>
+                                            <li>Deploy da aplicação</li>
+                                            <li>Protocolos de segurança HTTPS,SSL/TLS
+                                            </li>
+                                            <li>Hospedando nosso Blog na AWS Amazon Web Services</li>
+                                        </ul>
+                                        <p id="descricao-p">A ementa completa está disponível para download na seção ao lado.</p>
+                                    </div>
+
+
+                                    <div id="menu1" class="tab-pane fade">
+                                        <h3>Faça Download da ementa do curso</h3>
+                                        <strong><p><a href="#">Professor: Fabio Classo</a></p></strong>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>formato PDF</strong></td>
+                                                    <td><a href="https://drive.google.com/open?id=1hYmw_s3DjyYFQBREZGG189-wud0lkC6w">ementa completa</a></td>
+                                                </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    </div>
+                                </div>
+                            </div><!-- end shop-extra -->
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+                    <hr class="invis">
+                </div><!-- end boxed -->
+            </div><!-- end container -->
+        </section>
+{% endblock content %}

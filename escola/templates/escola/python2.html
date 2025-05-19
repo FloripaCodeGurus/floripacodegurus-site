@@ -1,0 +1,204 @@
+{% extends 'escola/base.html' %}
+{% block content %}
+        <!--PARALLAX-->
+        <section  id="parallax"class="parallax event-section" data-stellar-background-ratio="0.5"
+                  style="background-image:url('https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/giphy4.gif');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tagline-message event-title text-center">
+                            <h3 id="frase-message-h3">Python módulo 2</h3>
+                            <p id="frase">do intermediário ao avançado</p>
+                        </div>
+                        <div class="btn-wrapper">
+                        <div class="text-center">
+                            <a id="home-buttons" href="{% url 'tutoriais' %}" class="btn btn-primary wow slideInLeft">Tutoriais</a> &nbsp;&nbsp;&nbsp;<a id="home-buttons" href="#" class="btn btn-default wow slideInRight">Trabalhe conosco</a>
+                        </div>
+                    </div><!-- end row -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section -->
+
+        <section class="section">
+            <div class="container">
+                <div class=" ">
+                    <div class="row">
+                        <div class="col-md-6 shop-media">
+                            <div class="row">
+                                <div class="col-md-12">
+                                <div class="image-wrap entry">
+                                    <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_python2.jpg" alt="" class="img-responsive">
+                                    <div class="magnifier" id="texto_azul">
+                                        <a rel=""title=""><h4>
+                                            Python módulo 2</h4>
+                                            <p>Tá na hora de virar um desenvolvedor Profissional</p></a>
+                                    </div>
+                                </div><!-- end image-wrap -->
+                                </div>
+                            </div><!-- end row -->
+
+                            <hr class="invis">
+
+                           <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_anaconda.jpg" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div> 
+
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_matplotlib.jpg" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="image-wrap entry">
+                                        <div class="zoom">
+                                            <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_guidovanrossum.png" alt="" class="img-responsive">
+                                        </div><!-- end zoom -->
+                                    </div><!-- end image-wrap -->
+                                </div>
+                            </div><!-- end row -->
+                        </div><!-- end col -->
+
+
+                        <div class="col-md-6">
+                            <div class="shop-desc">
+                                <h3>Python módulo 2</h3>
+                                <small>R$899,00</small>
+                                <p id="descricao-p">Neste curso daremos continuidade a nossos estudos em Python, aqui o foco é a Orientação a Objetos (OOP), abordaremos ainda Expressões Regulares e interfaces gráficas com Tkinter. Faremos ainda uma breve introdução ao Desenvolvimento Web com Django e Ciência de dados com as bibliotecas Pandas, Numpy e Matplotlib. 
+                                Este curso é preparatório para os cursos de Data Science, Big Data, Bio Python, Desenvolvimento Web com Django e Apps com kivy.</p>
+
+                                <div id="professor-div" class="shop-meta">
+                                    <!-- INICIO DO BOTAO PAYPAL-->
+                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="DSUK7T9J2GRSU">
+                                    <input id="botao-paypal-pagseguro"type="image" src="https://f001.backblazeb2.com/file/site-code-gurus/images/checkout-logo-small-alt-en-2x.png" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+                                    <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+                                    </form>
+                                    <!-- FIM  DO BOTAO PAYPAL-->
+
+                                    <!-- INICIO DO BOTAO PAGSEGURO -->
+                                    <a href="https://pag.ae/7VEQ93hm2/button" target="_blank" title="Pagar com PagSeguro">
+                                        <img id="botao-paypal-pagseguro"src="https://f001.backblazeb2.com/file/site-code-gurus/promo/botao-pagseguro-medio.png" alt="Pague com PagSeguro - é rápido, grátis e seguro!" /></a>
+                                    <!-- FIM DO BOTAO PAGSEGURO -->
+
+                                    <ul class="list-inline">
+                                        <li id="categorias-li"><strong><a href="{% url 'pythonmodulo1' %}">Categorias:</strong> Trilha Python</a></li>
+                                    </ul>
+                                    <p id="professor-p"><strong><a href="#">Professor:</strong> Fabio Classo</a></p>
+                                </div><!-- end shop meta -->
+                            </div><!-- end desc -->
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+                    <hr class="invis">
+
+                    <div class="row">   
+                        <div class="col-md-12">
+                            <div class="shop-extra">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#home">Descrição</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">Ementa do Curso</a></li>
+                                    <!-- <li><a data-toggle="tab" href="#menu2">Reviews (2)</a></li> -->
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        <h4 id="curso">Visão Geral</h4>
+                                        <p id="descricao-p">Python é uma linguagem de programação interpretada de alto nível para programação de propósito geral. Criada por <a href="https://pt.wikipedia.org/wiki/Guido_van_Rossum"><strong>Guido van Rossum</strong></a> e lançada pela primeira vez em 1991, Python possui uma filosofia de design que enfatiza a legibilidade do código e uma sintaxe que permite que os programadores expressem conceitos em menos linhas de código, principalmente usando espaços brancos significativos. Ele fornece construções que permitem uma programação clara em escalas pequenas e grandes.  O Python possui um sistema de tipo dinâmico e gerenciamento automático de memória. Ele suporta múltiplos paradigmas de programação, incluindo orientado a objetos, imperativo, funcional e processual, e possui uma ampla e abrangente biblioteca padrão.
+                                        </p>
+
+                                        <br>
+                                        <h4 id="curso">Ferramentas utilizadas no curso:</h4>
+                                        <ul id="decricao-ul">
+                                            <li><a href="https://www.anaconda.com/">Anaconda</a></li>
+                                            <li><a href="https://www.numpy.org/">Numpy</a></li>
+                                            <li><a href="https://pandas.pydata.org/">Pandas</a></li>
+                                            <li><a href="https://matplotlib.org/">Matplotlib</a></li>
+                                        </ul>
+
+                                        <h4 id="curso">Neste curso abordaremos:</h4>
+                                        <ul id="decricao-ul">
+                                            <li>Matrizes</li>
+                                            <li>List Comprehensions</li>
+                                            <li>Dict Comprehensions</li>
+                                            <li>Decorators</li>
+                                            <li>Funções Lambda</li>
+                                            <li>Classes e Objetos</li>
+                                            <li>Mineração de texto com Expressões Regulares</li>
+                                            <li>Banco de dados SQLite3</li>
+                                            <li>Banco de dados PostgreSQL</li>
+                                            <li>Interface Gui com o módulo ttk de Tkinter - Parte 2</li>
+                                            <li>Trabalho de conclusão do curso</li>
+                                            
+                                        </ul>
+                                    </div>
+
+
+                                    <div id="menu1" class="tab-pane fade">
+                                        <h3>Faça Download da ementa do curso</h3>
+                                        <strong><p><a href="#">Professor Fabio Classo</a></p></strong>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>formato PDF</strong></td>
+                                                    <td><a href="https://drive.google.com/open?id=1Mz78SaiNTM8cCiFHsliVF0F5VlFJj5dI">ementa completa</a></td>
+                                                </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- <div id="menu2" class="tab-pane fade">
+                                        <h3>Reviews</h3>
+
+                                        <p>Your email address will not be published. Required fields are marked *</p>
+
+                                        <div class="rating">
+                                            <p>Your Rating</p>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+
+                                        <hr class="invis"> -->
+                                    
+                                        <!-- <form class="big-contact-form row" role="search">
+                                            <div class="col-md-12">
+                                                <textarea class="form-control" placeholder="Your reviews.."></textarea>
+                                            </div>              
+                                            <div class="col-md-6">   
+                                                <input type="text" class="form-control" placeholder="Enter your name..">
+                                            </div>     
+                                            <div class="col-md-6">   
+                                                <input type="email" class="form-control" placeholder="Enter email..">
+                                            </div>             
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>              
+                                        </form> -->
+                                    </div>
+                                </div>
+                            </div><!-- end shop-extra -->
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+                    <hr class="invis">
+
+                   
+                </div><!-- end boxed -->
+            </div><!-- end container -->
+        </section>
+
+{% endblock content %}
+
+         
