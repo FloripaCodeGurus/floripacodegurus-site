@@ -172,3 +172,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# local files
+docker-compose-local.yml
