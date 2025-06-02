@@ -128,7 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+# Environment variables
+.env
+.env.*
+!.env.example
 
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -142,7 +145,6 @@ dmypy.json
 pyvenv.cfg
 .venv
 pip-selfcheck.json
-
 
 # General
 .DS_Store
