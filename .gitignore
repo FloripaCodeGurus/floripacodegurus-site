@@ -101,15 +101,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -127,11 +118,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Environment variables
-.env
-.env.*
-!.env.example
 
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -176,3 +162,17 @@ Temporary Items
 
 # local files
 docker-compose-local.yml
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
+.env
+.env.*
+!.env.example
