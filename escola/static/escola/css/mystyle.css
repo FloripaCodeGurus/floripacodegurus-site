@@ -1,0 +1,502 @@
+
+.image-wrap .zoom {
+        padding: 2px;
+        transition: transform .5s;
+        margin: 0 auto;
+     }
+
+.zoom:hover {
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari 3-8 */
+        transform: scale(3.3); 
+        margin-left: 4em;
+        position: relative;
+        z-index: 1;
+
+    }
+
+#text_box_index.magnifier a {
+    font-size: 20px;
+    }
+
+
+#texto_azul.magnifier p{
+	font-size: 20px;
+	}
+
+#texto_azul.magnifier h4{
+		color: #fff;
+		font-size: 24px;	
+	}
+
+a#subir.btn.btn-primary{
+        position: absolute;
+        margin-left: 79em;
+        padding: 7px 21px;
+        margin-top: 89px;
+    }
+
+section.section.bgcolor2{
+    background-color: #000;
+}
+
+#proximas_turmas.col-md-4.text-center h3{
+    color: #fff;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 10px;
+    font-size: 4em;
+    line-height: 80px;
+    margin-top: 0;
+    font-weight: 900;
+}
+
+#proximas_turmas.col-md-4.text-center p{
+    color: #fff;
+    hover:#01bacf;
+    }
+
+#datas_turmas.col-md-8 p.lead{
+    color: #fff;
+    margin-top: 12px;
+    text-align: center;
+    margin-left: 1em;
+    }
+
+#datas_turmas.col-md-8 {
+    a:hover:#01bacf ;
+    }
+
+#proximas_turmas.col-md-4.text-center h3:hover{
+    color: #01bacf;
+    }
+#proximas_turmas.col-md-4.text-center a{
+    color: #fff;
+    }
+#proximas_turmas.col-md-4.text-center p:hover{
+    color: #01bacf;
+    }
+#proximas_turmas.col-md-4.text-center.text-center {
+    text-align: center;
+    }
+#datas_turmas.col-md-8 p.lead:hover{
+    color: #01bacf;
+    font-size: 130%
+    }
+.row_cursos:after{
+    content: "";
+    display: table;
+    clear: both;
+    }
+.row_cursos h2{
+    text-align: center;
+    }
+.column_cursos{
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: auto;
+    }
+.column_cursos h4{
+    text-align: center;
+    } 
+#curso_lado .img-responsive{
+        width: 50%;
+        text-align: center;
+        padding-top: 30px;
+        margin-left: 3em;
+        margin-right:0em;
+    }
+#headingOne.card-header{
+    background-color: red;
+    max-width:500px;
+    }
+.btn.btn-link{
+    border: red;
+    }
+.card-body{
+    max-width: 500px;
+    }
+#headingOne.card-header,#headingTwo.card-header,#headingThree.card-header,#headingFour.card-header,#headingFive.card-header,
+#headingSix.card-header,#headingSeven.card-header,#headingEight.card-header,#headingNine.card-header,
+#headingTen.card-header,#headingEleven.card-header,#headingTwelve.card-header,#headingThirteen.card-header,
+#headingEighteen.card-header,#headingNineteen.card-header,#headingTwenty.card-header{
+    background-color:#01bacf;
+    max-width:34em;
+    border-radius: 0.4em;
+    }
+#curso_descricao{
+    max-width: 1265;
+    }
+.column_cursos{
+    text-align: center;
+    }
+.metade{
+    max-width: 20em;
+    }
+#accordionExample.accordion{
+    margin-left: 8em;
+    width: 100%;
+    max-width: 24em;
+    }
+#accordionExample.accordion h3{
+    text-align: center;
+    font-size: 1em;
+    }
+#conheca_professor{
+    text-align: center;
+    }
+h3#h3csharp{
+    color: #20ffff;
+    background-color: #29181873;
+    font-size: 2.3em;
+    font-weight: 900;
+    }
+p#frase_csharp{
+    color: #20ffff;
+    background-color: #29181873;
+    }
+p#frase_django{
+    color: #fff;
+    font-size: 22px;
+    background-color: #212a35b0;
+    }
+h3#h3django{
+    background-color: #212a35b0;
+    }
+p#frase-bio-p{
+    color: #fff;
+    font-size: 22px;
+    background-color:#08212957;
+    }
+h3#h3_bio{
+    background-color: #08212957;
+    }
+#info.container{
+    max-width: 1000px;  
+    }
+#info.container h3, h2{
+    text-align: center;
+    }
+#info.container p {
+    text-align: justify;
+    padding-top: 1em;
+    background-color: #f1f5f6b5;
+    }
+#descricao_curso_csharp1,
+#descricao_curso_csharp2{
+    text-align: justify;
+    margin-left: 18em;
+    font-size: 0.8em;
+    }
+ul#csharp_objetivos,
+ul#caracteristicas_csharp{
+    padding: 1.15em;
+    font-size: 0.86em;
+    padding-top: 1em;
+    margin-bottom: 3em;
+    text-align: justify;
+    background-color: #f1f5f6b5;
+    }
+#pagamentos.container{
+    /*width: 500px;*/
+    max-width: 500px;
+    height: auto;
+    }
+#pagamentos.row{
+    content: "";
+    display: table;
+    clear: both;
+    }
+#pagamentos.row h4{
+    text-align: center;
+    padding-left: 2em;
+    }
+
+#pagseguro_csharp1,#pagseguro_csharp2 {
+    width: 100%;
+    padding-left: 0.8em;
+    padding-top: 0.6em;
+    }
+
+#paypal_csharp1{
+   /* float: left;
+    width: 50%;*/
+    /*padding-right: 2em;
+    padding-left: 0.7em;*/
+    padding-top: 0.6em;
+    }
+#paypal_csharp2{
+    padding-left: 0.7em;*/
+    width: 50%;
+    padding-top: 0.6em;
+    }
+
+#botao_subscribe.btn.btn-primary {
+        background-color: #01bacf;
+        /*width: 45%;*/
+        max-width: 45%;
+        text-align: center;
+        border: 1px solid #01bacf;
+        border-radius:5px;  
+    }
+#mce-EMAIL.required.email,
+#mce-EMAIL.required.email.mce_inline_error{
+        width: 80%;
+        max-width: 25em;
+    }
+#bannerpagseguro{
+    margin-top: 1em;
+    width: 90%;
+    max-width: 15em;
+}
+#banner_pay_pal{
+    margin-top: 1em;
+    width: 100%;
+    max-width: 15em;
+}
+#bannerPaypal{
+    margin-top: 1em;
+}
+#img-3.blog-media{
+    width: 80%;
+}
+#img-4.blog-media{
+    width: 100%;
+    height: 50%;
+}
+#img-5.blog-media{
+    width: 100%;
+}
+#img-6.blog-media{
+    width: 100%;
+}
+#area-texto{
+    color: #000;
+    text-align: left;
+    background-color: #f2f7f7;
+    width: 100%;
+}
+#area-texto-seq{
+    color: #000;
+    text-align: left;
+    background-color: #f2f7f7;
+    width: 100%;
+    font-size: 0.7em;
+    border: 1px solid #ccc;
+}
+#mc_embed_signup_lateral{
+    background: #2197db36;
+    clear: left;
+    font: 14px Helvetica,Arial,sans-serif;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    }
+
+#mc-embedded-subscribe-form-lateral.validate{
+    display: block;
+    position: relative;
+    text-align: left;
+    padding: 10px 0 10px 3%;
+
+    }
+#lateral.mc-field-group{
+    clear: left;
+    position: relative;
+    width: 96%;
+    padding-bottom: 3%;
+    min-height: 50px;
+}
+#lateral_email{
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+#mce-EMAIL_lateral{
+    isplay: block;
+    width: 100%;
+    max-width: 28em;
+    padding: 8px 0;
+    text-indent: 2%;
+    border-radius: 5px;
+}
+#mce-EMAIL_lateral.required.email{
+    border:1px;
+    border-color: #000;
+}
+#histo{
+    padding-left: 1.4em;
+}
+
+#regex1{
+    border-collapse: collapse;
+    width: 100%;
+    color: #000;
+    text-align: center;
+}
+#regex1 th{
+    text-align: center;
+}
+td, th {
+  border: 1px solid #319fc3;
+  text-align: center;
+  padding: 8px;
+
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+#promocao{
+    font-size: 37px;
+}
+#desconto{
+    height: auto;
+    padding-right: 1em;
+    margin-top: 3em;
+    width: 100%;
+    max-width: 21em;
+    text-align: center;
+    }
+#promocao-py{
+    text-align: center;
+    }
+#pagseguro_index{
+    max-width: 54%;
+    }
+#facebook-like{
+    padding-left: 0.6em;
+    
+    }
+
+input#botao-paypal-pagseguro{
+    max-width: 50%;
+    }
+img#botao-paypal-pagseguro{
+    max-width: 50%;
+    }
+#localizacao.container{
+    width:100%; 
+    max-height: 40em;
+    text-align: center;
+    }
+#mapa{
+    width:100%; 
+    max-width: 45em;
+    height:35em;
+    text-align: center;
+    }
+
+#equipe2{
+    padding-top: 0.5em;
+    }
+
+#frase-ruby-h3,
+#frase-ruby-p{
+    color: #b4fb11;
+    background-color: #2b577a7a;
+    }
+#lear-subscribe-button{
+    width: 100%;
+    max-width: 22em;
+    }
+#trabalhe-conosco-p,
+#receba-newsletter-p{
+    font-size: 0.9em;
+    max-width: 24em;
+    }
+#tags-widgets-footer{
+    width: 100%;
+    max-width: 22em;
+    }
+#sitelock{
+    display: block;
+    width: 70%;
+    max-width: 8em;
+    height: auto;
+    }
+#tutoriais-p{
+    padding: 0.6em;
+    text-align: justify;
+    }
+
+
+.colum-midias{
+    padding-top: 1em;
+    padding-left: 0.6em;    
+    }
+.container-seq{
+    padding-top: 2em;
+    width: 100%;
+    max-width: 43em;
+    }
+#tutorial-h4{
+    padding-left: 0.5em;
+}
+#tabela_identificadores{
+    border-style: solid;
+    border-color: #ccc;
+    }
+#orientacoes-finais{
+    padding-left: 0.9em;
+    padding-top: 1em;
+}
+#img-plot-bio{
+    border:1px solid #ccc;
+}
+#aprenda-programar{
+    font-size: 1.8em;
+    color: #ffffff;
+    padding: 0;
+    margin: 0;
+    font-weight: 700;
+    padding-top: 0.4em;
+    }
+#nossos-cursos-h1-home{
+    font-weight: bold;
+    };
+#tutoriais-h3{
+    font-weight: bolder;
+    }
+
+#frase-message-csharp-h3{
+    color: #2814e4;
+    font-weight: 900;
+    text-shadow: 1px 3px 3px white;
+    /*background-color: #1b1c207a;*/
+}
+#frase-csharp-1{
+    color: #fff;
+   /* background-color: #1b1c207a;*/
+}
+#dropdown-menu-trilhas{
+    width: 100%;
+    max-width: 10em;
+    height: auto;
+
+    }
+
+.calendario{
+        width:100%;
+    }
+
+
+p#frase{
+        color: #fff;
+        background-color: #212a355c;
+
+    }
+
+.minhas-exp{
+    padding-bottom: 1em;
+    color:#fff;
+    text-align: center;
+    padding-right: 2em;
+    }
+
+}
