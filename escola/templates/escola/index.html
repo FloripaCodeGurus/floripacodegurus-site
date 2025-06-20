@@ -1,4 +1,5 @@
 {% extends 'escola/base.html' %}
+{% load static %}
 
 {% block content %}
         <!--PARALLAX-->
@@ -24,323 +25,97 @@
             </div><!-- end container -->
         </section><!-- end section -->
 
-
-
+        <!-- TUTORIAIS SECTION INICIO -->
         <section class="section gb">
             <div class="container">
                 <div class="section-title text-center">
-                    <h1 id="nossos-cursos-h1-home">Nossos cursos</h1>
-                    <p id="texto-home-p">O nosso principal objetivo é desenvolver cursos de formação completos,
-                        os mais próximos o possível de uma ambiente profissional de trabalho.
-                        Nossos cursos são baseados nas experiências de Desenvolvedores e Pesquisadores Profissionais,
-                        introduzimos aos estudantes o aprendizado de lógica de programação juntamente com o
-                        desenvolvimento de seus primeiros projetos de software, clique aqui para
-                        conhecer nossos <a href="#"><b>Professores</b></a>.</p>
+                    <h1 id="nossos-tutoriais-h1-home">Nossos Tutoriais</h1>
+                    <p id="texto-home-p">Confira nossos tutoriais mais recentes, criados por desenvolvedores e pesquisadores profissionais. Aprenda na prática com exemplos reais e dicas valiosas.</p>
                 </div><!-- end title -->
 
-                <div id="owl-01" class="owl-carousel owl-theme owl-theme-01">
-
-                    <!--CURSO 1 INICIO-->
-                    <!--PYTHON 1 -->
+                <!-- Using same carousel as courses section -->
+                <div id="owl-tutorials" class="owl-carousel owl-theme owl-theme-01">
+                    {% for tutorial in tutoriais %}
                     <div class="caro-item">
-                        <div class="course-box">
-                            <div class="image-wrap entry">
-                                <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_py1.png" alt="" class="img-responsive">
-                                <div class="magnifier" id="text_box_index">
-                                     <a href="{% url 'pythonmodulo1' %}" title="">Saiba mais</a>
+                        <div class="tutorial-card">
+                            <div class="image-wrap entry tutorial-image-container">
+                                {% if tutorial.imagem %}
+                                <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}">
+                                {% else %}
+                                <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
+                                {% endif %}
+                                <div class="magnifier">
+                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
                                 </div>
-                            </div><!-- end image-wrap -->
-                            <div class="course-details">
-                                <h4>
-                                    <small>Python</small>
-                                    <a href="{% url 'pythonmodulo1' %}" title="">Python módulo 1 - nossos primeiros passos na linguagem</a>
+                            </div>
+                            <div class="tutorial-details">
+                                <h4 class="tutorial-title">
+                                    <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
+                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
-                                <p id="texto-home-p">Esse curso é voltado tanto para o iniciante quanto aquele que
-                                    possui pouco conhecimento em Python. Este módulo prepara para o seguinte,
-                                    Python módulo 2, bem como Django e BioPython. Aqui falaremos de:</p>
-                                <ul>
-                                    <li>Estruturas de Dados (listas, tuplas, dicionarios e sets)</li>
-                                    <li>Funções Built-Ins do Python</li>
-                                    <li>Módulos (Date&Time, OS, Sys e Math)</li>
-                                    <li> Interfaces gráficas com TKinter e TTK</li>
-                                    <li>Manipularemos arquivos .csv, .txt, .pdf, .xlsx e html(web scraping)</li>
-                                </ul>
-                            </div><!-- end details -->
-                            <div class="course-footer clearfix">
+                                <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
+                            </div>
+                            <div class="tutorial-footer clearfix">
                                 <div class="pull-left">
                                     <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i>10 vagas</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i> 40 horas</a></li>
-                                        <li><a href="#"><strong>R$699.00</strong></a></li>
+                                        <li><span class="tutorial-author"><i class="fa fa-user"></i> {{ tutorial.autor }}</span></li>
+                                        <li><span class="tutorial-date"><i class="fa fa-clock-o"></i> {{ tutorial.data_criacao|date:"d/m/Y" }}</span></li>
+                                        <li><span class="tutorial-nivel label {% if tutorial.nivel == 'Iniciante' %}label-success{% elif tutorial.nivel == 'Intermediário' %}label-warning{% else %}label-danger{% endif %}">{{ tutorial.nivel }}</span></li>
                                     </ul>
-                                </div><!-- end left -->
-
-                                <div class="pull-right">
-                                    <ul class="list-inline">
-                                        <br>
-                                         <!--BOTAO PAYPAL-->
-                                        <li>
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                            <input type="hidden" name="cmd" value="_s-xclick">
-                                            <input type="hidden" name="hosted_button_id" value="HB9DG43QSKAT2">
-                                            <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_buynow_SM.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
-                                            <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
-                                            </form>
-                                        </li>
-
-                                        <li><strong>12X de R$ 58,25</strong><small>10% desconto a vista, 1X de R$ 629,10</small></li>
-
-                                        <!--BOTAO PAG SEGURO-->
-                                        <li id="pagseguro_index"><a href="https://pag.ae/7VTMxhksM/button" target="_blank" title="Pagar com PagSeguro">
-                                            <img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif" alt="Pague com PagSeguro - é rápido, grátis e seguro!" /></a></li>
-                                        <li><strong>12 parcelas de R$ 70,18</strong></li>
-
-                                    </ul>
-                                </div><!-- end left -->
-                            </div><!-- end footer -->
-                        </div><!-- end box -->
-                    </div><!-- end col -->
-                    <!--END CURSO 1 INICIO-->
-
-
-
-                    <!--CURSO 2 INICIO-->
-                    <!--PYTHON 2 -->
-                    <div class="caro-item">
-                        <div class="course-box">
-                            <div class="image-wrap entry">
-                                <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_python2.jpg" alt="" class="img-responsive">
-                                <div class="magnifier" id="text_box_index">
-                                    <a href="{% url 'pythonmodulo2' %}" title="">Saiba mais</a>
                                 </div>
-                            </div><!-- end image-wrap -->
-                            <div class="course-details">
-                                <h4>
-                                    <small>Python 2</small>
-                                    <a href="{% url 'pythonmodulo2' %}" title="">Python módulo 2 - torne-se um Desenvolvedor Profissional</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-md-12 text-center">
+                        <p>Nenhum tutorial encontrado.</p>
+                    </div>
+                    {% endfor %}
+                </div><!-- end owl-carousel -->
+                
+                <!-- Regular grid display as fallback -->
+                <div class="row hidden-owl-tutorials">
+                    {% for tutorial in tutoriais %}
+                    <div class="col-md-4">
+                        <div class="tutorial-card">
+                            <div class="image-wrap entry tutorial-image-container">
+                                {% if tutorial.imagem %}
+                                <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}">
+                                {% else %}
+                                <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
+                                {% endif %}
+                                <div class="magnifier">
+                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                </div>
+                            </div>
+                            <div class="tutorial-details">
+                                <h4 class="tutorial-title">
+                                    <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
+                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
-                                <p id="texto-home-p">Python intermediário ao avançado.</p>
-                                    <ul>
-                                        <li>List Comprehensions</li>
-                                        <li>Dict Comprehensions</li>
-                                        <li>Decorators</li>
-                                        <li>Orientação a Objetos</li>
-                                        <li>Mineração de Textos</li>
-                                        <li>Banco de dados Postgresql</li>
-                                        <li>TDD</li>
-                                    </ul>
-                                <p>Preparando para o BigData e o Data Science, lendo e analisando grandes volumes de dados.</p>
-                                    <ul>
-                                        <li><a href="https://numpy.org/">Numpy</a></li>
-                                        <li><a href="https://pandas.pydata.org/">Pandas</a></li>
-                                        <li><a href="https://matplotlib.org/">Matplotlib</a></li>
-                                        <li><a href="https://seaborn.pydata.org/">Seaborn</a></li>
-                                    </ul>
-
-                            </div><!-- end details -->
-                            <div class="course-footer clearfix">
+                                <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
+                            </div>
+                            <div class="tutorial-footer clearfix">
                                 <div class="pull-left">
                                     <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i>10 vagas</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i> 40 horas</a></li>
-                                        <li><a href="#"><strong>R$699.00</strong></a></li>
+                                        <li><span class="tutorial-author"><i class="fa fa-user"></i> {{ tutorial.autor }}</span></li>
+                                        <li><span class="tutorial-date"><i class="fa fa-clock-o"></i> {{ tutorial.data_criacao|date:"d/m/Y" }}</span></li>
+                                        <li><span class="tutorial-nivel label {% if tutorial.nivel == 'Iniciante' %}label-success{% elif tutorial.nivel == 'Intermediário' %}label-warning{% else %}label-danger{% endif %}">{{ tutorial.nivel }}</span></li>
                                     </ul>
-                                </div><!-- end left -->
-
-                                <div class="pull-right">
-                                    <ul class="list-inline">
-                                        <!--BOTAO PAY PAL-->
-                                        <br>
-                                        <li>
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                                <input type="hidden" name="cmd" value="_s-xclick">
-                                                <input type="hidden" name="hosted_button_id" value="DSUK7T9J2GRSU">
-                                                <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_buynow_SM.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
-                                                <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
-                                            </form>
-                                        </li>
-
-                                        <li><strong>12X de R$ 58,25</strong><small>10% desconto a vista, 1X de R$ 629,10</small></li>
-
-                                        <!--BOTAO PAG SEGURO id="pagseguro_index"-->
-                                        <li id="pagseguro_index"><a href="https://pag.ae/7VTMFcY2J/button" target="_blank" title="Pagar com PagSeguro"><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif" alt="Pague com PagSeguro - é rápido, grátis e seguro!" /></a></li>
-                                        <li><strong>12 parcelas de R$ 70,18</strong></li>
-                                        <!-- FIM DO BOTAO PAGSEGURO -->
-
-                                    </ul>
-                                </div><!-- end left -->
-                            </div><!-- end footer -->
-                        </div><!-- end box -->
-                    </div><!-- end col -->
-                    <!--END CURSO 2 INICIO-->
-
-
-                    <!--CURSO 3 INICIO-->
-                    <!--DJANGO 1-->
-                    <div class="caro-item">
-                        <div class="course-box">
-                            <div class="image-wrap entry">
-                                <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_django1.png" alt="" class="img-responsive">
-                                <div class="magnifier" id="text_box_index">
-                                     <a href="{% url 'djangomodulo1' %}" title="">Saiba mais</a>
                                 </div>
-                            </div><!-- end image-wrap -->
-                            <div class="course-details">
-                                <h4>
-                                    <small>Django </small>
-                                    <a href="{% url 'djangomodulo1' %}" title="">Django módulo 1 - Vamos levar nosso código Python pra Web.</a>
-                                </h4>
-                                <p id="texto-home-p">Nesse módulo vamos desenvolver 3 projetos Web utilizando esse maravilhoso framework escrito em Python:
-                                    <ul>
-                                        <li>Desenvolvendo um Blog;</li>
-                                        <li>Portifólio App com autenticação por redes sociais;</li>
-                                        <li>Desenvolvendo um e-commerce;</li>
-                                        <li>Desenvolvendo uma API;</li>
-                                    </ul>
-                                <p>E ainda:</p>
-                                <ul>
-                                    <li>Deploy na <a href="https://aws.amazon.com/pt/">AWS Amazon</a></li>
-                                    <li>Deploy no <a href="https://www.heroku.com/">Heroku</a></li>
-                                    <li>Configuração do Pipeline do <a href="https://www.heroku.com/">Heroku</a> e GitHub</li>
-                                    <li>Deploy com <a href="https://www.docker.com/">Docker</a></li>
-                                </ul>
-
-                            </div><!-- end details -->
-                            <div class="course-footer clearfix">
-                                <div class="pull-left">
-                                     <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i>10 vagas</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i> 40 horas</a></li>
-                                        <li><a href="#"><strong>R$699.00</strong></a></li>
-                                    </ul>
-                                </div><!-- end left -->
-
-                                <div class="pull-right">
-                                    <ul class="list-inline">
-                                        <!-- INICIO DO BOTAO PAYPAL-->
-                                        <br>
-                                        <li>
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                                <input type="hidden" name="cmd" value="_s-xclick">
-                                                <input type="hidden" name="hosted_button_id" value="D4WW28GBFVJNU">
-                                                <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_buynow_SM.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
-                                                <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
-                                            </form>
-                                            <!--FIM DO BOTAO PAYPAL-->
-                                        </li>
-                                        <li><strong>12X de R$ 58,25</strong><small>10% desconto a vista, 1X de R$ 629,10</small></li>
-
-                                        <!-- INICIO DO BOTAO PAGSEGURO -->
-                                        <li id="pagseguro_index">
-                                            <a href="https://pag.ae/7VTMHRHpr/button" target="_blank" title="Pagar com PagSeguro">
-                                            <img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif" alt="Pague com PagSeguro - é rápido, grátis e seguro!" /></a>
-                                        </li>
-                                        <!-- FIM DO BOTAO PAGSEGURO -->
-                                        <li><strong>12 parcelas de R$ 70,18</strong></li>
-                                    </ul>
-                                </div><!-- end left -->
-                            </div><!-- end footer -->
-                        </div><!-- end box -->
-                    </div><!-- end col -->
-                    <!-- END CURSO 3 INICIO-->
-
-
-
-                    <!--CURSO 4 INICIO -->
-                    <!--BIOPYTHON 1 -->
-                    <div class="caro-item">
-                        <div class="course-box">
-                            <div class="image-wrap entry">
-                                <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_biopython4.png" alt="" class="img-responsive">
-                                <div class="magnifier" id="text_box_index">
-                                     <a href="{% url 'biopython' %}" title="">Saiba mais</a>
-                                </div>
-                            </div><!-- end image-wrap -->
-                            <div class="course-details">
-                                <h4>
-                                    <small>BioPython</small>
-                                    <a href="{% url 'biopython' %}" title="">BioPython módulo 1</a>
-                                </h4>
-                                <p id="texto-home-p">Nesse curso vamos aprender o que é BioPython. Uma biblioteca poderosíssima escrita em Python voltada para aplicações científicas, estudos genéticos, sequência de DNA, RNA, Proteínas.</p>
-                            </div><!-- end details -->
-                            <div class="course-footer clearfix">
-                                <div class="pull-left">
-                                     <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i>10 vagas</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i> 40 horas</a></li>
-                                        <li><a href="#"><strong>R$699.00</strong></a></li>
-                                    </ul>
-                                </div><!-- end left -->
-
-                                <div class="pull-right">
-                                    <ul class="list-inline">
-                                        <!--BOTAO PAY PAL-->
-                                        <br>
-                                        <li>
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                            <input type="hidden" name="cmd" value="_s-xclick">
-                                            <input type="hidden" name="hosted_button_id" value="6TE4Y64DDVU7E">
-                                            <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_buynow_SM.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
-                                            <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
-                                            </form>
-                                        </li>
-                                        <li><strong>12X de R$ 58,25</strong><small>10% desconto a vista, 1X de R$ 629,10</small></li>
-
-
-                                        <!--BOTAO PAG SEGURO-->
-                                        <li id="pagseguro_index"><a href="https://pag.ae/7VTMJe8S4/button" target="_blank" title="Pagar com PagSeguro"><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif" alt="Pague com PagSeguro - é rápido, grátis e seguro!" /></a></li>
-                                        <li><strong>12 parcelas de R$ 70,18</strong></li>
-                                    </ul>
-                                </div><!-- end left -->
-                            </div><!-- end footer -->
-                        </div><!-- end box -->
-                    </div><!-- end col -->
-                    <!--END CURSO 4 INICIO -->
-
-
-
-                    <!--CURSO 6 INICIO-->
-                    <!--Kivy-->
-                    <div class="caro-item">
-                        <div class="course-box">
-                            <div class="image-wrap entry">
-                                <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_kivy1.png" alt="" class="img-responsive">
-                                <div class="magnifier" id="text_box_index">
-                                     <a href="#" title="">Saiba mais</a>
-                                </div>
-                            </div><!-- end image-wrap -->
-                            <div class="course-details">
-                                <h4>
-                                    <small>Kivy</small>
-                                    <a href="index.html" title="">Kivy módulo 1</a>
-                                </h4>
-                                <p id="texto-home-p">Kivy - biblioteca Python de código aberto para rápido desenvolvimento de aplicações que fazem uso de interfaces de usuário inovadoras, como aplicativos multitoque.</p>
-                            </div><!-- end details -->
-                            <div class="course-footer clearfix">
-                                <div class="pull-left">
-                                     <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i>10 vagas</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i> 40 horas</a></li>
-                                        <li><a href="#"><strong>R$699.00</strong></a></li>
-                                         <li><strong>12 parcelas de R$ 70,18</strong></li>
-                                    </ul>
-                                </div><!-- end left -->
-
-                                <div class="pull-right">
-                                    <ul class="list-inline">
-                                        <li><a href=
-                                    </ul>
-                                </div><!-- end left -->
-                            </div><!-- end footer -->
-                        </div><!-- end box -->
-                    </div><!-- end col -->
-                    <!--END CURSO 6 INICIO-->
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}
+                    <div class="clearfix"></div>
+                    {% endif %}
+                    {% endfor %}
                 </div><!-- end row -->
 
                 <hr class="invis">
 
-                <div class="section-button text-center">
-                    <a href="#" class="btn btn-primary">Ver todos os cursos</a>
+                <div class="text-center">
+                    <a href="{% url 'tutoriais_lista' %}" class="btn btn-primary btn-lg">Ver todos os tutoriais</a>
                 </div>
             </div><!-- end container -->
         </section>
@@ -431,4 +206,3 @@
         </section>
 {% endblock content %}
 
-       

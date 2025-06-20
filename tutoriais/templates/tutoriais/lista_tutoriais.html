@@ -1,0 +1,148 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Page Title -->
+<section class="section db p120">
+    <div class="container">
+        <div class="tagline-message page-title text-left">
+            <h3>Nossos Tutoriais</h3>
+            <ul class="breadcrumb">
+                <li><a href="{% url 'indice' %}">Home</a></li>
+                <li class="active">Tutoriais</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Tutorials List -->
+<section class="section gb nopadtop">
+    <div class="container">
+        <div class="boxed">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Filters -->
+                    <div class="row filter-bar">
+                        <div class="col-md-6">
+                            <h4><i class="fa fa-book"></i> Tutoriais disponíveis: <span class="badge badge-primary">{{ tutoriais.count }}</span></h4>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Filtrar por categoria
+                                    <span class="fa fa-angle-down"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'tutoriais_lista' %}">Todos</a></li>
+                                    {% for categoria in categorias %}
+                                    <li><a href="?categoria={{ categoria }}">{{ categoria }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="invis">
+
+                    <!-- Tutorial Grid -->
+                    <div class="row">
+                        {% for tutorial in tutoriais %}
+                        <div class="col-md-4">
+                            <div class="course-box">
+                                <div class="image-wrap entry tutorial-image-container">
+                                    {% if tutorial.imagem %}
+                                    <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}">
+                                    {% else %}
+                                    <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
+                                    {% endif %}
+                                    <div class="magnifier">
+                                        <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                    </div>
+                                </div>
+                                <div class="course-details">
+                                    <h4>
+                                        <a href="{% url 'tutoriais_detalhe' tutorial.slug %}">{{ tutorial.titulo }}</a>
+                                    </h4>
+                                    <p>{{ tutorial.descricao|truncatechars:120 }}</p>
+                                </div>
+                                <div class="course-footer clearfix">
+                                    <div class="pull-left">
+                                        <span class="badge" style="background-color: #2a41e8; color: white;">{{ tutorial.categoria }}</span>
+                                    </div>
+                                    <div class="pull-right">
+                                        <span class="badge {% if tutorial.nivel == 'Básico' %}badge-success{% elif tutorial.nivel == 'Intermediário' %}badge-warning{% else %}badge-danger{% endif %}">
+                                            {{ tutorial.nivel }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="course-footer clearfix" style="border-top: none; padding-top: 0;">
+                                    <div class="pull-left">
+                                        <small><i class="fa fa-user"></i> {{ tutorial.autor }}</small>
+                                    </div>
+                                    <div class="pull-right">
+                                        <small><i class="fa fa-calendar"></i> {{ tutorial.data_criacao|date:"d/m/Y" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:3 %}
+                        <div class="clearfix"></div>
+                        {% endif %}
+                        {% empty %}
+                        <div class="col-md-12">
+                            <div class="alert alert-info text-center">
+                                <h4><i class="fa fa-info-circle"></i> Nenhum tutorial disponível no momento</h4>
+                                <p>Estamos trabalhando em novos conteúdos. Volte em breve!</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if tutoriais.has_other_pages %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="pagination">
+                                {% if tutoriais.has_previous %}
+                                <li><a href="?page={{ tutoriais.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                
+                                {% for i in tutoriais.paginator.page_range %}
+                                    {% if tutoriais.number == i %}
+                                    <li class="active"><span>{{ i }}</span></li>
+                                    {% else %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if tutoriais.has_next %}
+                                <li><a href="?page={{ tutoriais.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section callout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Quer aprender ainda mais?</h3>
+                <p>Descubra cursos completos e aprofunde seus conhecimentos em desenvolvimento de software.</p>
+            </div>
+            <div class="col-md-4 text-right">
+                <a href="#" class="btn btn-primary btn-lg">Ver cursos</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from tutoriais.models import Tutoriais
 
 
 def indice(request):
-    return render(request, 'escola/index.html', {})
+    tutoriais = Tutoriais.objects.all().order_by('-data_criacao')[:6]
+    return render(request, 'escola/index.html', {'tutoriais': tutoriais})
 
 def biopython(request):
     return render(request, 'escola/biopython.html', {})

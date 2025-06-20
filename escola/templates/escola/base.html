@@ -176,6 +176,9 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{% url 'indice' %}">Home</a></li>
+                            {% if user.is_superuser %}
+                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Adicionar Tutorial</a></li>
+                            {% endif %}
                             <li id="cursos-dropdown"class="dropdown yamm-fw yamm-half"><a href="#" data-toggle="dropdown" class="dropdown-toggle active">Cursos <b class="fa fa-angle-down"></b></a>
                                 <ul id="dropdown-menu-trilhas"class="dropdown-menu">
                                     <li>
