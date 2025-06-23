@@ -101,15 +101,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -128,8 +119,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
-
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 .Python
@@ -142,7 +131,6 @@ dmypy.json
 pyvenv.cfg
 .venv
 pip-selfcheck.json
-
 
 # General
 .DS_Store
@@ -170,3 +158,23 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# local files
+# docker-compose-local.yml
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+staticfiles/

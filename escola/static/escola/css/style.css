@@ -2342,3 +2342,170 @@ div.zoom {
 
     
 }
+
+/* Tutorial Card Styles for Home Page Carousel */
+.tutorial-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin: 18px 8px 32px 8px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.tutorial-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18), 0 3px 8px 0 rgba(0,0,0,0.12);
+    transform: translateY(-4px) scale(1.02);
+}
+.tutorial-image-wrap {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tutorial-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    transition: filter 0.3s;
+}
+.tutorial-card:hover .tutorial-img {
+    filter: brightness(0.85) blur(1px);
+}
+.tutorial-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.10) 40%, rgba(0,0,0,0.55) 100%);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: opacity 0.3s;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding-bottom: 24px;
+}
+.tutorial-card:hover .tutorial-overlay {
+    opacity: 1;
+}
+.tutorial-btn {
+    background: #007bff;
+    color: #fff;
+    border-radius: 24px;
+    padding: 10px 28px;
+    font-weight: 600;
+    font-size: 1.1em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border: none;
+    transition: background 0.2s, color 0.2s;
+}
+.tutorial-btn:hover {
+    background: #0056b3;
+    color: #fff;
+}
+.tutorial-details {
+    padding: 18px 20px 0 20px;
+    flex: 1 1 auto;
+}
+.tutorial-title {
+    font-size: 1.18em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tutorial-badge {
+    background: #17a2b8;
+    color: #fff;
+    font-size: 0.85em;
+    border-radius: 8px;
+    padding: 3px 10px;
+    margin-right: 6px;
+    font-weight: 500;
+}
+.tutorial-desc {
+    color: #444;
+    font-size: 1em;
+    margin-bottom: 0;
+    min-height: 48px;
+}
+.tutorial-footer {
+    padding: 12px 20px 18px 20px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafbfc;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.tutorial-author, .tutorial-date, .tutorial-nivel {
+    font-size: 0.97em;
+    color: #888;
+    margin-right: 10px;
+}
+.tutorial-nivel.label {
+    font-size: 0.95em;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+@media (max-width: 991px) {
+    .tutorial-card {
+        min-height: 380px;
+    }
+    .tutorial-img, .tutorial-image-wrap {
+        height: 160px;
+    }
+}
+@media (max-width: 767px) {
+    .tutorial-card {
+        min-height: 320px;
+    }
+    .tutorial-img, .tutorial-image-wrap {
+        height: 120px;
+    }
+    .tutorial-details, .tutorial-footer {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+/* Add this to your CSS file */
+.image-wrap.entry {
+    height: 200px;  /* Fixed height for all tutorial images */
+    overflow: hidden;
+    position: relative;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-wrap.entry img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* This makes images cover the area while maintaining aspect ratio */
+}
+
+/* For detail page */
+.blog-media.detail-page {
+    max-width: 500px; /* Limiting width */
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.tutorial-detail-image {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
