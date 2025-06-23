@@ -32,7 +32,7 @@ print(f"SETTINGS.PY: ENV_NAME from environment: {os.environ.get('ENV_NAME')}")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-g5^)-n(bv()cwovfoc10(&z!ifb10@msf66*w(*7fl$$ec^sj_'
-SECRET_KEY = os.environ.get('SECRET_KEY_LOCAL')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Debug settings

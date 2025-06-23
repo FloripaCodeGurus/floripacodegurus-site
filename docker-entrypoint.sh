@@ -33,3 +33,6 @@ if not CustomUser.objects.filter(email="$USER_EMAIL").exists():
 else:
     print("Superuser already exists.")
 EOF
+
+# Start the Django development server
+exec python manage.py runserver 0.0.0.0:8000
