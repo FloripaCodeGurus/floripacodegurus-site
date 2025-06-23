@@ -16,20 +16,30 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+if os.environ.get('ENV_NAME') == "local":
+    print(f"SETTINGS >>> DEVELOPMENT {os.environ['ENV_NAME']}")
+    print("ENVIRONMENT VARIABLES:", dict(os.environ))
+
+
+# Environment settings
+ENVIRONMENT = os.environ.get('ENV_NAME', 'local') 
+# Print environment for debugging
+print(f"SETTINGS.PY: ENV_NAME from environment: {os.environ.get('ENV_NAME')}")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g5^)-n(bv()cwovfoc10(&z!ifb10@msf66*w(*7fl$$ec^sj_'
+# SECRET_KEY = 'django-insecure-g5^)-n(bv()cwovfoc10(&z!ifb10@msf66*w(*7fl$$ec^sj_'
+SECRET_KEY = os.environ.get('SECRET_KEY_LOCAL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Debug settings
+DEBUG = os.environ.get('DEBUG', True)
+# print(f"SETTINGS.PY: DEBUG value: {DEBUG}")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -106,6 +116,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom user model
+AUTH_USER_MODEL = "users.CustomUser"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -127,6 +140,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'escola/static'),
 ]
+
+# media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
