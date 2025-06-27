@@ -33,9 +33,13 @@
                                     <span class="fa fa-angle-down"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{% url 'tutoriais_lista' %}">Todos</a></li>
+                                    <li {% if not categoria_ativa %}class="active"{% endif %}>
+                                        <a href="{% url 'tutoriais_lista' %}">Todos</a>
+                                    </li>
                                     {% for categoria in categorias %}
-                                    <li><a href="?categoria={{ categoria }}">{{ categoria }}</a></li>
+                                    <li {% if categoria == categoria_ativa %}class="active"{% endif %}>
+                                        <a href="?categoria={{ categoria }}">{{ categoria }}</a>
+                                    </li>
                                     {% endfor %}
                                 </ul>
                             </div>
