@@ -1,5 +1,4 @@
-import os
-from decouple import config
+import os from decouple import config
 
 print("🔍 DEBUG: __init__.py está sendo carregado!")
 print("🔍 DEBUG: Variáveis de ambiente relevantes:")
