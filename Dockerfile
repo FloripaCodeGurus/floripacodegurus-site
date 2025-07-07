@@ -15,4 +15,4 @@ COPY . .
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "configs.wsgi:application"] 
 
 # Use the entrypoint script
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+# ENTRYPOINT ["/docker-entrypoint.sh"]

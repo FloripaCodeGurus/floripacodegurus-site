@@ -3,6 +3,9 @@ from decouple import config
 
 DEBUG = False
 
+print("🚀 PRODUCTION SETTINGS LOADED - DEBUG should be False!")
+print(f"🚀 DEBUG = {DEBUG}")
+
 SECRET_KEY = config("SECRET_KEY")
 
 ALLOWED_HOSTS = ['fcgurus-production.herokuapp.com', '.herokuapp.com']

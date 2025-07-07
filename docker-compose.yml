@@ -9,12 +9,13 @@ services:
     env_file:
       - .env
     environment:
-      - ENV_NAME=${ENV_NAME:-development}
+      - DJANGO_SETTINGS_MODULE=configs.settings
+      - ENV_NAME=development
     depends_on:
       - db
 
   db:
-    image: postgres:13
+    image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
