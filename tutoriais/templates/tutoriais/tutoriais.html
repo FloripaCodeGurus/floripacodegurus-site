@@ -2,149 +2,84 @@
 
 {% block content %}
         
-        <section class="section db p120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="tagline-message page-title text-center">
-                            <h3>Tutoriais</h3>
-                            <ul class="breadcrumb">
-                                <li><a href="{% url 'indice' %}">Home</a></li>
-                                <li class="active">Tutoriais</li>
+<section class="section db p120">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tagline-message page-title text-center">
+                    <h3>Tutoriais</h3>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'indice' %}">Home</a></li>
+                        <li class="active">Tutoriais</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section gb nopadtop">
+    <div class="container">
+        <div class="boxed">
+            <div class="row">
+                <div class="col-md-8">
+
+                    {% for tutorial in tutoriais %}
+                    <div class="content blog-list">
+                        <div class="blog-wrapper clearfix">
+                            <div class="blog-meta">
+                                <small><a href="#">{{ tutorial.categoria }}</a></small>
+                                <h3 id="tutoriais-h3">
+                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                </h3>
+                                <ul class="list-inline">
+                                    <li>{{ tutorial.data_criacao|date:"d \d\e F \d\e Y" }}</li>
+                                    <li><span>escrito por:</span> <a href="#">{{ tutorial.autor }}</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="blog-media">
+                                <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">
+                                    {% if tutorial.imagem %}
+                                        <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="img-responsive img-rounded">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/800x400?text=Tutorial" alt="{{ tutorial.titulo }}" class="img-responsive img-rounded">
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                            <div class="blog-desc-big">
+                                <p class="lead">{{ tutorial.descricao|truncatewords:20 }}</p>
+                                <p id="tutoriais-p">
+                                    {% if tutorial.introducao %}
+                                        {{ tutorial.introducao|striptags|truncatewords:30 }}
+                                    {% else %}
+                                        {{ tutorial.descricao|truncatewords:50 }}
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" class="btn btn-primary">Leia mais</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="content blog-list">
+                        <p>Nenhum tutorial encontrado.</p>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Paginação (você pode implementar depois) -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="pagination">
+                                <li class="disabled"><a href="javascript:void(0)">&laquo;</a></li>
+                                <li class="active"><a href="javascript:void(0)">1</a></li>
+                                <li><a href="{% url 'tutoriais2' %}">2</a></li>
+                                <li><a href="javascript:void(0)">3</a></li>
+                                <li><a href="javascript:void(0)">...</a></li>
+                                <li><a href="javascript:void(0)">&raquo;</a></li>
                             </ul>
                         </div>
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </section><!-- end section -->
-
-
-
-        <section class="section gb nopadtop">
-            <div class="container">
-                <div class="boxed">
-                    <div class="row">
-                        <div class="col-md-8">
-
-                                <!--TUTORIAL 1-->
-                            <div class="content blog-list">
-                                <div class="blog-wrapper clearfix">
-                                    <div class="blog-meta">
-                                        <small><a href="#">Tips & Tricks</a></small>
-                                        <h3 id="tutoriais-h3"><a href="{% url 'bio001' %}" title="">Biopython para o dia a dia do bioinformata parte 1</a></h3>
-                                        <ul class="list-inline">
-                                            <li>21 de junho de 2019</li>
-                                            <li><span>escrito por:</span> <a href="#">Paulo Schlögl</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="blog-media">
-                                        <a href="{% url 'bio001' %}" title=""><img src="https://f001.backblazeb2.com/file/Code-Gurus-imagens/site/BioPython_imgs/banner/source11.gif" alt="Biopython" class="img-responsive img-rounded"></a>
-                                    </div>
-
-                                    <div class="blog-desc-big">
-                                        <p class="lead">Analisando arquivos FASTA</p>
-                                        <p id="tutoriais-p"> Neste pequeno tutorial utilizaremos algumas das ferramentas do Biopython utilizadas frequentemente no dia a dia do bioinformata.</p>
-                                        <a href="{% url 'bio001' %}" class="btn btn-primary">Leia mais</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end content -->
-                            <!--END TUTORIAL 1-->
-
-                            <!--TUTORIAL 2-->
-                            <div class="content blog-list">
-                                <div class="blog-wrapper clearfix">
-                                    <div class="blog-meta">
-                                        <small><a href="#">Tips & Tricks</a></small>
-                                        <h3 id="tutoriais-h3"><a href="{% url 'currencylayer' %}" title="">Desenvolvendo um conversor de moedas em Python</a></h3>
-                                        <ul class="list-inline">
-                                            <li>20 de março de 2019</li>
-                                            <li><span>escrito por:</span> <a href="#">Fabio Classo</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="blog-media">
-                                        <a href="{% url 'currencylayer' %}" title=""><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/currency_layer/currency.gif" alt="Currency Layer" class="img-responsive img-rounded"></a>
-                                    </div>
-
-                                    <div class="blog-desc-big">
-                                        <p class="lead">Neste tutorial vou desenvolver uma pequena aplicação que converte Dólares (USD) para outras moedas, para tal utilizarei a API Currency Layer (https://currencylayer.com/).</p>
-                                       
-                                        <a href="{% url 'currencylayer' %}" class="btn btn-primary">Leia mais</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end content -->
-                            <!--END TUTORIAL 2-->
-
-
-                            <!--TUTORIAL 3-->
-                            <div class="content blog-list">
-                                <div class="blog-wrapper clearfix">
-                                    <div class="blog-meta">
-                                        <small><a href="#">Tips & Tricks</a></small>
-                                        <h3 id="tutoriais-h3"><a href="{% url 'histogramas' %}" title="">Histogramas parte 1</a></h3>
-                                        <ul class="list-inline">
-                                            <li>02 de junho de 2019</li>
-                                            <li><span>escrito por:</span> <a href="../equipe.html">Fabio Classo</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="blog-media">
-                                        <a href="{% url 'histogramas' %}" title=""><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/histogramas/h1/tutoriais_python_Figure_4.png" alt="Histogramas" class="img-responsive img-rounded"></a>
-                                    </div>
-
-                                    <div class="blog-desc-big">
-                                        <p class="lead">Neste tutorial vamos falar de Histogramas, o que são e como utilizá-los em Python.</p>
-                                        <p id="tutoriais-p"> O histograma, também conhecido como distribuição de frequências, é a representação gráfica em colunas ou em barras (retângulos) de um conjunto de dados previamente tabulado e dividido em classes uniformes ou não uniformes. A base de cada retângulo representa uma classe. A altura de cada retângulo representa a quantidade ou a frequência absoluta com que o valor da classe ocorre no conjunto de dados para classes uniformes ou a densidade de frequência para classes não uniformes. Importante ferramenta da <b>Estatística</b>, o histograma também é uma das chamadas sete ferramentas da qualidade.</p>
-                                        <a href="{% url 'histogramas' %}" class="btn btn-primary">Leia mais</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end content -->
-                            <!--END TUTORIAL 3-->
-
-                            <!--TUTORIAL 4-->
-                            <div class="content blog-list">
-                                <div class="blog-wrapper clearfix">
-                                    <div class="blog-meta">
-                                        <small><a href="regex1.html">Tips & Tricks</a></small>
-                                        <h3 id="tutoriais-h3"><a href="{% url 'regex' %}" title="">Expressões Regulares em Python, parte 1</a></h3>
-                                        <ul class="list-inline">
-                                            <li>04 de junho 2019</li>
-                                            <li><span>escrito por:</span> <a href="../equipe.html">Fabio Classo</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="blog-media">
-                                        <a href="{% url 'regex' %}" title=""><img src="https://f001.backblazeb2.com/file/Floripa-Code-Gurus-Tutoriais/Pytho2-tutorials/regex1/blog_03_regex1.png" alt="regex" class="img-responsive img-rounded"></a>
-                                    </div>
-
-                                    <div class="blog-desc-big">
-                                        <p class="lead">Você conhece o módulo regex?</p>
-                                        <p id="tutoriais-p">Uma expressão regular ou regex, é uma sequência especial de caracteres que ajuda você a encontrar outras strings ou conjuntos de strings, usando uma sintaxe especializada mantida em um padrão. Expressões regulares são amplamente usadas no mundo UNIX.</p>
-                                        <a href="{% url 'regex' %}" class="btn btn-primary">Leia mais</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end content -->
-                            <!--END TUTORIAL 4-->
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <ul class="pagination">
-                                        <li class="disabled"><a href="javascript:void(0)">&laquo;</a></li>
-                                        <li class="active"><a href="javascript:void(0)">1</a></li>
-                                        <li><a href="{% url 'tutoriais2' %}">2</a></li>
-                                        <li><a href="javascript:void(0)">3</a></li>
-                                        <li><a href="javascript:void(0)">...</a></li>
-                                        <li><a href="javascript:void(0)">&raquo;</a></li>
-                                    </ul>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end col -->
-
+                    </div>
+                </div>
 
 {% endblock content %}
