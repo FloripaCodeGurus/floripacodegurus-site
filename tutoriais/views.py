@@ -3,7 +3,8 @@ from .models import Tutoriais
 
 
 def tutoriais(request):
-    return render(request, 'tutoriais/tutoriais.html', {})
+    tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
+    return render(request, 'tutoriais/tutoriais.html', {'tutoriais': tutoriais})
 
 
 def tutoriais2(request):
