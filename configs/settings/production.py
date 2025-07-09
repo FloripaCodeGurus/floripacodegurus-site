@@ -1,4 +1,4 @@
-from .setting_base import *
+from .base import *
 from decouple import config
 
 DEBUG = False
@@ -8,7 +8,7 @@ print(f"🚀 DEBUG = {DEBUG}")
 
 SECRET_KEY = config("SECRET_KEY")
 
-ALLOWED_HOSTS = ['fcgurus-production.herokuapp.com', '.herokuapp.com']
+ALLOWED_HOSTS = ['fcgurus-production..com',]
 
 SECURE_SSL_REDIRECT = True
 
@@ -20,7 +20,7 @@ DATABASES = {
         'NAME': config('POSTGRES_DB'),
         'USER': config('POSTGRES_USER'),
         'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST', 'localhost'),
+        'HOST': config('POSTGRES_HOST', 'production'),
         'PORT': config('POSTGRES_PORT', '5432'),
     }
 }

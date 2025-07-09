@@ -9,7 +9,7 @@ services:
     env_file:
       - .env.development
     environment:
-      - DJANGO_SETTINGS_MODULE=configs.settings
+      - DJANGO_SETTINGS_MODULE=configs.settings.development
       - ENV_NAME=development
     depends_on:
       - db
@@ -19,9 +19,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - .env.development
     ports:
-      - "5432:5432"
-
+      - "5434:5432" 
 volumes:
   postgres_data:
