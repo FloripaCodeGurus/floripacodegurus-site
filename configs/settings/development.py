@@ -16,20 +16,9 @@ SECURE_PROXY_SSL_HEADER = None
 LOGS_DIR = os.path.join(BASE_DIR, 'logs')
 os.makedirs(LOGS_DIR, exist_ok=True)
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST', 'localhost'),
-        'PORT': config('POSTGRES_PORT', '5434'),
-    }
-}
-
-#  Logging Configuration
+# Logging Configuration
 if IS_DEVELOPMENT:
+    # Production logging configuration (using StreamHandler)
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,

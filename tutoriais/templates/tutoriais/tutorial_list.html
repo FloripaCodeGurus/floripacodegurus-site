@@ -1,0 +1,37 @@
+{% extends "escola/base.html" %}
+{% load static %}
+
+{% block title %}Tutoriais{% endblock %}
+
+{% block content %}
+<div class="tutorials-container">
+    <h1>Tutoriais</h1>
+    
+    <div class="tutorials-grid">
+        {% for tutorial in tutoriais %}
+        <div class="tutorial-card">
+            {% if tutorial.imagem %}
+            <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="card-image">
+            {% endif %}
+            
+            <div class="card-content">
+                <h3><a href="{% url 'tutorial_detail' tutorial.slug %}">{{ tutorial.titulo }}</a></h3>
+                <p class="description">{{ tutorial.descricao|truncatewords:20 }}</p>
+                
+                <div class="card-meta">
+                    <span class="categoria">{{ tutorial.categoria }}</span>
+                    <span class="nivel">{{ tutorial.nivel }}</span>
+                </div>
+                
+                <div class="card-footer">
+                    <span class="autor">{{ tutorial.autor }}</span>
+                    <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Nenhum tutorial disponível no momento.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

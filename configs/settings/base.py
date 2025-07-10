@@ -34,7 +34,8 @@ ROOT_URLCONF = 'configs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'escola/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,6 +65,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Custom user model
 AUTH_USER_MODEL = "users.CustomUser"
@@ -100,3 +108,7 @@ CKEDITOR_5_CONFIGS = {
 }
 
 CKEDITOR_5_UPLOAD_PATH = "uploads/"
+
+# Login/Logout URLs
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/user/login/'

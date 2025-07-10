@@ -64,9 +64,9 @@ section.section.bgcolor2{
     margin-left: 1em;
     }
 
-#datas_turmas.col-md-8 {
-    a:hover:#01bacf ;
-    }
+#datas_turmas.col-md-8 a:hover{
+    color: #01bacf;
+}
 
 #proximas_turmas.col-md-4.text-center h3:hover{
     color: #01bacf;
@@ -499,4 +499,65 @@ p#frase{
     padding-right: 2em;
     }
 
-}
+/*login */
+ .login-container {
+     max-width: 400px;
+     margin: 50px auto;
+     padding: 30px;
+     background: #fff;
+     border-radius: 10px;
+     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+ }
+
+ .login-form {
+     width: 100%;
+ }
+
+ .login-title {
+     text-align: center;
+     color: #333;
+     margin-bottom: 30px;
+     font-size: 24px;
+ }
+
+ .form-field {
+     margin-bottom: 20px;
+ }
+
+ .form-field label {
+     display: block;
+     margin-bottom: 5px;
+     color: #555;
+     font-weight: 500;
+ }
+
+ .form-field input {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     font-size: 16px;
+     box-sizing: border-box;
+ }
+
+ .form-field input:focus {
+     outline: none;
+     border-color: #007bff;
+     box-shadow: 0 0 5px rgba(0,123,255,0.3);
+ }
+
+ .login-btn {
+     width: 100%;
+     padding: 12px;
+     background: #007bff;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     font-size: 16px;
+     cursor: pointer;
+     transition: background 0.3s;
+ }
+
+ .login-btn:hover {
+     background: #0056b3;
+ }

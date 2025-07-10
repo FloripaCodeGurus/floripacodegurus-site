@@ -11,16 +11,16 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=configs.settings.development
       - ENV_NAME=development
-    depends_on:
-      - db
+#     depends_on:
+#       - db
 
-  db:
-    image: postgres:15
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - .env.development
-    ports:
-      - "5434:5432" 
-volumes:
-  postgres_data:
+#   db:
+#     image: postgres:15
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+#     env_file:
+#       - .env.development
+#     ports:
+#       - "5434:5432" #VOCE PODE ALTERAR A PORTA 5432:5432
+# volumes:
+#   postgres_data:

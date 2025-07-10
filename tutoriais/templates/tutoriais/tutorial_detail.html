@@ -1,0 +1,47 @@
+{% extends "escola/base.html" %}
+{% load static %}
+
+{% block title %}{{ tutorial.titulo }}{% endblock %}
+
+{% block content %}
+<div class="tutorial-container">
+    <header class="tutorial-header">
+        <h1>{{ tutorial.titulo }}</h1>
+        <div class="tutorial-meta">
+            <span class="categoria">{{ tutorial.categoria }}</span>
+            <span class="nivel">{{ tutorial.nivel }}</span>
+            <span class="autor">Por: {{ tutorial.autor }}</span>
+            <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+        </div>
+        {% if tutorial.imagem %}
+        <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="tutorial-image">
+        {% endif %}
+    </header>
+
+    <div class="tutorial-description">
+        <p>{{ tutorial.descricao }}</p>
+    </div>
+
+    <div class="tutorial-content">
+        <section class="tutorial-section">
+            {{ tutorial.introducao|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.conceitos|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.exemplos|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.conclusao|safe }}
+        </section>
+    </div>
+
+    <footer class="tutorial-footer">
+        <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
+    </footer>
+</div>
+{% endblock %}

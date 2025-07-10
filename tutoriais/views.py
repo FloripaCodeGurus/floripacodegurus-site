@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Tutoriais
 
 
@@ -27,6 +28,37 @@ def bio001(request):
     return render(request, 'tutoriais/bio_001.html', {})
 
 
+def tutorial_create(request):
+    if request.method == 'POST':
+        tutorial = Tutoriais(
+            titulo=request.POST.get('titulo'),
+            descricao=request.POST.get('descricao'),
+            introducao=request.POST.get('introducao'),
+            conceitos=request.POST.get('conceitos'),
+            exemplos=request.POST.get('exemplos'),
+            conclusao=request.POST.get('conclusao'),
+            autor=request.POST.get('autor'),
+            categoria=request.POST.get('categoria'),
+            nivel=request.POST.get('nivel')
+        )
+        if request.FILES.get('imagem'):
+            tutorial.imagem = request.FILES['imagem']
+        tutorial.save()
+        messages.success(request, 'Tutorial criado com sucesso!')
+        return redirect('tutorial_detail', slug=tutorial.slug)
+    return render(request, 'tutoriais/tutorial_create.html', {})
+
+
+def tutorial_list(request):
+    tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
+    return render(request, 'tutoriais/tutorial_list.html', {'tutoriais': tutoriais})
+
+
+def tutorial_detail(request, slug):
+    tutorial = get_object_or_404(Tutoriais, slug=slug)
+    return render(request, 'tutoriais/tutorial_detail.html', {'tutorial': tutorial})
+
+
 def tutoriais_lista(request):
     categoria = request.GET.get('categoria')
     if categoria:
@@ -45,6 +77,3 @@ def tutoriais_lista(request):
 def tutoriais_detalhe(request, slug):
     tutorial = get_object_or_404(Tutoriais, slug=slug)
     return render(request, 'tutoriais/tutoriais_detalhe.html', {'tutorial': tutorial})
-                                                              
-
-                                                            
