@@ -4,94 +4,13 @@
 <!--[if IE 9]> <html class="no-js ie9 fixed-layout" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!--> 
 <html class="no-js " lang="en"> <!--<![endif]-->
+
+<!-- HEAD -->
 <head>
-
-    <!-- Basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <!-- Mobile Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-
-    <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-59DGHVL');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Site Meta -->
-    <title>Floripa Code Gurus</title>
-    <meta name="keywords" content="Python, Django, Kivy, Data Science, Ciência de dados, Big Data, PostgreSql, BioPython, Pandas, Numpy, Matplotlib, C#, CSharp, logica de programação, banco de dados, Front-end, Back-end ">
-
-    <meta name="description" content="Aprenda programação Python para desenvolvimento de aplicações Desktop, Web, Mobile, Ciência de dados, Big Data,BioTecnologia e Bioinformática, Robótica Kids, Arduino, Marketing Digital, PHP, Java ,Ruby e C#, CSharp, logica de programação, banco de dados,  Front-end e  Back-end">
-    <meta name="author" content="Floripa Code Gurus">
-
-    <meta name="robots" content="index,follow" />
-
-    <!--SITE LOCK VEIRIFICATION-->
-    <meta name="sitelock-site-verification" content="9462" />
-    
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="/escola/css/images/favicon.ico" type="image/x-icon" />
-<!--    <link rel="apple-touch-icon" href="/escola/static/css/images/apple-touch-icon.png">-->
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i" rel="stylesheet"> 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139868810-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-139868810-1');
-    </script>
-
-    <meta name="google-site-verification" content="UPyBbVphEji-ucJT4hbC5X4PuJXxGKVJpEdN1fOhFuM" />
-    
-    <!-- Custom & Default Styles -->
-
-    <link rel="stylesheet" href="{% static 'escola/css/mobile.css' %}" media="screen and (max-width: 768px)">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/mystyle.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/carousel.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/animate.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escola/css/style.css' %}">
-    <!--[if lt IE 9]>
-        <script src="escola/static/js/vendor/html5shiv.min.js"></script>
-        <script src="escola/static/js/vendor/respond.min.js"></script>
-    <![endif]-->
-
-
-    <!--MAIL CHIP MODAL -->
-    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/7a35a165b6daddff16e71de51/aef07b024ce0ba72036598ead.js");
-    </script>
-
-    <!-- Facebook Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '671511103311444');
-      fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=671511103311444&ev=PageView&noscript=1"
-    />
-    </noscript>
-    <!-- End Facebook Pixel Code -->
-
+  {% include "escola/head.html" %}
+  <title>{% block title %}{% endblock title %}</title>
 </head>
-
+<!-- HEAD -->
 
 <body>  
 
@@ -130,85 +49,11 @@
             </div>
         </div>
         <!-- END # MODAL LOGIN -->
+        
+        <!-- HEADER BEGGINING -->
+        {% include "escola/header.html" %}
+        <!-- HEADER END -->
 
-        <header class="header">
-            <div class="topbar clearfix">
-                <div class="container">
-                    <div class="row-fluid">
-                        <div class="col-md-6 col-sm-6 text-left">
-                            <p>
-                                <strong><i class="fa fa-whatsapp"></i></strong> <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a> &nbsp;&nbsp;
-                                <strong><i class="fa fa-envelope"></i></strong> <a href="mailto:#">administracao@floripacodegurus.com.br</a>
-                            </p>
-                        </div><!-- end left -->
-                        <div class="col-md-6 col-sm-6 hidden-xs text-right">
-                            <div class="social">
-                                
-                                <a class="facebook" href="https://www.facebook.com/codegurs/" data-tooltip="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>              
-                                <a class="twitter" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
-                               
-                            </div><!-- end social -->
-                        </div><!-- end left -->
-                    </div><!-- end row -->
-                </div><!-- end container -->
-            </div><!-- end topbar -->
-            
-
-            
-            <!--NAVBAR -->
-            <div class="container">
-                <nav class="navbar navbar-default yamm">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <div class="logo-normal">
-                            <a class="navbar-brand" href="{% url 'indice' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/logo.png" alt=""></a>
-                        </div>
-                    </div>
-
-                    
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="{% url 'indice' %}">Home</a></li>
-                            {% if user.is_superuser %}
-                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Adicionar Tutorial</a></li>
-                            {% endif %}
-                            <li id="cursos-dropdown"class="dropdown yamm-fw yamm-half"><a href="#" data-toggle="dropdown" class="dropdown-toggle active">Cursos <b class="fa fa-angle-down"></b></a>
-                                <ul id="dropdown-menu-trilhas"class="dropdown-menu">
-                                    <li>
-                                        <div class="yamm-content clearfix">
-                                            <div class="row-fluid">
-                                                <div class="col-md-6 col-sm-6">
-                                                    <ul id="dropdown-menu-trilhas">
-                                                        <li id="dropdown_destaque"><a href="{% url 'pythonmodulo1' %}">Python Mod1</a></li>
-                                                        <li id="dropdown_destaque"><a href="{% url 'pythonmodulo2' %}">Python Mod2</a></li>
-                                                        <li id="dropdown_destaque"><a href="{% url 'biopython' %}">BioPython Mod1</a></li>
-                                                        <li id="dropdown_destaque"><a href="{% url 'djangomodulo1' %}">Django Mod1</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <!--DROPDOWN MENU-->
-                            </li> 
-<!--                            <li><a href="{% url 'equipe' %}">Equipe</a></li>-->
-                            <li><a href="{% url 'contato' %}">Contato</a></li>
-                           
-                             
-                        </ul>
-                    </div>
-                </nav>
-                <!-- END NAVBAR -->
-
-            </div><!-- end container -->
-        </header>
 
        	{% block content %}
 
@@ -241,126 +86,10 @@
             </div><!-- end container -->
         </section>
         <!--end PROXIMAS TURMAS-->
-
-
-        <!--FOOTER-->
-        <footer class="section footer noover">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="widget clearfix">
-                            <h3 class="widget-title">Receba nossa Newsletter</h3>
-                            <div class="newsletter-widget">
-                                <p>Você pode cancelar sua inscrição a qualquer momento.Veja nossa <a href="#">política de privacidade</a>.</p>
-
-                            <!--NEWSLETTER-->
-                            <!-- Begin Mailchimp Signup Form -->
-                            <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-                            <style type="text/css">
-                                #mc_embed_signup{background:#000; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                                /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                                   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                            </style>
-                            <div id="mc_embed_signup">
-                                <form action="https://floripacodegurus.us20.list-manage.com/subscribe/post?u=7a35a165b6daddff16e71de51&amp;id=307e0a8719" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-
-                            <div id="mc_embed_signup_scroll">
-                            <div class="mc-field-group">
-                                <label for="mce-EMAIL">e-mail  <span class="asterisk"></span>
-                            </label>
- 
-                                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Digite seu email aqui">
-
-                            </div>
-                                <div id="mce-responses" class="clear">
-                                    <div class="response" id="mce-error-response" style="display:none"></div>
-                                    <div class="response" id="mce-success-response" style="display:none"></div>
-                                </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                                    <input type="text" name="b_7a35a165b6daddff16e71de51_307e0a8719" tabindex="-1" value="">
-                                </div>
-                                <div class="clear">
-                                    <input type="submit" value="Subscribe" name="subscribe" id="botao_subscribe" class="btn btn-primary">
-                                </div>
-                            </div>
-                            <!--mc_embed_signup_scroll-->
-                            
-                            </form>
-                            </div>
-                            <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-                            <!--End mc_embed_signup-->
-                            </div> <!-- end newsletter -->
-
-                            <!--Container midias sociais-->
-                            <!--Facebook curtir-->
-                                <div id="facebook-like" class="fb-like" data-href="https://www.facebook.com/codegurs/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-
-                                <div class="colum-midias">
-                                   <a id="twitter-like" href="https://twitter.com/guruscode?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @guruscode</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                               </div>
-                        </div><!-- end widget clear fix -->
-                    </div><!-- end col-lg-4 col-md-4 -->
-
-
-                    <div class="col-lg-3 col-md-3">
-                        <div class="widget clearfix">
-                            <h3 class="widget-title">Trabalhe conosco</h3>
-                            <p id="trabalhe-conosco-p">Que tal dar aulas e ainda fazer parte de nossa equipe de desenvolvimento?</p>
-                            <a href="#" class="readmore">Seja um dos nossos Professores</a>
-                        </div><!-- end widget -->
-                        <!--PAGSEGUROBANNER-->
-                        <a href="https://pagseguro.uol.com.br/"><img id='bannerpagseguro' src="https://f001.backblazeb2.com/file/site-code-gurus/images/bannerpagseguro.jpg"></a>
-                        <!--END PAGSEGUROBANNER-->
-
-                         <!--PAY PAL -->
-                             <a href="https://www.paypal.com/br/webapps/mpp/home"><img id="banner_pay_pal"src="https://f001.backblazeb2.com/file/site-code-gurus/images/paypal_floripa_code_gurus.png" alt="PayPal" class="img-responsive" style="margin-top: 1em;"></a>
-                        <!--PAY PAL -->
-
-
-                    </div><!-- end col -->
-
-                    <div class="col-lg-3 col-md-3">
-                        <div class="widget clearfix">
-                            <h3 class="widget-title">Tags Populares</h3>
-                            <div id="tags-widgets-footer"class="tags-widget">   
-                                <ul class="list-inline">
-                                    <li><a href="#">cursos</a></li>
-                                    <li><a href="{% url 'pythonmodulo1' %}">Python módulo 1</a></li>
-                                    <li><a href="{% url 'pythonmodulo2' %}">Python módulo 2</a></li>
-                                    <li><a href="{% url 'djangomodulo1' %}">Desenvolvimento web</a>
-                                    </li>
-<!--                                    <li><a href="{% url 'equipe' %}">Professores</a></li>-->
-                                    <li><a href="{% url 'biopython' %}">BioPython</a></li>
-                                    <li><a href="#">Java Script</a></li>
-                                    <li><a href="#">Kivy</a></li>
-                                </ul>
-
-                            </div><!-- end list-widget -->
-                        </div><!-- end widget -->
-                    </div><!-- end col -->
-
-                    <div class="col-lg-2 col-md-2">
-                        <div class="widget clearfix">
-                            <h3 class="widget-title">Suporte</h3>
-                            <div class="list-widget">   
-                                <ul>
-                                    <li><a href="#">Termos de uso</a></li>
-                                    <li><a href="#">Política de privacidade</a></li>
-                                    <li><a href="#">Direitos</a></li>
-                                    <li><a href="#">Preços</a></li>
-                                </ul>
-                            </div><!-- end list-widget -->
-
-                            <!--SITELOCK BANNER -->
-                            <a href="#" onclick="window.open('https://www.sitelock.com/verify.php?site=floripacodegurus.com.br','SiteLock','width=600,height=600,left=160,top=170');" ><img id="sitelock"class="img-responsive" alt="SiteLock" title="SiteLock" src="//shield.sitelock.com/shield/floripacodegurus.com.br" /></a>
-                            <!--END SITELOCK BANNER -->
-
-                        </div><!-- end widget -->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-
-        </footer><!-- end footer -->
+        
+        <!-- FOOTER BEGING -->
+        {% include "escola/footer.html" %}
+        <!-- FOOTER END -->
 
          <div class="copyrights">
             <div class="container">

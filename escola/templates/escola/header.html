@@ -1,0 +1,58 @@
+<header class="header">
+            <div class="topbar clearfix">
+                <div class="container">
+                    <div class="row-fluid">
+                        <div class="col-md-6 col-sm-6 text-left">
+                            <p>
+                                <strong><i class="fa fa-whatsapp"></i></strong> <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a> &nbsp;&nbsp;
+                                <strong><i class="fa fa-envelope"></i></strong> <a href="mailto:#">administracao@floripacodegurus.com.br</a>
+                            </p>
+                        </div><!-- end left -->
+                        <div class="col-md-6 col-sm-6 hidden-xs text-right">
+                            <div class="social">
+                                
+                                <a class="facebook" href="https://www.facebook.com/codegurs/" data-tooltip="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>              
+                                <a class="twitter" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
+                               
+                            </div><!-- end social -->
+                        </div><!-- end left -->
+                    </div><!-- end row -->
+                </div><!-- end container -->
+            </div><!-- end topbar -->
+            
+
+            
+            <!--NAVBAR -->
+            <div class="container">
+                <nav class="navbar navbar-default yamm">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="logo-normal">
+                            <a class="navbar-brand" href="{% url 'indice' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/logo.png" alt=""></a>
+                        </div>
+                    </div>
+
+                    
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{% url 'indice' %}">Home</a></li>
+                            {% if user.is_superuser %}
+                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Novo tutorial</a></li>
+                            {% endif %}
+                            <!--DROPDOWN MENU-->
+                            </li> 
+                            <li><a href="{% url 'contato' %}">Contato</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- END NAVBAR -->
+
+            </div><!-- end container -->
+        </header>
