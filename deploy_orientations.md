@@ -28,3 +28,12 @@
 
 # To reset database in case migration error
     - rm db.sqlite3
+
+
+# Running
+docker-compose -f docker-compose-local.yml --env-file .env.local up -d --build
+docker-compose -f docker-compose-development.yml --env-file .env.development up -d --build
+
+
+# shell
+export DJANGO_SETTINGS_MODULE=configs.settings.development && python3 manage.py migrate

@@ -2,7 +2,15 @@
 
 # Load environment variables from .env
 set -a
-source .env
+set -a
+ENV_FILE="${ENV_FILE:-.env}"
+if [ -f "$ENV_FILE" ]; then
+  source "$ENV_FILE"
+else
+  echo "$ENV_FILE not found"
+  exit 1
+fi
+set +a
 set +a
 
 # Check required variables

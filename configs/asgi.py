@@ -11,8 +11,16 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-ENV_NAME = os.environ.get('ENV_NAME', 'development')
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'configs.settings.setting_{ENV_NAME}')
+ENV_NAME = env_name =  os.environ.get('ENV_NAME', 'development')
+
+if env_name == 'production':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'configs.settings.production')
+elif env_name == 'staging':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'configs.settings.staging')
+elif env_name == 'development':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'configs.settings.development')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'configs.settings.local')
 
 application = get_asgi_application()
