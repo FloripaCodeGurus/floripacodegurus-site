@@ -1,0 +1,93 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Meu Perfil</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li class="active">Perfil</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Informações do Perfil</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <form method="post" enctype="multipart/form-data" class="profile-form">
+                  {% csrf_token %}
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="first_name">Nome:</label>
+                        <input type="text" id="first_name" name="first_name" class="form-control" value="{{ user.first_name }}" required>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="last_name">Sobrenome:</label>
+                        <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" required>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" disabled>
+                    <small class="text-muted">O email não pode ser alterado</small>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="phone_number">Telefone:</label>
+                    <input type="text" id="phone_number" name="phone_number" class="form-control" value="{{ user.phone_number }}" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="autor_github_account">GitHub:</label>
+                    <input type="text" id="autor_github_account" name="autor_github_account" class="form-control" value="{{ user.autor_github_account|default:'' }}" placeholder="https://github.com/seuusuario">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="autor_linkedin_account">LinkedIn:</label>
+                    <input type="text" id="autor_linkedin_account" name="autor_linkedin_account" class="form-control" value="{{ user.autor_linkedin_account|default:'' }}" placeholder="https://linkedin.com/in/seuusuario">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="autor_picture">Foto do Perfil:</label>
+                    <input type="file" id="autor_picture" name="autor_picture" class="form-control" accept="image/*">
+                    {% if user.autor_picture %}
+                    <div class="current-picture" style="margin-top: 10px;">
+                      <img src="{{ user.autor_picture.url }}" alt="Foto atual" style="max-width: 150px; border-radius: 8px;">
+                      <p><small>Foto atual</small></p>
+                    </div>
+                    {% endif %}
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    <a href="{% url 'indice' %}" class="btn btn-secondary">Cancelar</a>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

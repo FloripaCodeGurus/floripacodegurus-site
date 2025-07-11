@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Tutoriais
 
 
@@ -11,6 +12,7 @@ def tutoriais(request):
         print(f"Error: {e}")
         return render(request, 'tutoriais/tutoriais.html', {'tutoriais': []})
 
+@login_required
 def tutorial_create(request):
     if request.method == 'POST':
         tutorial = Tutoriais(
@@ -20,7 +22,7 @@ def tutorial_create(request):
             conceitos=request.POST.get('conceitos'),
             exemplos=request.POST.get('exemplos'),
             conclusao=request.POST.get('conclusao'),
-            autor=request.POST.get('autor'),
+            autor=request.user,
             categoria=request.POST.get('categoria'),
             nivel=request.POST.get('nivel')
         )

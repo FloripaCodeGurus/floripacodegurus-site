@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from django.conf import settings
 
 # Create your models here.
 class Tutoriais(models.Model):
@@ -33,10 +34,7 @@ class Tutoriais(models.Model):
     # Additional fields
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_atualizacao = models.DateTimeField(auto_now=True)
-    autor = models.CharField(max_length=50)
-    autor_github_account = models.CharField(max_length=100, blank=True, null=True)
-    autor_picture = models.ImageField(upload_to='escola/static/escola/imagens/autores/', blank=True, null=True)
-    autor_linkedin_account = models.CharField(max_length=100, blank=True, null=True)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tutoriais')
     imagem = models.ImageField(upload_to='escola/static/escola/imagens/tutoriais/', blank=True, null=True)
     categoria = models.CharField(max_length=50, default="Python", 
                                choices=[
