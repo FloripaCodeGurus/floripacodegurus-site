@@ -22,7 +22,7 @@ def tutorial_create(request):
             conceitos=request.POST.get('conceitos'),
             exemplos=request.POST.get('exemplos'),
             conclusao=request.POST.get('conclusao'),
-            autor=request.user,
+            autor=f"{request.user.first_name} {request.user.last_name}",
             categoria=request.POST.get('categoria'),
             nivel=request.POST.get('nivel')
         )
