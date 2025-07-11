@@ -13,6 +13,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    autor_github_account = models.CharField(max_length=100, blank=True, null=True)
+    autor_picture = models.ImageField(upload_to='escola/static/escola/imagens/autores/', blank=True, null=True)
+    autor_linkedin_account = models.CharField(max_length=100, blank=True, null=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

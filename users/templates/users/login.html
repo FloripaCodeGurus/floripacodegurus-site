@@ -1,27 +1,54 @@
-{% extends "escola/base.html" %}
-{% load static %}
-
-{% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'escola/css/mystyle.css' %}">
-{% endblock %}
+{% extends 'tutoriais/base_tutoriais.html' %}
 
 {% block content %}
-<div class="login-container">
-    <form method="POST" class="login-form">
-        {% csrf_token %}
-        <h2 class="login-title">Sign In</h2>
-        
-        <div class="form-field">
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-            {{ form.username }}
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Login</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li class="active">Login</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Entrar na sua conta</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <form method="POST" class="login-form">
+                  {% csrf_token %}
+                  
+                  <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                    {{ form.username }}
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                    {{ form.password }}
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
         </div>
-        
-        <div class="form-field">
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-            {{ form.password }}
-        </div>
-        
-        <button type="submit" class="login-btn">Login</button>
-    </form>
-</div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

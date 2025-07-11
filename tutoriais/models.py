@@ -34,6 +34,9 @@ class Tutoriais(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_atualizacao = models.DateTimeField(auto_now=True)
     autor = models.CharField(max_length=50)
+    autor_github_account = models.CharField(max_length=100, blank=True, null=True)
+    autor_picture = models.ImageField(upload_to='escola/static/escola/imagens/autores/', blank=True, null=True)
+    autor_linkedin_account = models.CharField(max_length=100, blank=True, null=True)
     imagem = models.ImageField(upload_to='escola/static/escola/imagens/tutoriais/', blank=True, null=True)
     categoria = models.CharField(max_length=50, default="Python", 
                                choices=[

@@ -37,3 +37,4 @@ docker-compose -f docker-compose-development.yml --env-file .env.development up 
 
 # shell
 export DJANGO_SETTINGS_MODULE=configs.settings.development && python3 manage.py migrate
+export DJANGO_SETTINGS_MODULE=configs.settings.development && python3 manage.py makemigrations

@@ -1,81 +1,112 @@
-{% extends "escola/base.html" %}
-{% load static %}
-
-{% block title %}Criar Tutorial{% endblock %}
+{% extends 'tutoriais/base_tutoriais.html' %}
 
 {% block content %}
-<div class="create-tutorial-container">
-    <h1>Criar Novo Tutorial</h1>
-    
-    <form method="post" enctype="multipart/form-data" class="tutorial-form">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" rows="3" required></textarea>
-        </div>
-        
-        <div class="form-row">
-            <div class="form-group">
-                <label for="categoria">Categoria:</label>
-                <select id="categoria" name="categoria">
-                    <option value="Python">Python</option>
-                    <option value="Django">Django</option>
-                    <option value="BioPython">BioPython</option>
-                    <option value="Data Science">Data Science</option>
-                    <option value="Web Development">Web Development</option>
-                </select>
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Criar Novo Tutorial</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li><a href="{% url 'tutoriais_lista' %}">Tutoriais</a></li>
+        <li class="active">Criar Tutorial</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Novo Tutorial</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <form method="post" enctype="multipart/form-data" class="tutorial-form">
+                  {% csrf_token %}
+                  
+                  <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" class="form-control" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" rows="3" class="form-control" required></textarea>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select id="categoria" name="categoria" class="form-control">
+                          <option value="Python">Python</option>
+                          <option value="Django">Django</option>
+                          <option value="BioPython">BioPython</option>
+                          <option value="Data Science">Data Science</option>
+                          <option value="Web Development">Web Development</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="nivel">Nível:</label>
+                        <select id="nivel" name="nivel" class="form-control">
+                          <option value="Iniciante">Iniciante</option>
+                          <option value="Intermediário">Intermediário</option>
+                          <option value="Avançado">Avançado</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="autor">Autor:</label>
+                    <input type="text" id="autor" name="autor" class="form-control" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="imagem">Imagem:</label>
+                    <input type="file" id="imagem" name="imagem" class="form-control" accept="image/*">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="introducao">Introdução:</label>
+                    <textarea id="introducao" name="introducao" rows="5" class="form-control"></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="conceitos">Conceitos Básicos:</label>
+                    <textarea id="conceitos" name="conceitos" rows="5" class="form-control"></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="exemplos">Exemplos Práticos:</label>
+                    <textarea id="exemplos" name="exemplos" rows="5" class="form-control"></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="conclusao">Conclusão:</label>
+                    <textarea id="conclusao" name="conclusao" rows="5" class="form-control"></textarea>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Criar Tutorial</button>
+                    <a href="{% url 'tutoriais_lista' %}" class="btn btn-secondary">Cancelar</a>
+                  </div>
+                </form>
+              </div>
+
             </div>
-            
-            <div class="form-group">
-                <label for="nivel">Nível:</label>
-                <select id="nivel" name="nivel">
-                    <option value="Iniciante">Iniciante</option>
-                    <option value="Intermediário">Intermediário</option>
-                    <option value="Avançado">Avançado</option>
-                </select>
-            </div>
+          </div>
         </div>
-        
-        <div class="form-group">
-            <label for="autor">Autor:</label>
-            <input type="text" id="autor" name="autor" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="imagem">Imagem:</label>
-            <input type="file" id="imagem" name="imagem" accept="image/*">
-        </div>
-        
-        <div class="form-group">
-            <label for="introducao">Introdução:</label>
-            <textarea id="introducao" name="introducao" rows="5"></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="conceitos">Conceitos Básicos:</label>
-            <textarea id="conceitos" name="conceitos" rows="5"></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="exemplos">Exemplos Práticos:</label>
-            <textarea id="exemplos" name="exemplos" rows="5"></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="conclusao">Conclusão:</label>
-            <textarea id="conclusao" name="conclusao" rows="5"></textarea>
-        </div>
-        
-        <div class="form-actions">
-            <button type="submit" class="btn-primary">Criar Tutorial</button>
-            <a href="{% url 'tutorial_list' %}" class="btn-secondary">Cancelar</a>
-        </div>
-    </form>
-</div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
