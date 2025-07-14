@@ -90,5 +90,28 @@ def tutoriais_detalhe(request, slug):
     tutorial = get_object_or_404(Tutoriais, slug=slug)
     return render(request, 'tutoriais/tutoriais_detalhe.html', {'tutorial': tutorial})
 
+@login_required
+def tutorial_edit(request, slug):
+    tutorial = get_object_or_404(Tutoriais, slug=slug, autor=f"{request.user.first_name} {request.user.last_name}")
+    
+    if request.method == 'POST':
+        tutorial.titulo = request.POST.get('titulo')
+        tutorial.descricao = request.POST.get('descricao')
+        tutorial.introducao = request.POST.get('introducao')
+        tutorial.conceitos = request.POST.get('conceitos')
+        tutorial.exemplos = request.POST.get('exemplos')
+        tutorial.conclusao = request.POST.get('conclusao')
+        tutorial.categoria = request.POST.get('categoria')
+        tutorial.nivel = request.POST.get('nivel')
+        
+        if request.FILES.get('imagem'):
+            tutorial.imagem = request.FILES['imagem']
+        
+        tutorial.save()
+        messages.success(request, 'Tutorial atualizado com sucesso!')
+        return redirect('tutoriais_detalhe', slug=tutorial.slug)
+    
+    return render(request, 'tutoriais/tutorial_edit.html', {'tutorial': tutorial})
+
 def tutorial_delete(request, slug):
     pass
