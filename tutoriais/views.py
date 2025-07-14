@@ -6,11 +6,25 @@ from .models import Tutoriais
 
 def tutoriais(request):
     try:
-        tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
-        return render(request, 'tutoriais/tutoriais.html', {'tutoriais': tutoriais})
+        categoria = request.GET.get('categoria')
+        if categoria:
+            tutoriais = Tutoriais.objects.filter(categoria=categoria).order_by('-data_criacao')
+        else:
+            tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
+        categorias = Tutoriais.objects.values_list('categoria', flat=True).distinct()
+        categorias = sorted(set([c.strip().title() for c in categorias if c]))
+        return render(request, 'tutoriais/tutoriais.html', {
+            'tutoriais': tutoriais,
+            'categorias': categorias,
+            'categoria_ativa': categoria,
+        })
     except Exception as e:
         print(f"Error: {e}")
-        return render(request, 'tutoriais/tutoriais.html', {'tutoriais': []})
+        return render(request, 'tutoriais/tutoriais.html', {
+            'tutoriais': [],
+            'categorias': [],
+            'categoria_ativa': categoria,
+        })
 
 @login_required
 def tutorial_create(request):
@@ -33,28 +47,6 @@ def tutorial_create(request):
         return redirect('tutoriais_detalhe', slug=tutorial.slug)
     return render(request, 'tutoriais/tutorial_create.html', {})
 
-
-# def tutoriais_lista(request):
-#     try:
-#         categoria = request.GET.get('categoria')
-#         if categoria:
-#             tutoriais = Tutoriais.objects.filter(categoria=categoria).order_by('-data_criacao')
-#         else:
-#             tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
-#         categorias = Tutoriais.objects.values_list('categoria', flat=True).distinct()
-#         categorias = sorted(set([c.strip().title() for c in categorias if c]))
-#         return render(request, 'tutoriais/lista_tutoriais.html', {
-#             'tutoriais': tutoriais,
-#             'categorias': categorias,
-#             'categoria_ativa': categoria,
-#         })
-#     except Exception as e:
-#         print(f"Error: {e}")
-#         return render(request, 'tutoriais/lista_tutoriais.html', {
-#             'tutoriais': [],
-#             'categorias': [],
-#             'categoria_ativa': categoria,
-#         })
 
 def tutoriais_detalhe(request, slug):
     tutorial = get_object_or_404(Tutoriais, slug=slug)

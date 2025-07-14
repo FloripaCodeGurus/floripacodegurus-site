@@ -65,44 +65,32 @@
             <div class="widget clearfix">
                 <h3  id="tutoriais-h3" class="widget-title">Posts Populares </h3>
                 <div class="post-widget">
+                    {% for tutorial in latest_tutorials %}
                     <div class="media">
-                        <a href="{% url 'biopython' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_bio.png" alt="Biopython" class="img-responsive alignleft img-rounded"></a>
+                        <a href="{% url 'tutoriais_detalhe' tutorial.slug %}">
+                            {% if tutorial.imagem %}
+                                <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="img-responsive alignleft img-rounded" style="width: 80px; height: 60px; object-fit: cover;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/80x60?text=Tutorial" alt="{{ tutorial.titulo }}" class="img-responsive alignleft img-rounded">
+                            {% endif %}
+                        </a>
                         <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'biopython' %}">Já ouviu falar de BioPython?</a></h5>
+                            <h5 class="mt-0"><a href="{% url 'tutoriais_detalhe' tutorial.slug %}">{{ tutorial.titulo|truncatechars:50 }}</a></h5>
                             <div class="blog-meta">
                                 <ul class="list-inline">
-                                    <li>4 days ago</li>
-                                    <li><span>by</span> <a href="#">Equipe Gurus</a></li>
+                                    <li>{{ tutorial.data_criacao|timesince }} atrás</li>
+                                    <li><span>by</span> <a href="#">{{ tutorial.autor.first_name }} {{ tutorial.autor.last_name }}</a></li>
                                 </ul>
                             </div><!-- end blog-meta -->
                         </div>
                     </div>
-
+                    {% empty %}
                     <div class="media">
-                        <a href="{% url 'pythonmodulo1' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_php.png" alt="Desenvolvimento Web" class="img-responsive alignleft img-rounded"></a>
                         <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'djangomodulo1' %}">Desenvolvimento web para inicianentes</a></h5>
-                            <div class="blog-meta">
-                                <ul class="list-inline">
-                                    <li>5 days ago</li>
-                                    <li><span>by</span> <a href="#">Equipe Gurus</a></li>
-                                </ul>
-                            </div><!-- end blog-meta -->
+                            <p>Nenhum tutorial encontrado.</p>
                         </div>
                     </div>
-
-                    <div class="media">
-                        <a href="../django1.html"><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/blog_small_01_django.jpg" alt="Django framework web" class="img-responsive alignleft img-rounded"></a>
-                        <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'djangomodulo1' %}">Django, o poderoso framework web escrito em Python</a></h5>
-                            <div class="blog-meta">
-                                <ul class="list-inline">
-                                    <li>6 days ago</li>
-                                    <li><span>by</span> <a href="#">Fabio Classo</a></li>
-                                </ul>
-                            </div><!-- end blog-meta -->
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div><!-- end post-widget -->
             </div><!-- end widget -->
 
