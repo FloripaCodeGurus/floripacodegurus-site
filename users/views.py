@@ -45,28 +45,24 @@ def profile_detail(request):
         user = request.user
     return render(request, 'users/profile_detail.html', {'profile_user': user})
 
+
 @login_required
-def profile_edit(request, user_id=None):
-    if user_id:
-        profile_user = get_object_or_404(CustomUser, id=user_id)
-        if profile_user != request.user:
-            messages.error(request, 'Você só pode editar seu próprio perfil!')
-            return redirect('profile')
-    else:
-        profile_user = request.user
+def profile_edit(request):
+    profile = get_object_or_404(profile, id=id, autor=f"{request.user.first_name} {request.user.last_name}")
 
     if request.method == 'POST':
-        profile_user.first_name = request.POST.get('first_name', profile_user.first_name)
-        profile_user.last_name = request.POST.get('last_name', profile_user.last_name)
-        profile_user.phone_number = request.POST.get('phone_number', profile_user.phone_number)
-        profile_user.autor_github_account = request.POST.get('autor_github_account', profile_user.autor_github_account)
-        profile_user.autor_linkedin_account = request.POST.get('autor_linkedin_account', profile_user.autor_linkedin_account)
+        user = request.user
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.phone_number = request.POST.get('phone_number', user.phone_number)
+        user.autor_github_account = request.POST.get('autor_github_account', user.autor_github_account)
+        user.autor_linkedin_account = request.POST.get('autor_linkedin_account', user.autor_linkedin_account)
         
         if request.FILES.get('autor_picture'):
-            profile_user.autor_picture = request.FILES['autor_picture']
+            user.autor_picture = request.FILES['autor_picture']
         
-        profile_user.save()
+        user.save()
         messages.success(request, 'Perfil atualizado com sucesso!')
         return redirect('profile')
     
-    return render(request, 'users/profile_edit.html', {'user': profile_user})
+    return render(request, 'users/profile.html', {'user': request.user})
