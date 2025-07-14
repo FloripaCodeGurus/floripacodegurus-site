@@ -31,6 +31,7 @@ urlpatterns = [
     path('profile/create/', user_views.profile_create, name='profile_create'),
     path('profile/list/', user_views.profile_list, name='profile_list'),
     path('profile/detail/', user_views.profile_detail, name='profile_detail'),
+    path('profile/edit/', user_views.profile_edit, name='profile_edit'),
     path('tutoriais/', include('tutoriais.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     # path('users/login/', include('users.urls')),
