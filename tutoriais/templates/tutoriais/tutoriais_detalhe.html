@@ -36,11 +36,7 @@
                   </li>
                   <li><span>Nível:</span> {{ tutorial.nivel }}</li>
                 </ul>
-                {% if user.is_authenticated and tutorial.autor == user.first_name|add:' '|add:user.last_name %}
-                <div class="tutorial-actions" style="margin-top: 15px;">
-                  <a href="{% url 'tutorial_edit' tutorial.slug %}" class="btn btn-sm btn-warning">Editar Tutorial</a>
-                </div>
-                {% endif %}
+
               </div>
 
               {% if tutorial.imagem %}
@@ -77,6 +73,12 @@
                 <div class="tutorial-section">
                   {{ tutorial.conclusao|safe }}
                 </div>
+                
+                {% if user.is_authenticated and tutorial.autor == user %}
+                <div class="tutorial-actions" style="margin-top: 30px; text-align: center;">
+                  <a href="{% url 'tutorial_edit' tutorial.slug %}" class="btn btn-warning">Editar Tutorial</a>
+                </div>
+                {% endif %}
               </div>
 
             </div>

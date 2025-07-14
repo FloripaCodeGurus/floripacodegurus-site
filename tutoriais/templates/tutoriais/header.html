@@ -47,6 +47,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'indice' %}">Home</a></li>
                     <li><a href="{% url 'tutoriais' %}">Tutoriais</a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="{% url 'tutorial_create' %}">Novo tutorial</a></li>
+                    {% endif %}
                     <!--CONTATOS -->
                     <li><a href="{% url 'contato' %}">Contato</a></li>
                     <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
