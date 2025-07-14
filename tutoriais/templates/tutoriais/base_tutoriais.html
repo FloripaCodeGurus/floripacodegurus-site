@@ -63,6 +63,16 @@
             </div>
 
             <div class="widget clearfix">
+                <h3 class="widget-title">Filtrar por Categoria</h3>
+                <div class="category-filter">
+                    <a href="{% url 'tutoriais' %}" class="btn btn-sm btn-block {% if not categoria_ativa %}btn-primary{% else %}btn-default{% endif %}" style="margin-bottom: 5px;">Todos</a>
+                    {% for categoria in categorias %}
+                        <a href="{% url 'tutoriais' %}?categoria={{ categoria }}" class="btn btn-sm btn-block {% if categoria_ativa == categoria %}btn-primary{% else %}btn-default{% endif %}" style="margin-bottom: 5px;">{{ categoria }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="widget clearfix">
                 <h3  id="tutoriais-h3" class="widget-title">Posts Populares </h3>
                 <div class="post-widget">
                     {% for tutorial in latest_tutorials %}
