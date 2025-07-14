@@ -3,6 +3,11 @@
 
 {% block title %}{{ tutorial.titulo }}{% endblock %}
 
+{% block extra_css %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 <section class="section">
     <div class="container">
@@ -59,7 +64,7 @@
                     <footer class="tutorial-footer">
                         <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
                         <div class="tutorial-actions">
-                            <a href="{% url 'tutorial_list' %}" class="btn btn-secondary">
+                            <a href="{% url 'tutoriais_detalhe' %}" class="btn btn-secondary">
                                 <i class="fa fa-arrow-left"></i> Voltar aos Tutoriais
                             </a>
                         </div>
@@ -75,7 +80,7 @@
                             {% if related_tutorials %}
                                 {% for related in related_tutorials %}
                                 <div class="related-tutorial-item">
-                                    <a href="{% url 'tutorial_detail' slug=related.slug %}">
+                                    <a href="{% url 'tutoriais_detailhe' slug=related.slug %}">
                                         {% if related.imagem %}
                                         <img src="{{ related.imagem.url }}" alt="{{ related.titulo }}" class="related-tutorial-thumb">
                                         {% else %}
@@ -116,5 +121,46 @@
             </div>
         </div>
     </div>
-</section>
+
+    <div class="tutorial-content">
+        <section class="tutorial-section">
+            {{ tutorial.introducao|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.conceitos|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.exemplos|safe }}
+        </section>
+
+        <section class="tutorial-section">
+            {{ tutorial.conclusao|safe }}
+        </section>
+    </div>
+
+    <footer class="tutorial-footer">
+        <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
+    </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script>
+// Initialize Prism for code blocks
+document.addEventListener('DOMContentLoaded', function() {
+    // Add language-python class to code blocks
+    document.querySelectorAll('pre code').forEach(function(block) {
+        if (!block.className.includes('language-')) {
+            block.className += ' language-python';
+        }
+        block.parentElement.className += ' line-numbers';
+    });
+    
+    // Re-highlight after adding classes
+    Prism.highlightAll();
+});
+</script>
 {% endblock %}

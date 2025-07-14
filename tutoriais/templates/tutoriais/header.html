@@ -1,192 +1,57 @@
-<!doctype html>
-<!--[if IE 9]> <html class="no-js ie9 fixed-layout" lang="en"> <![endif]-->
-<!--[if gt IE 9]><!--> <html class="no-js " lang="en"> <!--<![endif]-->
-<head>
+{% load static %}
+<!-- HEADER -->
+<header class="header">
+    <div class="topbar clearfix">
+        <div class="container">
+            <div class="row-fluid">
+                <div class="col-md-6 col-sm-6 text-left">
+                    <p>
+                        <strong><i class="fa fa-whatsapp"></i></strong> <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a> &nbsp;&nbsp;
+                        <strong><i class="fa fa-envelope"></i></strong> <a href="mailto:#">administracao@floripacodegurus.com.br</a>
+                    </p>
+                </div><!-- end left -->
+                <div class="col-md-6 col-sm-6 hidden-xs text-right">
+                    <div class="social">
 
-    <!-- Basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <!-- Mobile Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+                        <a class="X" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="X"><i class="fa fa-twitter"></i></a>
 
-    <!-- Site Meta -->
-    <title>Floripa Code Gurus</title>
-    <meta name="keywords" content="Python, Django, Kivy, Data Science, Ciência de dados, Big Data, PostgreSql, BioPython, Pandas, Numpy, Matplotlib, C#, CSharp">
-    <meta name="description" content="Aprenda programação Python para desenvolvimento de aplicações Desktop, Web, Mobile, Ciência de dados, Big Data,BioPython, Robótica Kids, Arduino, Marketing Digital, Front-end, PHP, Java ,Ruby e C#.">
-    <meta name="author" content="Floripa Code Gurus">
+                        <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
 
-    <meta name="robots" content="index,follow" />
+                        <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
 
-    <!--SITE LOCK VEIRIFICATION-->
-    <meta name="sitelock-site-verification" content="9462" />
-    
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i" rel="stylesheet"> 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139868810-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-139868810-1');
-    </script>
-
-    <meta name="google-site-verification" content="UPyBbVphEji-ucJT4hbC5X4PuJXxGKVJpEdN1fOhFuM" />
-    
-
-    <!-- Custom & Default Styles -->
-     <link rel="stylesheet" href="../mobile.css" media="screen and (max-width: 480px)">
-    <link rel="stylesheet" href="../mystyle.css">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/carousel.css">
-    <link rel="stylesheet" href="../css/animate.css">
-    <link rel="stylesheet" href="../style.css">
-    <!--[if lt IE 9]>
-        <script src="js/vendor/html5shiv.min.js"></script>
-        <script src="js/vendor/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>  
-
-    <!-- LOADER -->
-    <div id="preloader">
-        <img class="preloader" src="https://f001.backblazeb2.com/file/site-code-gurus/images/loader.gif" alt="">
-    </div><!-- end loader -->
-    <!-- END LOADER -->
-
-    <!--Facebook curtir contador -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.3"></script>
+                    </div><!-- end social -->
+                </div><!-- end left -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end topbar -->
 
 
-    <div id="wrapper">
-        <!-- BEGIN # MODAL LOGIN -->
-        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Begin # DIV Form -->
-                    <div id="div-forms">
-                        <form id="login-form">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span class="flaticon-add" aria-hidden="true"></span>
-                            </button>
-                            <div class="modal-body">
-                                <input class="form-control" type="text" placeholder="What you are looking for?" required>
-                            </div>
-                        </form><!-- End # Login Form -->
-                    </div><!-- End # DIV Form -->
+    <!-- MENU NAVBAR  -->
+
+    <div class="container">
+        <nav class="navbar navbar-default yamm">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo-normal">
+                    <a class="navbar-brand" href="{% url 'indice' %}"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/logo.png" alt=""></a>
                 </div>
             </div>
-        </div>
-        <!-- END # MODAL LOGIN -->
 
-         <header class="header">
-            <div class="topbar clearfix">
-                <div class="container">
-                    <div class="row-fluid">
-                        <div class="col-md-6 col-sm-6 text-left">
-                            <p>
-                                <strong><i class="fa fa-whatsapp"></i></strong> <a href="https://api.whatsapp.com/send?phone=5548991743152">+55 48 991743152</a> &nbsp;&nbsp;
-                                <strong><i class="fa fa-envelope"></i></strong> <a href="mailto:#">atendimento@floripacodegurus.com.br</a>
-                            </p>
-                        </div><!-- end left -->
-                        <div class="col-md-6 col-sm-6 hidden-xs text-right">
-                            <div class="social">
-                                
-                                <a class="facebook" href="https://www.facebook.com/codegurs/" data-tooltip="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>              
-                                <a class="twitter" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-
-                                <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-
-                                <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
-                               
-                            </div><!-- end social -->
-                        </div><!-- end left -->
-                    </div><!-- end row -->
-                </div><!-- end container -->
-            </div><!-- end topbar -->
-            
-
-            <!-- MENU NAVBAR  -->
-
-            <div class="container">
-                <nav class="navbar navbar-default yamm">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <div class="logo-normal">
-                            <a class="navbar-brand" href="index.html"><img src="https://f001.backblazeb2.com/file/site-code-gurus/images/logo.png" alt=""></a>
-                        </div>
-                    </div>
-
-                    
             <!--NAVBAR -->
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="../index.html">Home</a></li>
-                    {% if user.is_superuser %}
-                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Adicionar Tutorial</a></li>
-                            {% endif %}
-                    <li class="dropdown yamm-fw yamm-half"><a href="#" data-toggle="dropdown" class="dropdown-toggle active">Cursos<b class="fa fa-angle-down"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                        <div class="yamm-content clearfix">
-                            <div class="row-fluid">
-                                <div class="col-md-6 col-sm-6">
-                                    <h4>Cursos em destaque</h4>
-                                        <ul>
-                                            <li><a href="../ruby1.html">Ruby 1</a></li>
-                                           <!--  <li><a href="../java1.html">Java 1</a></li>
-                                            <li><a href="../php1.html">PHP 1</a></li>
-                                            <li><a href="../python1.html">Python 1</a></li>
-                                            <li><a href="../python2.html">Python 2</a></li>
-                                            <li><a href="../django.html">Django 1</a></li> -->
-                                            <li><a href="../biopython1.html">BioPython 1</a></li>
-                                            <li><a href="../cursos.html"><strong>Todos os cursos</strong></a></li>
-                                        </ul>
-                                    </div>
-                                                
-                        <div class="col-md-6 col-sm-6">
-                            <div class="menu-widget text-center">
-                                    <div class="image-wrap entry">
-                                        <img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/banner_800_800_biopython4.png" alt="" class="img-responsive">
-                                        <div class="magnifier">
-                                            <a href="biopython1.html" title=""><i class="flaticon-add"></i></a>
-                                         </div>
-                                    </div> <!--end image-wrap-->
-                                                        
-                                    <h5><a href="../biopython1.html">BioPython</a></h5>
-                                    <small>R$990,00</small>
-                                    <a href="../biopython1.html" class="menu-button">Ver Curso</a>         
-                                </div><!-- end widget -->
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </li> 
-
-                            <li><a href="#">Equipe</a></li>
-                            <!--CONTATOS -->
-                            <li><a href="../contato.html">Contato</a></li>
-                            <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
-                            <li class="iconitem"><a class="shopicon" href="../cursos.html"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
-                        </ul>
-                    </div>
-                </nav><!-- end navbar -->
-            </div><!-- end container -->
-        </header>
+                    <li><a href="{% url 'indice' %}">Home</a></li>
+                    <li><a href="{% url 'tutoriais_lista' %}">Tutoriais</a></li>
+                    <!--CONTATOS -->
+                    <li><a href="{% url 'contato' %}">Contato</a></li>
+                    <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
+                </ul>
+            </div>
+        </nav><!-- end navbar -->
+    </div><!-- end container -->
+</header>

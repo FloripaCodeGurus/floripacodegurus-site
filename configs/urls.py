@@ -27,6 +27,10 @@ urlpatterns = [
     path('', include('escola.urls')),  # ESCOLA DIRETORIO PRINCIPAL
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
+    path('profile/', user_views.profile, name='profile'),
+    path('profile/create/', user_views.profile_create, name='profile_create'),
+    path('profile/list/', user_views.profile_list, name='profile_list'),
+    path('profile/detail/', user_views.profile_detail, name='profile_detail'),
     path('tutoriais/', include('tutoriais.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     # path('users/login/', include('users.urls')),

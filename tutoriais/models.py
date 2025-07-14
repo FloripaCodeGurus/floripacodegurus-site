@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from django.conf import settings
 
 # Create your models here.
 class Tutoriais(models.Model):

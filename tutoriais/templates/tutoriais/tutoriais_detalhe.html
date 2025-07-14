@@ -1,0 +1,84 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+<section class="section db p120">
+  <div class="container">
+    <!-- Add style="text-align: left;" to the tagline-message div -->
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>{{ tutorial.titulo }}</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li><a href="{% url 'tutoriais_lista' %}">Tutoriais</a></li>
+        <li class="active">{{ tutorial.titulo }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <!-- Add style="text-align: left;" to the blog-meta div -->
+              <div class="blog-meta" style="text-align: left;">
+                <small><a href="#">{{ tutorial.categoria }}</a></small>
+                <h3>{{ tutorial.titulo }}</h3>
+                <ul class="list-inline">
+                  <li>{{ tutorial.data_criacao|date:"d \d\e F \d\e Y" }}</li>
+                  <li><span>escrito por:</span> {{ tutorial.autor }}</li>
+                  <li><span>Nível:</span> {{ tutorial.nivel }}</li>
+                </ul>
+                {% if user.is_authenticated and tutorial.autor == user.first_name|add:' '|add:user.last_name %}
+                <div class="tutorial-actions" style="margin-top: 15px;">
+                  <a href="{% url 'tutorial_edit' tutorial.slug %}" class="btn btn-sm btn-warning">Editar Tutorial</a>
+                </div>
+                {% endif %}
+              </div>
+
+              {% if tutorial.imagem %}
+              <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                  <div class="blog-media detail-page">
+                    <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="tutorial-detail-image">
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
+              <!-- Add style="text-align: left;" to the blog-desc-big div -->
+              <div class="blog-desc-big" style="text-align: left;">
+                <p class="lead">{{ tutorial.descricao }}</p>
+                <hr>
+                
+                <!-- Introdução -->
+                <div class="tutorial-section">
+                  {{ tutorial.introducao|safe }}
+                </div>
+
+                <!-- Conceitos -->
+                <div class="tutorial-section">
+                  {{ tutorial.conceitos|safe }}
+                </div>
+
+                <!-- Exemplos -->
+                <div class="tutorial-section">
+                  {{ tutorial.exemplos|safe }}
+                </div>
+
+                <!-- Conclusão -->
+                <div class="tutorial-section">
+                  {{ tutorial.conclusao|safe }}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

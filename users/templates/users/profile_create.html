@@ -4,10 +4,10 @@
 <section class="section db p120">
   <div class="container">
     <div class="tagline-message page-title" style="text-align: left;">
-      <h3>Logout</h3>
+      <h3>Criar Perfil</h3>
       <ul class="breadcrumb">
         <li><a href="{% url 'indice' %}">Home</a></li>
-        <li class="active">Logout</li>
+        <li class="active">Criar Perfil</li>
       </ul>
     </div>
   </div>
@@ -17,19 +17,15 @@
   <div class="container">
     <div class="boxed">
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8">
           <div class="content blog-list">
             <div class="blog-wrapper clearfix">
               <div class="blog-meta" style="text-align: left;">
-                <h3>Você saiu da sua conta</h3>
+                <h3>Informações do Perfil</h3>
               </div>
 
               <div class="blog-desc-big" style="text-align: left;">
-                <p class="lead">Você foi desconectado com sucesso.</p>
-                <div class="form-actions">
-                  <a href="{% url 'login' %}" class="btn btn-primary">Entrar novamente</a>
-                  <a href="{% url 'indice' %}" class="btn btn-secondary">Voltar ao início</a>
-                </div>
+                <p>Seu perfil já foi criado automaticamente. <a href="{% url 'profile' %}">Clique aqui para editá-lo</a>.</p>
               </div>
 
             </div>
