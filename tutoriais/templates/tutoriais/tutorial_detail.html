@@ -4,44 +4,117 @@
 {% block title %}{{ tutorial.titulo }}{% endblock %}
 
 {% block content %}
-<div class="tutorial-container">
-    <header class="tutorial-header">
-        <h1>{{ tutorial.titulo }}</h1>
-        <div class="tutorial-meta">
-            <span class="categoria">{{ tutorial.categoria }}</span>
-            <span class="nivel">{{ tutorial.nivel }}</span>
-            <span class="autor">Por: {{ tutorial.autor }}</span>
-            <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <div class="tutorial-container">
+                    <header class="tutorial-header">
+                        <h1>{{ tutorial.titulo }}</h1>
+                        <div class="tutorial-meta">
+                            <span class="categoria">{{ tutorial.categoria }}</span>
+                            <span class="nivel">{{ tutorial.nivel }}</span>
+                            <span class="autor">Por: {{ tutorial.autor }}</span>
+                            <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+                        </div>
+                        {% if tutorial.imagem %}
+                        <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="tutorial-image">
+                        {% endif %}
+                    </header>
+
+                    <div class="tutorial-description">
+                        <p>{{ tutorial.descricao }}</p>
+                    </div>
+
+                    <div class="tutorial-content">
+                        {% if tutorial.introducao %}
+                        <section class="tutorial-section">
+                            <h3>Introdução</h3>
+                            {{ tutorial.introducao|safe }}
+                        </section>
+                        {% endif %}
+
+                        {% if tutorial.conceitos %}
+                        <section class="tutorial-section">
+                            <h3>Conceitos Básicos</h3>
+                            {{ tutorial.conceitos|safe }}
+                        </section>
+                        {% endif %}
+
+                        {% if tutorial.exemplos %}
+                        <section class="tutorial-section">
+                            <h3>Exemplos Práticos</h3>
+                            {{ tutorial.exemplos|safe }}
+                        </section>
+                        {% endif %}
+
+                        {% if tutorial.conclusao %}
+                        <section class="tutorial-section">
+                            <h3>Conclusão</h3>
+                            {{ tutorial.conclusao|safe }}
+                        </section>
+                        {% endif %}
+                    </div>
+
+                    <footer class="tutorial-footer">
+                        <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
+                        <div class="tutorial-actions">
+                            <a href="{% url 'tutorial_list' %}" class="btn btn-secondary">
+                                <i class="fa fa-arrow-left"></i> Voltar aos Tutoriais
+                            </a>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4">
+                <div class="tutorial-detail-sidebar">
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Tutoriais Relacionados</h3>
+                        <div class="related-tutorials">
+                            {% if related_tutorials %}
+                                {% for related in related_tutorials %}
+                                <div class="related-tutorial-item">
+                                    <a href="{% url 'tutorial_detail' slug=related.slug %}">
+                                        {% if related.imagem %}
+                                        <img src="{{ related.imagem.url }}" alt="{{ related.titulo }}" class="related-tutorial-thumb">
+                                        {% else %}
+                                        <div class="related-tutorial-placeholder"></div>
+                                        {% endif %}
+                                        <div class="related-tutorial-info">
+                                            <h4>{{ related.titulo }}</h4>
+                                            <p class="related-description">{{ related.descricao|truncatewords:15 }}</p>
+                                            <span class="related-meta">
+                                                <small class="related-categoria">{{ related.categoria }}</small>
+                                                <small class="related-data">{{ related.data_criacao|date:"d/m/Y" }}</small>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <p>Nenhum tutorial relacionado encontrado.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="widget clearfix">
+                        <h3 class="widget-title">Categorias</h3>
+                        <div class="categories-widget">
+                            <ul>
+                                <li><a href="{% url 'tutorial_list' %}">Todos os Tutoriais</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=Python">Python</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=JavaScript">JavaScript</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=BioPython">BioPython</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=Django">Django</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=Data Science">Data Science</a></li>
+                                <li><a href="{% url 'tutorial_list' %}?categoria=Machine Learning">Machine Learning</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% if tutorial.imagem %}
-        <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="tutorial-image">
-        {% endif %}
-    </header>
-
-    <div class="tutorial-description">
-        <p>{{ tutorial.descricao }}</p>
     </div>
-
-    <div class="tutorial-content">
-        <section class="tutorial-section">
-            {{ tutorial.introducao|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.conceitos|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.exemplos|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.conclusao|safe }}
-        </section>
-    </div>
-
-    <footer class="tutorial-footer">
-        <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
-    </footer>
-</div>
+</section>
 {% endblock %}
