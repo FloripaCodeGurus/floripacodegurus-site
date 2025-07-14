@@ -1,6 +1,7 @@
 {% extends 'tutoriais/base_tutoriais.html' %}
 
 {% block content %}
+<<<<<<< HEAD
 <section class="section db p120">
   <div class="container">
     <div class="tagline-message page-title" style="text-align: left;">
@@ -106,4 +107,103 @@
     </div>
   </div>
 </section>
+=======
+<div class="section">
+    <div class="container">
+        <div class="create-tutorial-container">
+            <h1>Criar Novo Tutorial</h1>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" enctype="multipart/form-data" class="tutorial-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="titulo">Título: <span style="color: red;">*</span></label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Digite o título do tutorial">
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descrição: <span style="color: red;">*</span></label>
+                    <textarea id="descricao" name="descricao" rows="3" required placeholder="Breve descrição do que será ensinado no tutorial"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select id="categoria" name="categoria">
+                            <option value="Python">Python</option>
+                            <option value="Django">Django</option>
+                            <option value="BioPython">BioPython</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nivel">Nível:</label>
+                        <select id="nivel" name="nivel">
+                            <option value="Iniciante">Iniciante</option>
+                            <option value="Intermediário">Intermediário</option>
+                            <option value="Avançado">Avançado</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="autor">Autor: <span style="color: red;">*</span></label>
+                    <input type="text" id="autor" name="autor" required placeholder="Nome do autor do tutorial">
+                </div>
+                
+                <div class="form-group">
+                    <label for="imagem">Imagem do Tutorial:</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*">
+                    <small style="color: #6c757d; display: block; margin-top: 5px;">
+                        Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 2MB
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="introducao">Introdução:</label>
+                    <textarea id="introducao" name="introducao" rows="5" placeholder="Introduza o tema e explique o que o leitor irá aprender"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="conceitos">Conceitos Básicos:</label>
+                    <textarea id="conceitos" name="conceitos" rows="5" placeholder="Explique os conceitos fundamentais necessários para entender o tutorial"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exemplos">Exemplos Práticos:</label>
+                    <textarea id="exemplos" name="exemplos" rows="5" placeholder="Forneça exemplos práticos e códigos demonstrativos"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="conclusao">Conclusão:</label>
+                    <textarea id="conclusao" name="conclusao" rows="5" placeholder="Resuma o que foi aprendido e sugira próximos passos"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fa fa-save" style="margin-right: 8px;"></i>
+                        Criar Tutorial
+                    </button>
+                    <a href="{% url 'tutorial_list' %}" class="btn-secondary">
+                        <i class="fa fa-times" style="margin-right: 8px;"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+>>>>>>> feature/modernize-tutorials-ui
 {% endblock %}

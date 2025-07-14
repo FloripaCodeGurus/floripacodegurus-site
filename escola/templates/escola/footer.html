@@ -1,12 +1,12 @@
 <!--FOOTER-->
         <footer class="section footer noover">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="widget clearfix">
                             <h3 class="widget-title">Receba nossa Newsletter</h3>
                             <div class="newsletter-widget">
-                                <p>Você pode cancelar sua inscrição a qualquer momento.Veja nossa <a href="#">política de privacidade</a>.</p>
+                                <p>Você pode cancelar sua inscrição a qualquer momento. Veja nossa <a href="#">política de privacidade</a>.</p>
 
                             <!--NEWSLETTER-->
                             <!-- Begin Mailchimp Signup Form -->
@@ -47,52 +47,32 @@
                             </div> <!-- end newsletter -->
 
                             <!--Container midias sociais-->
-                            <!--Facebook curtir-->
+                            <div class="social-media-footer">
                                 <div id="facebook-like" class="fb-like" data-href="https://www.facebook.com/codegurs/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-
                                 <div class="colum-midias">
                                    <a id="twitter-like" href="https://twitter.com/guruscode?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @guruscode</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                                </div>
+                            </div>
                         </div><!-- end widget clear fix -->
-                    </div><!-- end col-lg-4 col-md-4 -->
-
-
-                    <div class="col-lg-3 col-md-3">
-                        <div class="widget clearfix">
-                            <h3 class="widget-title">Trabalhe conosco</h3>
-                            <p id="trabalhe-conosco-p">Que tal dar aulas e ainda fazer parte de nossa equipe de desenvolvimento?</p>
-                            <a href="#" class="readmore">Seja um dos nossos Professores</a>
-                        </div><!-- end widget -->
-                        <!--PAGSEGUROBANNER-->
-                        <a href="https://pagseguro.uol.com.br/"><img id='bannerpagseguro' src="https://f001.backblazeb2.com/file/site-code-gurus/images/bannerpagseguro.jpg"></a>
-                        <!--END PAGSEGUROBANNER-->
-
-                         <!--PAY PAL -->
-                             <a href="https://www.paypal.com/br/webapps/mpp/home"><img id="banner_pay_pal"src="https://f001.backblazeb2.com/file/site-code-gurus/images/paypal_floripa_code_gurus.png" alt="PayPal" class="img-responsive" style="margin-top: 1em;"></a>
-                        <!--PAY PAL -->
-
-
                     </div><!-- end col -->
 
-                    <div class="col-lg-3 col-md-3">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="widget clearfix">
                             <h3 class="widget-title">Tags Populares</h3>
-                            <div id="tags-widgets-footer"class="tags-widget">   
+                            <div id="tags-widgets-footer" class="tags-widget">   
                                 <ul class="list-inline">
-                                    <li><a href="#">cursos</a></li>
-                                    <li><a href="{% url 'pythonmodulo1' %}">Python módulo 1</a></li>
-                                    <li><a href="{% url 'pythonmodulo2' %}">Python módulo 2</a></li>
-                                    <li><a href="{% url 'djangomodulo1' %}">Desenvolvimento web</a>
-                                    <li><a href="{% url 'biopython' %}">BioPython</a></li>
-                                    <li><a href="#">Java Script</a></li>
+                                    <li><a href="#">tutoriais</a></li>
+                                    <li><a href="#">BioPython</a></li>
+                                    <li><a href="#">JavaScript</a></li>
                                     <li><a href="#">Kivy</a></li>
+                                    <li><a href="#">Python</a></li>
+                                    <li><a href="#">Django</a></li>
                                 </ul>
-
                             </div><!-- end list-widget -->
                         </div><!-- end widget -->
                     </div><!-- end col -->
 
-                    <div class="col-lg-2 col-md-2">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="widget clearfix">
                             <h3 class="widget-title">Suporte</h3>
                             <div class="list-widget">   
@@ -100,17 +80,33 @@
                                     <li><a href="#">Termos de uso</a></li>
                                     <li><a href="#">Política de privacidade</a></li>
                                     <li><a href="#">Direitos</a></li>
-                                    <li><a href="#">Preços</a></li>
+                                    <li><a href="#">Contato</a></li>
                                 </ul>
                             </div><!-- end list-widget -->
 
                             <!--SITELOCK BANNER -->
-                            <a href="#" onclick="window.open('https://www.sitelock.com/verify.php?site=floripacodegurus.com.br','SiteLock','width=600,height=600,left=160,top=170');" ><img id="sitelock"class="img-responsive" alt="SiteLock" title="SiteLock" src="//shield.sitelock.com/shield/floripacodegurus.com.br" /></a>
+                            <div class="security-badge">
+                                <a href="#" onclick="window.open('https://www.sitelock.com/verify.php?site=floripacodegurus.com.br','SiteLock','width=600,height=600,left=160,top=170');" ><img id="sitelock" class="img-responsive" alt="SiteLock" title="SiteLock" src="//shield.sitelock.com/shield/floripacodegurus.com.br" /></a>
+                            </div>
                             <!--END SITELOCK BANNER -->
 
                         </div><!-- end widget -->
                     </div><!-- end col -->
                 </div><!-- end row -->
+                
+                <!-- Copyright section -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="copyright-section">
+                            <hr class="footer-divider">
+                            <p class="copyright-text">
+                                © 2024 Floripa Code Gurus. Todos os direitos reservados. 
+                                <span class="separator">|</span>
+                                Aprenda programação com os melhores tutoriais.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div><!-- end container -->
 
         </footer><!-- end footer -->

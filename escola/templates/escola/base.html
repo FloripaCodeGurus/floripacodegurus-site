@@ -59,33 +59,6 @@
 
 
 		{% endblock content %}
-
-        <!--PROXIMAS TURMAS-->
-        <section class="section bgcolor2">
-            <div class="container">
-                <div class="row callout_2">
-                    <div id="proximas_turmas" class="col-md-4 text-center" >
-                        <h3 id="proximas_turmas-h3">Próximas turmas</h3>
-                        <p>Fique de olho nas datas</p>
-                        <div class="calendario_zoom">
-                            <img  class= "calendario" src="https://f001.backblazeb2.com/file/site-code-gurus/novas_turmas/novas_turmas_agosto_2020.png">
-                        </div>
-                    </div><!-- end col -->
-
-
-                        <div class="col-md-8" id="datas_turmas">
-                            <p class="lead">Cursos
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar" aria-hidden="true"> Datas </i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-clock-o" aria-hidden="true"> Horários</i>
-                            </p>
-                            <a href="{% url 'djangomodulo1' %}"><p class="lead">Django mód 1 - 04/08 - segundas das 19 às 22h</p></a>
-                            <a href="{% url 'djangomodulo1' %}"><p class="lead">Django mód 2 - 06/08 - quintas das 19 às 22h</p></a>
-                        </div>
-                    </div><!-- end row -->
-                </a>
-            </div><!-- end container -->
-        </section>
-        <!--end PROXIMAS TURMAS-->
         
         <!-- FOOTER BEGING -->
         {% include "escola/footer.html" %}

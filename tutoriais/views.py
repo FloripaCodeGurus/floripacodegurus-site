@@ -34,6 +34,36 @@ def tutorial_create(request):
     return render(request, 'tutoriais/tutorial_create.html', {})
 
 
+def tutorial_list(request):
+    tutoriais = Tutoriais.objects.all().order_by('-data_criacao')
+    return render(request, 'tutoriais/tutorial_list.html', {'tutoriais': tutoriais})
+
+
+def tutorial_detail(request, slug):
+    tutorial = get_object_or_404(Tutoriais, slug=slug)
+    
+    related_tutorials = Tutoriais.objects.filter(
+        categoria=tutorial.categoria
+    ).exclude(slug=slug).order_by('-data_criacao')[:3]
+    
+    if related_tutorials.count() < 3:
+        remaining_count = 3 - related_tutorials.count()
+        other_tutorials = Tutoriais.objects.exclude(
+            slug=slug
+        ).exclude(
+            slug__in=[t.slug for t in related_tutorials]
+        ).order_by('-data_criacao')[:remaining_count]
+        
+        all_related = list(related_tutorials) + list(other_tutorials)
+    else:
+        all_related = related_tutorials
+    
+    return render(request, 'tutoriais/tutorial_detail.html', {
+        'tutorial': tutorial,
+        'related_tutorials': all_related
+    })
+
+
 def tutoriais_lista(request):
     try:
         categoria = request.GET.get('categoria')

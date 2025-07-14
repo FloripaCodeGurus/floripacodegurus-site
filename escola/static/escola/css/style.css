@@ -91,6 +91,7 @@ body {
     line-height: 1.6;
     font-size: 16px;
     color: #319fc3;
+    padding-top: 0; /* Reset any existing padding */
 }
 
 body,
@@ -217,14 +218,15 @@ HEADER
 }
 
 .header {
-    position: absolute;
-    z-index: 111;
+    position: fixed !important; /* Change from absolute to fixed for better control */
+    z-index: 1111; /* Increase z-index to ensure it's above everything */
     left: 0;
     top: 0;
     right: 0;
+    background-color: #000; /* Match topbar background */
+    backdrop-filter: blur(5px); /* Add blur effect for modern browsers */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark background */
     padding: 0;
-    background-color: transparent;
-    text-decoration: none !important;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -ms-transition: all .3s ease-in-out;
@@ -2162,7 +2164,7 @@ a:focus,
 .pagination>.active>span:focus,
 .pagination>.active>span:hover,
 .tags-widget a,
-.owl-theme-01 .owl-nav [class*="owl-"]:hover,
+owl-theme-01 .owl-nav [class*="owl-"]:hover,
 .yamm .dropdown-menu li:hover .menu-button,
 .yamm .dropdown-menu li .menu-button,
 mark,
@@ -2352,7 +2354,7 @@ div.zoom {
     margin: 18px 8px 32px 8px;
     transition: box-shadow 0.3s, transform 0.3s;
     position: relative;
-    min-height: 420px;
+    height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -2362,12 +2364,13 @@ div.zoom {
     transform: translateY(-4px) scale(1.02);
 }
 .tutorial-image-wrap {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 200px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 .tutorial-img {
     width: 100%;
@@ -2416,48 +2419,87 @@ div.zoom {
 }
 .tutorial-details {
     padding: 18px 20px 0 20px;
-    flex: 1 1 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 180px;
+    justify-content: space-between;
 }
 .tutorial-title {
     font-size: 1.18em;
     font-weight: 700;
     margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: block;
+    line-height: 1.4;
+    width: 100%;
 }
-.tutorial-badge {
+
+.tutorial-title .tutorial-badge {
+    display: inline-block;
     background: #17a2b8;
     color: #fff;
-    font-size: 0.85em;
+    font-size: 0.75em;
     border-radius: 8px;
-    padding: 3px 10px;
-    margin-right: 6px;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    margin-right: 0;
     font-weight: 500;
+}
+
+.tutorial-title a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    margin-top: 6px;
+    line-height: 1.3;
 }
 .tutorial-desc {
     color: #444;
     font-size: 1em;
     margin-bottom: 0;
-    min-height: 48px;
+    height: 72px;
+    overflow: hidden;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    flex: 1;
 }
 .tutorial-footer {
-    padding: 12px 20px 18px 20px;
+    padding: 15px 20px 18px 20px;
     border-top: 1px solid #f0f0f0;
     background: #fafbfc;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+    height: 70px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
 }
+
+.tutorial-footer .list-inline {
+    margin-bottom: 0;
+}
+
+.tutorial-footer .list-inline li {
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
 .tutorial-author, .tutorial-date, .tutorial-nivel {
     font-size: 0.97em;
     color: #888;
-    margin-right: 10px;
+    display: inline-block;
 }
 .tutorial-nivel.label {
-    font-size: 0.95em;
-    padding: 3px 10px;
-    border-radius: 8px;
+    font-size: 0.85em;
+    padding: 4px 12px;
+    border-radius: 12px;
     font-weight: 600;
+    margin-left: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff !important;
 }
 @media (max-width: 991px) {
     .tutorial-card {
@@ -2508,4 +2550,898 @@ div.zoom {
     max-width: 100%;
     max-height: 300px;
     object-fit: contain;
+}
+
+/******************************************
+TUTORIAL CREATE FORM STYLES
+******************************************/
+
+.create-tutorial-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.create-tutorial-container h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 15px;
+}
+
+.tutorial-form .form-group {
+    margin-bottom: 25px;
+}
+
+.tutorial-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.tutorial-form input[type="text"],
+.tutorial-form textarea,
+.tutorial-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+
+.tutorial-form input[type="text"]:focus,
+.tutorial-form textarea:focus,
+.tutorial-form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.tutorial-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #e9ecef;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.tutorial-form input[type="file"]:hover {
+    border-color: #007bff;
+}
+
+.tutorial-form textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+.tutorial-form .form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.tutorial-form .form-row .form-group {
+    flex: 1;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef;
+}
+
+.tutorial-form .btn-primary,
+.tutorial-form .btn-secondary {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    text-align: center;
+}
+
+.tutorial-form .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.tutorial-form .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.tutorial-form .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.tutorial-form .btn-secondary:hover {
+    background-color: #545b62;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Form validation styles */
+.tutorial-form input:invalid,
+.tutorial-form textarea:invalid {
+    border-color: #dc3545;
+}
+
+.tutorial-form input:valid,
+.tutorial-form textarea:valid {
+    border-color: #28a745;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .create-tutorial-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .tutorial-form .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tutorial-form .btn-primary,
+    .tutorial-form .btn-secondary {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-tutorial-container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .create-tutorial-container h1 {
+        font-size: 24px;
+    }
+    
+    .tutorial-form input[type="text"],
+    .tutorial-form textarea,
+    .tutorial-form select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Success message styling */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/******************************************
+ENHANCED TUTORIAL DETAIL STYLES
+******************************************/
+
+.tutorial-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.tutorial-header {
+    border-bottom: 2px solid #f8f9fa;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+}
+
+.tutorial-header h1 {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.tutorial-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tutorial-meta span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tutorial-meta .categoria {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.tutorial-meta .nivel {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.tutorial-meta .autor {
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+}
+
+.tutorial-meta .autor:before {
+    content: "\f007";
+    font-family: "FontAwesome";
+    margin-right: 5px;
+}
+
+.tutorial-meta .data {
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+}
+
+.tutorial-meta .data:before {
+    content: "\f017";
+    font-family: "FontAwesome";
+    margin-right: 5px;
+}
+
+.tutorial-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 25px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tutorial-description {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 35px;
+    border-left: 4px solid #007bff;
+}
+
+.tutorial-description p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #495057;
+    margin: 0;
+    font-weight: 500;
+}
+
+.tutorial-content {
+    margin-top: 20px;
+}
+
+.tutorial-section {
+    margin-bottom: 40px;
+    padding: 30px 0;
+    border-bottom: 1px solid #e9ecef;
+    clear: both;
+    display: block;
+    width: 100%;
+}
+
+.tutorial-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.tutorial-section h3 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #007bff;
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.tutorial-section p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #495057;
+    margin-bottom: 16px;
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.tutorial-section > * {
+    display: block;
+    width: 100%;
+}
+
+.tutorial-content {
+    display: block;
+    width: 100%;
+}
+
+.tutorial-section pre {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 20px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.tutorial-section code {
+    background-color: #f8f9fa;
+    color: #e83e8c;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.tutorial-footer {
+    border-top: 2px solid #f8f9fa;
+    padding-top: 25px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tutorial-footer p {
+    color: #6c757d;
+    margin: 0;
+    font-size: 14px;
+}
+
+.tutorial-actions .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.tutorial-actions .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.tutorial-actions .btn-secondary:hover {
+    background-color: #545b62;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Enhanced Sidebar Styles */
+.tutorial-detail-sidebar .widget {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+}
+
+.tutorial-detail-sidebar .widget-title {
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.related-tutorial-item {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.related-tutorial-item:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    border-color: #007bff;
+}
+
+.related-tutorial-item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 15px;
+}
+
+.related-tutorial-thumb {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border-radius: 6px;
+}
+
+.related-tutorial-placeholder {
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+    margin-bottom: 12px;
+    border-radius:  6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.related-tutorial-info h4 {
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.related-tutorial-item:hover .related-tutorial-info h4 {
+    color: #007bff;
+}
+
+.related-description {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.related-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.related-categoria {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.related-data {
+    color: #6c757d;
+    font-size: 11px;
+}
+
+.tutorial-widget-actions .btn {
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tutorial-widget-actions .btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+}
+
+.tutorial-widget-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.tutorial-widget-actions .btn-default {
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+}
+
+.tutorial-widget-actions .btn-default:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tutorial-container {
+        padding: 25px;
+        margin-top: 15px;
+    }
+    
+    .tutorial-header h1 {
+        font-size: 24px;
+    }
+    
+    .tutorial-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .tutorial-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .tutorial-detail-sidebar {
+        margin-top: 30px;
+    }
+    
+    .tutorial-detail-sidebar .widget {
+        padding: 20px;
+    }
+}
+
+/* Force block display for tutorial content */
+.tutorial-section div,
+.tutorial-section span,
+.tutorial-section article,
+.tutorial-section section {
+    display: block !important;
+    width: 100% !important;
+    clear: both !important;
+    margin-bottom: 16px !important;
+}
+
+.tutorial-section br {
+    display: block !important;
+    margin: 8px 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Ensure each tutorial section is on its own line */
+.tutorial-content > .tutorial-section {
+    display: block !important;
+    float: none !important;
+    clear: both !important;
+    width: 100% !important;
+}
+
+.tutorial-content {
+    overflow: hidden;
+    clear: both;
+}
+
+/******************************************
+TUTORIAL LIST PAGE CARD STYLES
+******************************************/
+
+.card-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.card-badges {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.badge-category,
+.badge-level {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-category {
+    background: rgba(23, 162, 184, 0.9);
+    color: white;
+}
+
+.badge-level {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+.card-details {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 160px;
+}
+
+.card-title {
+    font-size: 1.5rem; /* Increased from 1.35rem */
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.card-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.card-title a:hover {
+    color: #007bff;
+}
+
+.card-description {
+    color: #666;
+    font-size: 1.15rem; /* Increased from 1.05rem */
+    line-height: 1.6; /* Improved line height */
+    margin-bottom: 0;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafbfc;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70px;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.card-author,
+.card-date {
+    font-size: 1.05rem; /* Increased from 0.95rem */
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-author i,
+.card-date i {
+    color: #007bff;
+    font-size: 0.8rem;
+}
+
+.card-footer .btn {
+    padding: 12px 20px; /* Increased padding */
+    font-size: 1.1rem; /* Increased from 1rem */
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Fix the container positioning to avoid navbar overlap */
+.container[style*="margin-top: 50px"] {
+    margin-top: 120px !important; /* Increased to give more space for navbar */
+}
+
+/* Section header improvements */
+.section-title {
+    font-size: 2.8rem; /* Slightly increased */
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.3rem; /* Slightly increased */
+    color: #666;
+    margin-bottom: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Badge text improvements */
+.badge-category,
+.badge-level {
+    display: inline-block;
+    padding: 6px 14px; /* Increased padding */
+    border-radius: 12px;
+    font-size: 0.9rem; /* Increased from 0.8rem */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tutorial list container with proper spacing */
+.tutorial-list-container {
+    margin-top: 120px;
+    margin-bottom: 80px;
+    padding-top: 20px;
+}
+
+/* Responsive adjustments for tutorial list container */
+@media (max-width: 992px) {
+    .tutorial-list-container {
+        margin-top: 100px;
+        margin-bottom: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tutorial-list-container {
+        margin-top: 90px;
+        margin-bottom: 40px;
+        padding-top: 10px;
+    }
+    
+    /* Responsive font size adjustments for mobile */
+    .card-title {
+        font-size: 1.2rem;
+    }
+    
+    .card-description {
+        font-size: 1rem;
+        line-height: 1.5;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+/* Fix navbar background consistency */
+.navbar {
+    margin-bottom: 0;
+    border: none;
+    background-color: transparent !important; /* Make navbar background transparent to match header */
+}
+
+.navbar-default {
+    background-color: transparent !important;
+    border-color: transparent;
+}
+
+/* Ensure topbar is properly styled */
+.topbar {
+    background-color: #000;
+    position: relative;
+    z-index: 1112;
+}
+
+/* Make sure navbar links are visible on dark background */
+.navbar-default .navbar-nav > li > a {
+    color: #fff !important;
+    font-weight: 500;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #01bacf !important;
+    background-color: transparent !important;
+}
+
+/* Mobile navbar improvements */
+@media (max-width: 768px) {
+    .header {
+        background-color: #000 !important; /* Solid background on mobile */
+    }
+    
+    /* Ensure mobile navbar toggle is visible */
+    .navbar-toggle {
+        margin-right: 15px;
+        margin-top: 8px;
+        border-color: #fff;
+    }
+    
+    .navbar-toggle .icon-bar {
+        background-color: #fff;
+    }
+    
+    /* Mobile dropdown menu */
+    .navbar-collapse {
+        background-color: #000;
+        border-top: 1px solid #333;
+        margin-top: 10px;
+    }
+    
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #fff !important;
+    }
 }

@@ -4,33 +4,59 @@
 {% block title %}Tutoriais{% endblock %}
 
 {% block content %}
-<div class="tutorials-container">
-    <h1>Tutoriais</h1>
+<div class="container tutorial-list-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="section-header text-center">
+                <h2 class="section-title">Nossos Tutoriais</h2>
+                <p class="section-subtitle">Aprenda programação com tutoriais práticos e detalhados</p>
+            </div>
+        </div>
+    </div>
     
-    <div class="tutorials-grid">
+    <div class="row">
         {% for tutorial in tutoriais %}
-        <div class="tutorial-card">
-            {% if tutorial.imagem %}
-            <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="card-image">
-            {% endif %}
-            
-            <div class="card-content">
-                <h3><a href="{% url 'tutorial_detail' tutorial.slug %}">{{ tutorial.titulo }}</a></h3>
-                <p class="description">{{ tutorial.descricao|truncatewords:20 }}</p>
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="tutorial-card">
+                <div class="card-image-container">
+                    {% if tutorial.imagem %}
+                    <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="card-image">
+                    {% else %}
+                    <div class="card-image-placeholder">
+                        <i class="fa fa-code"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-badges">
+                        <span class="badge badge-category">{{ tutorial.categoria }}</span>
+                        <span class="badge badge-level">{{ tutorial.nivel }}</span>
+                    </div>
+                </div>
                 
-                <div class="card-meta">
-                    <span class="categoria">{{ tutorial.categoria }}</span>
-                    <span class="nivel">{{ tutorial.nivel }}</span>
+                <div class="card-details">
+                    <h3 class="card-title">
+                        <a href="{% url 'tutorial_detail' tutorial.slug %}">{{ tutorial.titulo }}</a>
+                    </h3>
+                    <p class="card-description">{{ tutorial.descricao|truncatewords:15 }}</p>
                 </div>
                 
                 <div class="card-footer">
-                    <span class="autor">{{ tutorial.autor }}</span>
-                    <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+                    <div class="card-meta">
+                        <span class="card-author"><i class="fa fa-user"></i> {{ tutorial.autor }}</span>
+                        <span class="card-date"><i class="fa fa-calendar"></i> {{ tutorial.data_criacao|date:"d/m/Y" }}</span>
+                    </div>
+                    <a href="{% url 'tutorial_detail' tutorial.slug %}" class="btn btn-primary btn-sm">Ler Tutorial</a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p>Nenhum tutorial disponível no momento.</p>
+        <div class="col-12">
+            <div class="no-tutorials text-center">
+                <i class="fa fa-book fa-3x text-muted"></i>
+                <h3>Nenhum tutorial disponível</h3>
+                <p class="text-muted">Novos tutoriais serão adicionados em breve.</p>
+            </div>
+        </div>
         {% endfor %}
     </div>
 </div>
