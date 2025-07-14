@@ -34,7 +34,7 @@ class Tutoriais(models.Model):
     # Additional fields
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_atualizacao = models.DateTimeField(auto_now=True)
-    autor = models.CharField(max_length=50)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tutoriais')
     imagem = models.ImageField(upload_to='escola/static/escola/imagens/tutoriais/', blank=True, null=True)
     categoria = models.CharField(max_length=50, default="Python", 
                                choices=[

@@ -19,7 +19,12 @@
                         <div class="tutorial-meta">
                             <span class="categoria">{{ tutorial.categoria }}</span>
                             <span class="nivel">{{ tutorial.nivel }}</span>
-                            <span class="autor">Por: {{ tutorial.autor }}</span>
+                            <div class="autor-info">
+                                {% if tutorial.autor.autor_picture %}
+                                <img src="{{ tutorial.autor.autor_picture.url }}" alt="{{ tutorial.autor.first_name }}" class="autor-picture">
+                                {% endif %}
+                                <span class="autor">Por: <a href="{% url 'profile_detail' %}?id={{ tutorial.autor.id }}">{{ tutorial.autor.first_name }} {{ tutorial.autor.last_name }}</a></span>
+                            </div>
                             <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
                         </div>
                         {% if tutorial.imagem %}

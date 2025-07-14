@@ -34,7 +34,12 @@
                                 </h3>
                                 <ul class="list-inline">
                                     <li>{{ tutorial.data_criacao|date:"d \d\e F \d\e Y" }}</li>
-                                    <li><span>escrito por:</span> <a href="#">{{ tutorial.autor }}</a></li>
+                                    <li><span>escrito por:</span> 
+                                        {% if tutorial.autor.autor_picture %}
+                                            <img src="{{ tutorial.autor.autor_picture.url }}" alt="{{ tutorial.autor.first_name }}" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px; vertical-align: middle;">
+                                        {% endif %}
+                                        <a href="#">{{ tutorial.autor.first_name }} {{ tutorial.autor.last_name }}</a>
+                                    </li>
                                 </ul>
                             </div>
 

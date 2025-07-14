@@ -44,7 +44,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{% url 'indice' %}">Home</a></li>
                             {% if user.is_superuser %}
-                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Novo tutorial</a></li>
+                            <li><a href="{% url 'tutorial_create' %}">Novo tutorial</a></li>
                             {% endif %}
                             <!--DROPDOWN MENU-->
                             </li> 
