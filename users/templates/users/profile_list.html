@@ -1,0 +1,69 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Lista de Usuários</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li class="active">Usuários</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Usuários Cadastrados</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <div class="users-grid">
+                  {% for user in users %}
+                  <div class="user-card" style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                    <div class="row">
+                      <div class="col-md-2">
+                        {% if user.autor_picture %}
+                        <img src="{{ user.autor_picture.url }}" alt="{{ user.first_name }}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                        {% else %}
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center;">
+                          <span>{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
+                        </div>
+                        {% endif %}
+                      </div>
+                      <div class="col-md-8">
+                        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+                        <p>{{ user.email }}</p>
+                        {% if user.autor_github_account %}
+                        <a href="{{ user.autor_github_account }}" target="_blank">GitHub</a>
+                        {% endif %}
+                        {% if user.autor_linkedin_account %}
+                        <a href="{{ user.autor_linkedin_account }}" target="_blank">LinkedIn</a>
+                        {% endif %}
+                      </div>
+                      <div class="col-md-2">
+                        <a href="{% url 'profile_detail' %}?id={{ user.id }}" class="btn btn-sm btn-primary">Ver Perfil</a>
+                      </div>
+                    </div>
+                  </div>
+                  {% empty %}
+                  <p>Nenhum usuário encontrado.</p>
+                  {% endfor %}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

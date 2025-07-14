@@ -64,7 +64,7 @@
                     <footer class="tutorial-footer">
                         <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
                         <div class="tutorial-actions">
-                            <a href="{% url 'tutorial_list' %}" class="btn btn-secondary">
+                            <a href="{% url 'tutoriais_detalhe' %}" class="btn btn-secondary">
                                 <i class="fa fa-arrow-left"></i> Voltar aos Tutoriais
                             </a>
                         </div>
@@ -80,7 +80,7 @@
                             {% if related_tutorials %}
                                 {% for related in related_tutorials %}
                                 <div class="related-tutorial-item">
-                                    <a href="{% url 'tutorial_detail' slug=related.slug %}">
+                                    <a href="{% url 'tutoriais_detailhe' slug=related.slug %}">
                                         {% if related.imagem %}
                                         <img src="{{ related.imagem.url }}" alt="{{ related.titulo }}" class="related-tutorial-thumb">
                                         {% else %}
@@ -121,7 +121,6 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
 
     <div class="tutorial-content">
         <section class="tutorial-section">
@@ -164,7 +163,4 @@ document.addEventListener('DOMContentLoaded', function() {
     Prism.highlightAll();
 });
 </script>
-=======
-</section>
->>>>>>> feature/modernize-tutorials-ui
 {% endblock %}

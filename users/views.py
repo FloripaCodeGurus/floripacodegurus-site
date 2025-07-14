@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import CustomUser
 
 def register(request):
     form = UserCreationForm()
@@ -25,3 +26,21 @@ def profile(request):
         return redirect('profile')
     
     return render(request, 'users/profile.html', {'user': request.user})
+
+@login_required
+def profile_create(request):
+    return render(request, 'users/profile_create.html', {'user': request.user})
+
+@login_required
+def profile_list(request):
+    users = CustomUser.objects.filter(is_active=True).order_by('first_name')
+    return render(request, 'users/profile_list.html', {'users': users})
+
+@login_required
+def profile_detail(request):
+    user_id = request.GET.get('id')
+    if user_id:
+        user = get_object_or_404(CustomUser, id=user_id)
+    else:
+        user = request.user
+    return render(request, 'users/profile_detail.html', {'profile_user': user})

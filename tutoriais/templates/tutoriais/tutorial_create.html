@@ -1,7 +1,6 @@
 {% extends 'tutoriais/base_tutoriais.html' %}
 
 {% block content %}
-<<<<<<< HEAD
 <section class="section db p120">
   <div class="container">
     <div class="tagline-message page-title" style="text-align: left;">
@@ -107,7 +106,7 @@
     </div>
   </div>
 </section>
-=======
+
 <div class="section">
     <div class="container">
         <div class="create-tutorial-container">
@@ -196,7 +195,7 @@
                         <i class="fa fa-save" style="margin-right: 8px;"></i>
                         Criar Tutorial
                     </button>
-                    <a href="{% url 'tutorial_list' %}" class="btn-secondary">
+                    <a href="{% url 'tutoriais_lista' %}" class="btn-secondary">
                         <i class="fa fa-times" style="margin-right: 8px;"></i>
                         Cancelar
                     </a>
@@ -205,5 +204,4 @@
         </div>
     </div>
 </div>
->>>>>>> feature/modernize-tutorials-ui
 {% endblock %}

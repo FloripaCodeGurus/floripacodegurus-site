@@ -1,0 +1,83 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Perfil de {{ profile_user.first_name }} {{ profile_user.last_name }}</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li><a href="{% url 'profile_list' %}">Usuários</a></li>
+        <li class="active">{{ profile_user.first_name }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Informações do Usuário</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <div class="profile-info">
+                  <div class="row">
+                    <div class="col-md-3">
+                      {% if profile_user.autor_picture %}
+                      <img src="{{ profile_user.autor_picture.url }}" alt="{{ profile_user.first_name }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                      {% else %}
+                      <div style="width: 150px; height: 150px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                        {{ profile_user.first_name.0 }}{{ profile_user.last_name.0 }}
+                      </div>
+                      {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                      <h2>{{ profile_user.first_name }} {{ profile_user.last_name }}</h2>
+                      <p><strong>Email:</strong> {{ profile_user.email }}</p>
+                      <p><strong>Telefone:</strong> {{ profile_user.phone_number }}</p>
+                      <p><strong>Membro desde:</strong> {{ profile_user.date_joined|date:"d/m/Y" }}</p>
+                      
+                      <div class="social-links" style="margin-top: 20px;">
+                        {% if profile_user.autor_github_account %}
+                        <a href="{{ profile_user.autor_github_account }}" target="_blank" class="btn btn-sm btn-secondary" style="margin-right: 10px;">GitHub</a>
+                        {% endif %}
+                        {% if profile_user.autor_linkedin_account %}
+                        <a href="{{ profile_user.autor_linkedin_account }}" target="_blank" class="btn btn-sm btn-primary">LinkedIn</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="tutorials-section" style="margin-top: 40px;">
+                    <h4>Tutoriais Publicados</h4>
+                    {% if profile_user.tutoriais.all %}
+                    <div class="tutorials-list">
+                      {% for tutorial in profile_user.tutoriais.all %}
+                      <div class="tutorial-item" style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                        <h5><a href="{% url 'tutoriais_detalhe' tutorial.slug %}">{{ tutorial.titulo }}</a></h5>
+                        <p>{{ tutorial.descricao|truncatewords:20 }}</p>
+                        <small>{{ tutorial.categoria }} - {{ tutorial.nivel }} - {{ tutorial.data_criacao|date:"d/m/Y" }}</small>
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>Este usuário ainda não publicou nenhum tutorial.</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
