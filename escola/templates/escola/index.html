@@ -17,8 +17,7 @@
                         </div>
                         <div class="btn-wrapper">
                             <div class="text-center">
-                                <a id="home-buttons" href="{% url 'tutoriais' %}" class="btn btn-primary wow slideInLeft">Tutoriais</a> &nbsp;&nbsp;&nbsp;<a id="home-buttons" href="#" class="btn btn-default wow slideInRight">Trabalhe conosco</a>
-                            </div>
+                                <a id="home-buttons" href="{% url 'tutorial_list' %}" class="btn btn-primary wow slideInLeft">Tutoriais</a>
                         </div><!-- end row -->
                     </div><!-- end col -->
                 </div><!-- end row -->
@@ -45,13 +44,13 @@
                                 <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
                                 {% endif %}
                                 <div class="magnifier">
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
                                 </div>
                             </div>
                             <div class="tutorial-details">
                                 <h4 class="tutorial-title">
                                     <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
                                 <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
                             </div>
@@ -85,13 +84,13 @@
                                 <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
                                 {% endif %}
                                 <div class="magnifier">
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
                                 </div>
                             </div>
                             <div class="tutorial-details">
                                 <h4 class="tutorial-title">
                                     <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
                                 <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
                             </div>
@@ -115,55 +114,24 @@
                 <hr class="invis">
 
                 <div class="text-center">
-                    <a href="{% url 'tutoriais_lista' %}" class="btn btn-primary btn-lg">Ver todos os tutoriais</a>
+                    <a href="{% url 'tutorial_list' %}" class="btn btn-primary btn-lg">Ver todos os tutoriais</a>
                 </div>
             </div><!-- end container -->
         </section>
-
-        <section class="section db">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="stat-count">
-                            <h4 class="stat-timer">155</h4>
-                            <h3><i class="flaticon-black-graduation-cap-tool-of-university-student-for-head"></i> Estudantes satisfeitos</h3>
-                            <p>Mais do que vender cursos, nosso objetivos é preparar para vida profissional. </p>
-                        </div><!-- stat-count -->
-                    </div><!-- end col -->
-
-                    <div class="col-lg-4 col-md-4">
-                        <div class="stat-count">
-                            <h4 class="stat-timer">155</h4>
-                            <h3><i class="flaticon-online-course"></i> Concluíram nossos cursos</h3>
-                            <p>Ao final de cada módulo você receberá um certificado de conclusão de curso, contendo detalhes do que foi aprendido. </p>
-                        </div><!-- stat-count -->
-                    </div><!-- end col -->
-
-                    <div class="col-lg-4 col-md-4">
-                        <div class="stat-count">
-                            <h4 class="stat-timer">1350</h4>
-                            <h3><i class="flaticon-coffee-cup"></i>Exercício desenvolvidos</h3>
-                            <p>Nosso repositório no git hub já conta com mais de 1300 exemplos de código para você se basear. </p>
-                        </div><!-- stat-count -->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </section>
-
 
         <!-- TESTIMONIALS-->
         <section class="section">
             <div class="container">
                 <div class="section-title text-center">
-                    <h3>Testimonials</h3>
-                    <p id="texto-testimonials-p">Um feedback honesto é importante no momento em que estamos procurando um produto ou serviço. <br>Veja o que nossos alunos tem a dizer de nossa Escola e de nossos cursos de formação profissional.</p>
+                    <h3>O que dizem sobre nossos tutoriais</h3>
+                    <p id="texto-testimonials-p">Nossos tutoriais têm ajudado desenvolvedores de todos os níveis a aprender novas tecnologias e aprimorar suas habilidades. <br>Veja o que a comunidade tem a dizer sobre nosso conteúdo educacional.</p>
                 </div><!-- end title -->
 
                 <div class="row">
                     <div class="col-md-4">
                         <div class="box testimonial">
-                            <p class="testiname"><strong><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/Cristiane+Ruedieger.jpeg" alt="" class="img-circle"> Cristiane Ruedieger</strong></p>
-                            <p id="texto-home-p">Quando comecei o curso estava relutante pois achava que talvez nao conseguiria aprender! Porem o Professor Fabio tem uma metodologia de ensino muito boa, e é muito paciente! Estou indo para o Módulo 2 com a certeza de que saberei programar!</p>
+                            <p class="testiname"><strong><img src="{% static 'escola/images/testimonial_user1.jpg' %}" alt="" class="img-circle"> Ana Silva</strong></p>
+                            <p id="texto-home-p">Os tutoriais de Python são excelentes! A explicação é clara e os exemplos práticos me ajudaram muito a entender conceitos que antes pareciam complicados. Consegui aplicar o que aprendi em meus projetos pessoais.</p>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -176,8 +144,8 @@
 
                     <div class="col-md-4">
                         <div class="box testimonial">
-                            <p class="testiname"><strong><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/RodrigoNorbertodaSilveira.jpeg" alt="" class="img-circle">Rodrigo Norberto da Silveira</strong></p>
-                            <p id="texto-home-p">Compartilho aqui minha experiência no curso de Python realizado no ano de 2018. Este curso me trouxe uma base de conhecimento no qual me ajudou a participar de dois projetos na empresa na qual trabalho hoje. Para mim foi interessante ter este curso de Python e poder me diferenciar dos demais e assim adquirir mais experiência. Afinal, conhecimento adquirido nunca e demais. Obrigado Fabio por esta experiência vivida em curso e espero que este seja somente o primeiro, pois logo pretendo me aprimorar ainda mais na linguagem Python.</p>
+                            <p class="testiname"><strong><img src="{% static 'escola/images/testimonial_user2.jpg' %}" alt="" class="img-circle">Carlos Santos</strong></p>
+                            <p id="texto-home-p">Como desenvolvedor iniciante, encontrei nos tutoriais de Django uma base sólida para começar no desenvolvimento web. O conteúdo é bem estruturado e os exemplos são relevantes para o mundo real. Recomendo!</p>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -190,8 +158,8 @@
 
                     <div class="col-md-4">
                         <div class="box testimonial">
-                            <p class="testiname"><strong><img src="https://f001.backblazeb2.com/file/site-code-gurus/uploads-folder/testimonial_male.png" alt="" class="img-circle">Fabio Rigoli da Rosa</strong></p>
-                            <p id="texto-home-p">Quisque porttitor eros quis leo pulvinar, at hendrerit sapien iaculis. Donec consectetur accumsan arcu, sit amet fringilla ex ultricies.</p>
+                            <p class="testiname"><strong><img src="{% static 'escola/images/testimonial_user3.jpg' %}" alt="" class="img-circle">Maria Oliveira</strong></p>
+                            <p id="texto-home-p">Os tutoriais de BioPython foram fundamentais para minha pesquisa acadêmica. A qualidade do conteúdo e a forma como os conceitos são apresentados tornaram meu aprendizado muito mais eficiente. Conteúdo de alta qualidade!</p>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
