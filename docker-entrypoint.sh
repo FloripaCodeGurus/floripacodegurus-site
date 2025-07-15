@@ -3,7 +3,7 @@
 # Load environment variables from .env
 set -a
 set -a
-ENV_FILE="${ENV_FILE:-.env}"
+ENV_FILE="${ENV_FILE:-.env.development}"
 if [ -f "$ENV_FILE" ]; then
   source "$ENV_FILE"
 else

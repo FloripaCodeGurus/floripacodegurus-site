@@ -11,8 +11,7 @@
                         <div class="col-md-6 col-sm-6 hidden-xs text-right">
                             <div class="social">
                                 
-                                <a class="facebook" href="https://www.facebook.com/codegurs/" data-tooltip="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>              
-                                <a class="twitter" href="https://twitter.com/GurusCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                <a class="twitter" href="https://x.com/FloripaCode" data-tooltip="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
                                 <a class="instagram" href="https://www.instagram.com/floripa_code_gurus/" data-tooltip="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
                                 <a class="linkedin" href="https://www.linkedin.com/company/floripa-code-gurus/" data-tooltip="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
                                
@@ -44,7 +43,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{% url 'indice' %}">Home</a></li>
                             {% if user.is_superuser %}
-                            <li><a href="{% url 'admin:tutoriais_tutoriais_add' %}">Novo tutorial</a></li>
+                            <li><a href="{% url 'tutorial_create' %}">Novo tutorial</a></li>
                             {% endif %}
                             <!--DROPDOWN MENU-->
                             </li> 

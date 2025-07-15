@@ -34,7 +34,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li {% if not categoria_ativa %}class="active"{% endif %}>
-                                        <a href="{% url 'tutoriais_lista' %}">Todos</a>
+                                        <a href="{% url 'tutoriais' %}">Todos</a>
                                     </li>
                                     {% for categoria in categorias %}
                                     <li {% if categoria == categoria_ativa %}class="active"{% endif %}>
@@ -144,7 +144,7 @@
                 <p>Descubra cursos completos e aprofunde seus conhecimentos em desenvolvimento de software.</p>
             </div>
             <div class="col-md-4 text-right">
-                <a href="{% url 'tutoriais_lista' %}" class="btn btn-primary btn-lg">Ver Nossos Tutoriais</a>
+                <a href="{% url 'tutoriais' %}" class="btn btn-primary btn-lg">Ver Nossos Tutoriais</a>
             </div>
         </div>
     </div>

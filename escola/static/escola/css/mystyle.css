@@ -684,6 +684,36 @@ p#frase{
     font-size: 12px;
 }
 
+.autor-info {
+    display: flex;
+    align-items: center;
+    margin: 5px 10px;
+}
+
+.autor-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+
+.autor-info .autor {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+}
+
+.autor-info .autor a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.autor-info .autor a:hover {
+    text-decoration: underline;
+}
+
 .tutorial-image {
     max-width: 100%;
     height: auto;
