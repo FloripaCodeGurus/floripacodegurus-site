@@ -715,7 +715,7 @@ p#frase{
 }
 
 .tutorial-image {
-    max-width: 100%;
+    max-width: 65%;
     height: auto;
     margin: 20px 0;
     border-radius: 8px;

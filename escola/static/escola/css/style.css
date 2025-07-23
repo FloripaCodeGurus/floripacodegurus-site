@@ -1489,7 +1489,8 @@ BLOG
 }
 
 .blog-media img {
-    width: 100%;
+    width: 55%;
+    height: 55%;
 }
 
 .blog-media {
@@ -2837,7 +2838,7 @@ ENHANCED TUTORIAL DETAIL STYLES
 }
 
 .tutorial-image {
-    width: 100%;
+    width: 65%;
     max-width: 100%;
     height: auto;
     border-radius: 12px;
