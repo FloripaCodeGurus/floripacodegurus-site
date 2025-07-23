@@ -774,3 +774,50 @@ p#frase{
     padding: 0 0.5em;
     cursor: pointer;
 }
+
+/* For code displaying */
+.doc-example {
+  border: 1px solid #eaeaea; /* Removed !important unless strictly necessary for other contexts */
+  border-radius: 8px; /* Removed !important */
+  margin: 2em 0; /* Removed !important */
+  font-family: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace; /* Removed !important */
+  overflow: auto; /* Removed !important */
+  box-shadow: 0 2px 8px 0 #eaeaea50; /* Removed !important */
+  position: relative; /* Removed !important */
+}
+
+.doc-example-header {
+  background: #f3f4f6; /* Removed !important */
+  border-bottom: 1px solid #eaeaea; /* Removed !important */
+  padding: 0.5em 1em; /* Removed !important */
+  border-radius: 8px 8px 0 0; /* Removed !important */
+  font-size: 0.95em; /* Removed !important */
+  font-weight: 600; /* Removed !important */
+  color: #2d3a46; /* Removed !important */
+  display: flex; /* Removed !important */
+  align-items: center; /* Removed !important */
+  justify-content: space-between; /* Add this if it was truncated, otherwise just ensure it's there */
+}
+
+/* Let Highlight.js manage the background-color and padding of the code block */
+.doc-example pre {
+  margin: 0; /* Keep margin 0 */
+  /* Removed: background-color: #f6f8fa !important; */
+  /* Removed: padding: 16px !important; */
+  border: 0; /* Keep border 0 */
+  border-radius: 0; /* Keep border-radius 0 */
+  overflow: auto; /* Keep overflow auto */
+}
+
+.doc-example code {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace; /* Keep this if you want to enforce a font */
+  font-size: 85%; /* Keep this if you want to enforce a font size */
+  line-height: 1.45; /* Keep this if you want to enforce line height */
+  /* Remove or comment out:
+  background-color: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
+  */
+  /* If you MUST have some padding at the `code` level, let it be less aggressive or managed by Highlight.js.
+     Highlight.js typically adds padding to the `pre` element. */
+}

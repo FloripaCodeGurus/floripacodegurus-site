@@ -11,9 +11,6 @@
                         <div class="tagline-message event-title text-center">
                             <h1 id="aprenda-programar">Aprenda a programar e ganhe super poderes</h1>
                             <br>
-<!--                            <small id="small-index1">Aqui na Floripa Code Gurus você fará parte de um ambiente inovador,-->
-<!--                                onde o objetivo não é apenas o ensino de Linguagens de Programação e sim prepará-lo para os desafios do dia a dia do desenvolvedor.-->
-<!--                                <br>Nada de exemplo "foo bar", vamos aplicar nosso código a problemas reais. <br>Venha ser um Gurú!</small>-->
                         </div>
                         <div class="btn-wrapper">
                             <div class="text-center">
@@ -44,13 +41,13 @@
                                 <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
                                 {% endif %}
                                 <div class="magnifier">
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
                                 </div>
                             </div>
                             <div class="tutorial-details">
                                 <h4 class="tutorial-title">
                                     <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
                                 <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
                             </div>
@@ -84,13 +81,13 @@
                                 <img src="{% static 'escola/imagens/banner_tuto_guru.jpg' %}" alt="{{ tutorial.titulo }}">
                                 {% endif %}
                                 <div class="magnifier">
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="{{ tutorial.titulo }}" class="btn btn-primary">Ver Tutorial</a>
                                 </div>
                             </div>
                             <div class="tutorial-details">
                                 <h4 class="tutorial-title">
                                     <span class="badge badge-info tutorial-badge">{{ tutorial.categoria }}</span>
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                    <a href="{% url 'tutorial_detail' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h4>
                                 <p class="tutorial-desc">{{ tutorial.descricao|truncatewords:20 }}</p>
                             </div>

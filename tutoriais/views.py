@@ -44,13 +44,18 @@ def tutorial_create(request):
             tutorial.imagem = request.FILES['imagem']
         tutorial.save()
         messages.success(request, 'Tutorial criado com sucesso!')
-        return redirect('tutoriais_detalhe', slug=tutorial.slug)
+        return redirect('tutorial_detail', slug=tutorial.slug)
     return render(request, 'tutoriais/tutorial_create.html', {})
 
 
 def tutoriais_detalhe(request, slug):
-    tutorial = get_object_or_404(Tutoriais, slug=slug)
-    return render(request, 'tutoriais/tutoriais_detalhe.html', {'tutorial': tutorial})
+    try:
+        tutorial = get_object_or_404(Tutoriais, slug=slug)
+        # return render(request, 'tutoriais/tutoriais_detalhe.html', {'tutorial': tutorial})
+        return render(request, 'tutoriais/tutorial_detail.html', {'tutorial': tutorial})
+    except Tutoriais.DoesNotExist:
+        messages.error(request, 'Tutorial não encontrado.')
+        return redirect('tutoriais')
 
 @login_required
 def tutorial_edit(request, slug):
@@ -71,7 +76,7 @@ def tutorial_edit(request, slug):
         
         tutorial.save()
         messages.success(request, 'Tutorial atualizado com sucesso!')
-        return redirect('tutoriais_detalhe', slug=tutorial.slug)
+        return redirect('tutorial_detail', slug=tutorial.slug)
     
     return render(request, 'tutoriais/tutorial_edit.html', {'tutorial': tutorial})
 
