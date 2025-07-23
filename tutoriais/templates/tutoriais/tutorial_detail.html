@@ -63,10 +63,10 @@
                         </section>
                         {% endif %}
 
-                        {% if tutorial.exemplos %}
+                       {% if tutorial.exemplos %}
                         <section class="tutorial-section">
                             <h3>Exemplos Práticos</h3>
-                            <pre><code class="python">{{ tutorial.exemplos|striptags }}</code></pre>
+                            <pre><code class="language-python">{{ tutorial.exemplos|safe }}</code></pre>
                         </section>
                         {% endif %}
 
@@ -129,11 +129,11 @@
         </div>
     </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/languages/python.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    hljs.initHighlightingOnLoad();
+    hljs.highlightAll();
   });
 </script>
 {% endblock %}
