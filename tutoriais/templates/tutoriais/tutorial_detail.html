@@ -1,5 +1,6 @@
 {% extends "escola/base.html" %}
 {% load static %}
+{% load code_filters %}
 
 {% block title %}{{ tutorial.titulo }}{% endblock %}
 
@@ -49,21 +50,21 @@
                        {% if tutorial.exemplo1 %}
                         <section class="tutorial-section">
                             <h3>Exemplo 1</h3>
-                            <pre><code class="language-python">{{ tutorial.exemplo1|safe }}</code></pre>
+                            <pre><code class="language-python">{{ tutorial.exemplo1|preserve_code }}</code></pre>
                         </section>
                         {% endif %}
 
                         {% if tutorial.exemplo2 %}
                         <section class="tutorial-section">
                             <h3>Exemplo 2</h3>
-                            <pre><code class="language-python">{{ tutorial.exemplo2|safe }}</code></pre>
+                            <pre><code class="language-python">{{ tutorial.exemplo2|preserve_code }}</code></pre>
                         </section>
                         {% endif %}
                         
                         {% if tutorial.exemplo3 %}
                         <section class="tutorial-section">
                             <h3>Exemplo 3</h3>
-                            <pre><code class="language-python">{{ tutorial.exemplo3|safe }}</code></pre>
+                            <pre><code class="language-python">{{ tutorial.exemplo3|preserve_code }}</code></pre>
                         </section>
                         {% endif %}
 
