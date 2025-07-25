@@ -3,23 +3,6 @@
 
 {% block title %}{{ tutorial.titulo }}{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
-<style>
-  pre {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 20px;
-    overflow: auto;
-  }
-  code {
-    font-family: 'Courier New', Courier, monospace;
-    white-space: pre;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
 <section class="section">
     <div class="container">
@@ -52,14 +35,14 @@
                         {% if tutorial.introducao %}
                         <section class="tutorial-section">
                             <h3>Introdução</h3>
-                            {{ tutorial.introducao|safe }}
+                            <p>{{ tutorial.introducao|safe }}</p>
                         </section>
                         {% endif %}
 
                         {% if tutorial.conceitos %}
                         <section class="tutorial-section">
                             <h3>Conceitos Básicos</h3>
-                            {{ tutorial.conceitos|safe }}
+                           <p>{{ tutorial.conceitos|safe }}</p> 
                         </section>
                         {% endif %}
 
@@ -73,7 +56,7 @@
                         {% if tutorial.conclusao %}
                         <section class="tutorial-section">
                             <h3>Conclusão</h3>
-                            {{ tutorial.conclusao|safe }}
+                            <p>{{ tutorial.conclusao|safe }}</p>
                         </section>
                         {% endif %}
                     </div>
@@ -130,7 +113,7 @@
     </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     hljs.highlightAll();

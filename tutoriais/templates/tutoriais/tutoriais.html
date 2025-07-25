@@ -13,15 +13,6 @@
                         <li class="active">Tutoriais</li>
                     </ul>
                 </div>
-                
-                <!-- Category Filter -->
-                <div class="category-filter text-center" style="margin-top: 20px;">
-                    <a href="{% url 'tutoriais' %}" class="btn btn-sm {% if not categoria_ativa %}btn-primary{% else %}btn-default{% endif %}">Todos</a>
-                    {% for categoria in categorias %}
-                        <a href="{% url 'tutoriais' %}?categoria={{ categoria }}" class="btn btn-sm {% if categoria_ativa == categoria %}btn-primary{% else %}btn-default{% endif %}">{{ categoria }}</a>
-                    {% endfor %}
-                </div>
-                
             </div>
         </div>
     </div>
