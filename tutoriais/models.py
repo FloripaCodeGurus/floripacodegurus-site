@@ -20,17 +20,30 @@ class Tutoriais(models.Model):
         default="<h2>Conceitos Básicos</h2><p>Explique os conceitos fundamentais necessários para entender o tutorial.</p>",
         config_name='extends'
     )
-    exemplos = CKEditor5Field(
-        verbose_name="Exemplos Práticos",
-        default="<h2>Exemplos Práticos</h2><pre><code class='language-python'># Adicione exemplos de código aqui</code></pre>",
-        config_name='extends'
-    )
+
     conclusao = CKEditor5Field(
         verbose_name="Conclusão",
         default="<h2>Conclusão</h2><p>Resuma os principais pontos abordados e sugira próximos passos.</p>",
         config_name='extends'
     )
-    
+    exemplo1 = models.TextField(
+        verbose_name="Exemplo 1",
+        blank=True,
+        null=True,
+        help_text="Código Python para o primeiro exemplo"
+    )
+    exemplo2 = models.TextField(
+        verbose_name="Exemplo 2",
+        blank=True,
+        null=True,
+        help_text="Código Python para o segundo exemplo"
+    )
+    exemplo3 = models.TextField(
+        verbose_name="Exemplo 3",
+        blank=True,
+        null=True,
+        help_text="Código Python para o terceiro exemplo"
+    )
     # Additional fields
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_atualizacao = models.DateTimeField(auto_now=True)
@@ -59,6 +72,7 @@ class Tutoriais(models.Model):
                                     ("CI/CD", "CI/CD"),
                                     ("DevOps", "DevOps"),
                                     ("Cloud Computing", "Cloud Computing"),
+                                    ("Bash scripting", "Bash scripting"),
                                ])
     nivel = models.CharField(max_length=20, default="Iniciante",
                            choices=[

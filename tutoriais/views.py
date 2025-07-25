@@ -34,7 +34,10 @@ def tutorial_create(request):
             descricao=request.POST.get('descricao'),
             introducao=request.POST.get('introducao'),
             conceitos=request.POST.get('conceitos'),
-            exemplos=request.POST.get('exemplos'),
+
+            exemplo1=request.POST.get('exemplo1'),
+            exemplo2=request.POST.get('exemplo2'),
+            exemplo3=request.POST.get('exemplo3'),
             conclusao=request.POST.get('conclusao'),
             autor=request.user,
             categoria=request.POST.get('categoria'),
@@ -66,7 +69,9 @@ def tutorial_edit(request, slug):
         tutorial.descricao = request.POST.get('descricao')
         tutorial.introducao = request.POST.get('introducao')
         tutorial.conceitos = request.POST.get('conceitos')
-        tutorial.exemplos = request.POST.get('exemplos')
+        tutorial.exemplo1 = request.POST.get('exemplo1')
+        tutorial.exemplo2 = request.POST.get('exemplo2')
+        tutorial.exemplo3 = request.POST.get('exemplo3')
         tutorial.conclusao = request.POST.get('conclusao')
         tutorial.categoria = request.POST.get('categoria')
         tutorial.nivel = request.POST.get('nivel')
@@ -80,5 +85,13 @@ def tutorial_edit(request, slug):
     
     return render(request, 'tutoriais/tutorial_edit.html', {'tutorial': tutorial})
 
+@login_required
 def tutorial_delete(request, slug):
-    pass
+    tutorial = get_object_or_404(Tutoriais, slug=slug, autor=request.user)
+    
+    if request.method == 'POST':
+        tutorial.delete()
+        messages.success(request, 'Tutorial deletado com sucesso!')
+        return redirect('tutoriais')
+    
+    return render(request, 'tutoriais/tutorial_delete.html', {'tutorial': tutorial})

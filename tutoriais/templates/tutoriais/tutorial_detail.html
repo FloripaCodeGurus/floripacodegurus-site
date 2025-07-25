@@ -46,10 +46,24 @@
                         </section>
                         {% endif %}
 
-                       {% if tutorial.exemplos %}
+                       {% if tutorial.exemplo1 %}
                         <section class="tutorial-section">
-                            <h3>Exemplos Práticos</h3>
-                            <pre><code class="language-python">{{ tutorial.exemplos|safe }}</code></pre>
+                            <h3>Exemplo 1</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo1|safe }}</code></pre>
+                        </section>
+                        {% endif %}
+
+                        {% if tutorial.exemplo2 %}
+                        <section class="tutorial-section">
+                            <h3>Exemplo 2</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo2|safe }}</code></pre>
+                        </section>
+                        {% endif %}
+                        
+                        {% if tutorial.exemplo3 %}
+                        <section class="tutorial-section">
+                            <h3>Exemplo 3</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo3|safe }}</code></pre>
                         </section>
                         {% endif %}
 
@@ -70,6 +84,9 @@
                             {% if user.is_authenticated and tutorial.autor == user %}
                             <a href="{% url 'tutorial_edit' slug=tutorial.slug %}" class="btn btn-warning">
                                 <i class="fa fa-edit"></i> Editar Tutorial
+                            </a>
+                            <a href="{% url 'tutorial_delete' slug=tutorial.slug %}" class="btn btn-danger">
+                                <i class="fa fa-trash"></i> Deletar Tutorial
                             </a>
                             {% endif %}
                         </div>
