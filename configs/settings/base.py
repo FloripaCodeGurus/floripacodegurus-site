@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'tutoriais',
     'users',
     'django_ckeditor_5',
+    'newsletter',
 ]
 
 MIDDLEWARE = [

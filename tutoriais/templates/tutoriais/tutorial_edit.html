@@ -48,7 +48,24 @@
                           <option value="Django" {% if tutorial.categoria == "Django" %}selected{% endif %}>Django</option>
                           <option value="BioPython" {% if tutorial.categoria == "BioPython" %}selected{% endif %}>BioPython</option>
                           <option value="Data Science" {% if tutorial.categoria == "Data Science" %}selected{% endif %}>Data Science</option>
-                          <option value="Web Development" {% if tutorial.categoria == "Web Development" %}selected{% endif %}>Web Development</option>
+                          <option value="Web Development" {% if tutorial.categoria == "Web Development" %}selected{% endif %}>Web Development</option>  
+                          <option value="Flask" {% if tutorial.categoria == "Flask" %}selected{% endif %}>Flask</option>
+                          <option value="Data Engineering" {% if tutorial.categoria == "Data Engineering" %}selected{% endif %}>Data Engineering</option>
+                          <option value="Java Script" {% if tutorial.categoria == "Java Script" %}selected{% endif %}>Java Script</option>
+                          <option value="Go" {% if tutorial.categoria == "Go" %}selected{% endif %}>Go</option>
+                          <option value="Linux" {% if tutorial.categoria == "Linux" %}selected{% endif %}>Linux</option>
+                          <option value="Machine Learning" {% if tutorial.categoria == "Machine Learning" %}selected{% endif %}>Machine Learning</option>
+                          <option value="Cloud Services" {% if tutorial.categoria == "Cloud Services" %}selected{% endif %}>Cloud Services</option>
+                          <option value="DevOps" {% if tutorial.categoria == "DevOps" %}selected{% endif %}>DevOps</option>
+                          <option value="MySQL" {% if tutorial.categoria == "MySQL" %}selected{% endif %}>MySQL</option>
+                          <option value="MongoDB" {% if tutorial.categoria == "MongoDB" %}selected{% endif %}>MongoDB</option>
+                          <option value="PostgreSQL" {% if tutorial.categoria == "PostgreSQL" %}selected{% endif %}>PostgreSQL</option>
+                          <option value="Docker" {% if tutorial.categoria == "Docker" %}selected{% endif %}>Docker</option>
+                          <option value="Kubernetes" {% if tutorial.categoria == "Kubernetes" %}selected{% endif %}>Kubernetes</option>
+                          <option value="Git" {% if tutorial.categoria == "Git" %}selected{% endif %}>Git</option>
+                          <option value="GitHub" {% if tutorial.categoria == "GitHub" %}selected{% endif %}>GitHub</option>
+                          <option value="CI/CD" {% if tutorial.categoria == "CI/CD" %}selected{% endif %}>CI/CD</option>
+                          <option value="Outros" {% if tutorial.categoria == "Outros" %}selected{% endif %}>Outros</option>
                         </select>
                       </div>
                     </div>
@@ -98,7 +115,7 @@
                   
                   <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" class="btn btn-secondary">Cancelar</a>
+                    <a href="{% url 'tutorial_detail' tutorial.slug %}" class="btn btn-secondary">Cancelar</a>
                   </div>
                 </form>
               </div>
