@@ -34,6 +34,7 @@ urlpatterns = [
     path('profile/edit/', user_views.profile_edit, name='profile_edit'),
     path('tutoriais/', include('tutoriais.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
+    path('newsletter/', include('newsletter.urls')),
     # path('users/login/', include('users.urls')),
     path('user-login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('user-logout/', auth_views.LogoutView.as_view(next_page='login', template_name='users/logout.html'), name='logout'),
