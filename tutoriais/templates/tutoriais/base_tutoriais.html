@@ -8,6 +8,7 @@
     <head>
         {% include "tutoriais/head.html" %}
         <title>{% block title %}{% endblock title %}</title>
+        {% block extra_head %}{% endblock extra_head %}
     </head>
 <!-- HEAD -->
 
@@ -77,7 +78,7 @@
                 <div class="post-widget">
                     {% for tutorial in latest_tutorials %}
                     <div class="media">
-                        <a href="{% url 'tutoriais_detalhe' tutorial.slug %}">
+                        <a href="{% url 'tutorial_detail' slug=tutorial.slug %}">
                             {% if tutorial.imagem %}
                                 <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="img-responsive alignleft img-rounded" style="width: 80px; height: 60px; object-fit: cover;">
                             {% else %}
@@ -85,7 +86,7 @@
                             {% endif %}
                         </a>
                         <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'tutoriais_detalhe' tutorial.slug %}">{{ tutorial.titulo|truncatechars:50 }}</a></h5>
+                            <h5 class="mt-0"><a href="{% url 'tutorial_detail' slug=tutorial.slug %}">{{ tutorial.titulo|truncatechars:50 }}</a></h5>
                             <div class="blog-meta">
                                 <ul class="list-inline">
                                     <li>{{ tutorial.data_criacao|timesince }} atrás</li>
@@ -156,15 +157,11 @@
                 <h3 class="widget-title">Tags Populares</h3>
                 <div class="tags-widget">
                     <ul class="list-inline">
-                        <li><a href="cursos.html">cursos</a></li>
-                        <li><a href="{% url 'pythonmodulo1' %}">Python módulo 1</a></li>
-                        <li><a href="{% url 'pythonmodulo2' %}">Python módulo 2</a></li>
-                        <li><a href="{% url 'djangomodulo1' %}">Desenvolvimento web</a>
-                        </li>
-                        <li><a href="#">Professores</a></li>
-                        <li><a href="{% url 'biopython' %}">BioPython</a></li>
-                        <li><a href="#">Java Script</a></li>
-                        <li><a href="#">Kivy</a></li>
+                        <li><a href="{% url 'tutoriais' %}">tutoriais</a></li>
+                        <li><a href="#">BioPython</a></li>
+                        <li><a href="#">JavaScript</a></li>
+                        <li><a href="#">Python</a></li>
+                        <li><a href="#">Django</a></li>
                     </ul>
                 </div><!-- end list-widget -->
             </div><!-- end widget -->
@@ -221,6 +218,8 @@
         twq('track','PageView');
         </script>
     <!-- End Twitter universal website tag code -->
+    
+    {% block extra_js %}{% endblock extra_js %}
 
 </body>
 </html>

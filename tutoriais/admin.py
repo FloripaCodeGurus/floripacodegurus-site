@@ -15,7 +15,7 @@ class TutoriaisAdmin(admin.ModelAdmin):
             'fields': ('titulo', 'slug', 'descricao', 'autor', 'imagem', 'categoria', 'nivel')
         }),
         ('Conteúdo do Tutorial', {
-            'fields': ('introducao', 'conceitos', 'exemplos', 'conclusao'),
+            'fields': ('introducao', 'conceitos', 'exemplos', 'exemplo1', 'exemplo2', 'exemplo3', 'conclusao'),
             'classes': ('wide',), 
         }),
     )

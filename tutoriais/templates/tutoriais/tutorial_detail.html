@@ -1,12 +1,8 @@
 {% extends "escola/base.html" %}
 {% load static %}
+{% load code_filters %}
 
 {% block title %}{{ tutorial.titulo }}{% endblock %}
-
-{% block extra_css %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
-{% endblock %}
 
 {% block content %}
 <section class="section">
@@ -23,7 +19,7 @@
                                 {% if tutorial.autor.autor_picture %}
                                 <img src="{{ tutorial.autor.autor_picture.url }}" alt="{{ tutorial.autor.first_name }}" class="autor-picture">
                                 {% endif %}
-                                <span class="autor">Por: <a href="{% url 'profile_detail' %}?id={{ tutorial.autor.id }}">{{ tutorial.autor.first_name }} {{ tutorial.autor.last_name }}</a></span>
+                                <span class="autor">Por: {{ tutorial.autor.first_name }} {{ tutorial.autor.last_name }}</span>
                             </div>
                             <span class="data">{{ tutorial.data_criacao|date:"d/m/Y" }}</span>
                         </div>
@@ -40,28 +36,42 @@
                         {% if tutorial.introducao %}
                         <section class="tutorial-section">
                             <h3>Introdução</h3>
-                            {{ tutorial.introducao|safe }}
+                            <p>{{ tutorial.introducao|safe }}</p>
                         </section>
                         {% endif %}
 
                         {% if tutorial.conceitos %}
                         <section class="tutorial-section">
                             <h3>Conceitos Básicos</h3>
-                            {{ tutorial.conceitos|safe }}
+                           <p>{{ tutorial.conceitos|safe }}</p> 
                         </section>
                         {% endif %}
 
-                        {% if tutorial.exemplos %}
+                       {% if tutorial.exemplo1 %}
                         <section class="tutorial-section">
-                            <h3>Exemplos Práticos</h3>
-                            {{ tutorial.exemplos|safe }}
+                            <h3>Exemplo 1</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo1|preserve_code }}</code></pre>
+                        </section>
+                        {% endif %}
+
+                        {% if tutorial.exemplo2 %}
+                        <section class="tutorial-section">
+                            <h3>Exemplo 2</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo2|preserve_code }}</code></pre>
+                        </section>
+                        {% endif %}
+                        
+                        {% if tutorial.exemplo3 %}
+                        <section class="tutorial-section">
+                            <h3>Exemplo 3</h3>
+                            <pre><code class="language-python">{{ tutorial.exemplo3|preserve_code }}</code></pre>
                         </section>
                         {% endif %}
 
                         {% if tutorial.conclusao %}
                         <section class="tutorial-section">
                             <h3>Conclusão</h3>
-                            {{ tutorial.conclusao|safe }}
+                            <p>{{ tutorial.conclusao|safe }}</p>
                         </section>
                         {% endif %}
                     </div>
@@ -69,9 +79,17 @@
                     <footer class="tutorial-footer">
                         <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
                         <div class="tutorial-actions">
-                            <a href="{% url 'tutoriais_detalhe' %}" class="btn btn-secondary">
+                            <a href="{% url 'tutoriais' %}" class="btn btn-secondary">
                                 <i class="fa fa-arrow-left"></i> Voltar aos Tutoriais
                             </a>
+                            {% if user.is_authenticated and tutorial.autor == user %}
+                            <a href="{% url 'tutorial_edit' slug=tutorial.slug %}" class="btn btn-warning">
+                                <i class="fa fa-edit"></i> Editar Tutorial
+                            </a>
+                            <a href="{% url 'tutorial_delete' slug=tutorial.slug %}" class="btn btn-danger">
+                                <i class="fa fa-trash"></i> Deletar Tutorial
+                            </a>
+                            {% endif %}
                         </div>
                     </footer>
                 </div>
@@ -85,7 +103,7 @@
                             {% if related_tutorials %}
                                 {% for related in related_tutorials %}
                                 <div class="related-tutorial-item">
-                                    <a href="{% url 'tutoriais_detailhe' slug=related.slug %}">
+                                    <a href="{% url 'tutorial_detail' slug=related.slug %}">
                                         {% if related.imagem %}
                                         <img src="{{ related.imagem.url }}" alt="{{ related.titulo }}" class="related-tutorial-thumb">
                                         {% else %}
@@ -107,65 +125,16 @@
                             {% endif %}
                         </div>
                     </div>
-
-                    <div class="widget clearfix">
-                        <h3 class="widget-title">Categorias</h3>
-                        <div class="categories-widget">
-                            <ul>
-                                <li><a href="{% url 'tutorial_list' %}">Todos os Tutoriais</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=Python">Python</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=JavaScript">JavaScript</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=BioPython">BioPython</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=Django">Django</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=Data Science">Data Science</a></li>
-                                <li><a href="{% url 'tutorial_list' %}?categoria=Machine Learning">Machine Learning</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="tutorial-content">
-        <section class="tutorial-section">
-            {{ tutorial.introducao|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.conceitos|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.exemplos|safe }}
-        </section>
-
-        <section class="tutorial-section">
-            {{ tutorial.conclusao|safe }}
-        </section>
-    </div>
-
-    <footer class="tutorial-footer">
-        <p>Última atualização: {{ tutorial.data_atualizacao|date:"d/m/Y H:i" }}</p>
-    </footer>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
-// Initialize Prism for code blocks
-document.addEventListener('DOMContentLoaded', function() {
-    // Add language-python class to code blocks
-    document.querySelectorAll('pre code').forEach(function(block) {
-        if (!block.className.includes('language-')) {
-            block.className += ' language-python';
-        }
-        block.parentElement.className += ' line-numbers';
-    });
-    
-    // Re-highlight after adding classes
-    Prism.highlightAll();
-});
+  document.addEventListener('DOMContentLoaded', function() {
+    hljs.highlightAll();
+  });
 </script>
 {% endblock %}

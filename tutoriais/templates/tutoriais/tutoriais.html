@@ -30,7 +30,7 @@
                             <div class="blog-meta">
                                 <small><a href="#">{{ tutorial.categoria }}</a></small>
                                 <h3 id="tutoriais-h3">
-                                    <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
+                                    <a href="{% url 'tutorial_detail' slug=tutorial.slug %}" title="">{{ tutorial.titulo }}</a>
                                 </h3>
                                 <ul class="list-inline">
                                     <li>{{ tutorial.data_criacao|date:"d \d\e F \d\e Y" }}</li>
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="blog-media">
-                                <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" title="">
+                                <a href="{% url 'tutorial_detail' slug=tutorial.slug %}" title="">
                                     {% if tutorial.imagem %}
                                         <img src="{{ tutorial.imagem.url }}" alt="{{ tutorial.titulo }}" class="img-responsive img-rounded">
                                     {% else %}
@@ -62,7 +62,7 @@
                                         {{ tutorial.descricao|truncatewords:50 }}
                                     {% endif %}
                                 </p>
-                                <a href="{% url 'tutoriais_detalhe' tutorial.slug %}" class="btn btn-primary">Leia mais</a>
+                                <a href="{% url 'tutorial_detail' slug=tutorial.slug %}" class="btn btn-primary">Leia mais</a>
                             </div>
                         </div>
                     </div>

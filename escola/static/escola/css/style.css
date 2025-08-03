@@ -1489,7 +1489,8 @@ BLOG
 }
 
 .blog-media img {
-    width: 100%;
+    width: 40%;
+    height: 30%;
 }
 
 .blog-media {
@@ -2837,7 +2838,7 @@ ENHANCED TUTORIAL DETAIL STYLES
 }
 
 .tutorial-image {
-    width: 100%;
+    width: 65%;
     max-width: 100%;
     height: auto;
     border-radius: 12px;
@@ -2850,13 +2851,13 @@ ENHANCED TUTORIAL DETAIL STYLES
     padding: 25px;
     border-radius: 8px;
     margin-bottom: 35px;
-    border-left: 4px solid #007bff;
+    border-left: 3px solid #5b6268;
 }
 
 .tutorial-description p {
     font-size: 16px;
     line-height: 1.6;
-    color: #495057;
+    color: #319fc3;
     margin: 0;
     font-weight: 500;
 }
@@ -2885,22 +2886,24 @@ ENHANCED TUTORIAL DETAIL STYLES
     font-weight: 600;
     margin-bottom: 25px;
     padding-bottom: 12px;
-    border-bottom: 3px solid #007bff;
+    border-bottom: 1.5px solid #007bff;
     display: block;
     width: 100%;
     clear: both;
+    margin-left: 1rem;;
 }
 
+
+/* Match tutorial-section p to tutorial-description p */
 .tutorial-section p {
     font-size: 16px;
-    line-height: 1.7;
-    color: #495057;
-    margin-bottom: 16px;
-    display: block;
-    width: 100%;
-    clear: both;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    padding: 20px;
+    /* background: #fff; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
-
 .tutorial-section > * {
     display: block;
     width: 100%;

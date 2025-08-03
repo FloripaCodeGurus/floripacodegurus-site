@@ -1,0 +1,53 @@
+{% extends 'tutoriais/base_tutoriais.html' %}
+
+{% block content %}
+<section class="section db p120">
+  <div class="container">
+    <div class="tagline-message page-title" style="text-align: left;">
+      <h3>Deletar Tutorial</h3>
+      <ul class="breadcrumb">
+        <li><a href="{% url 'indice' %}">Home</a></li>
+        <li><a href="{% url 'tutoriais' %}">Tutoriais</a></li>
+        <li><a href="{% url 'tutorial_detail' slug=tutorial.slug %}">{{ tutorial.titulo }}</a></li>
+        <li class="active">Deletar</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section gb nopadtop">
+  <div class="container">
+    <div class="boxed">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="content blog-list">
+            <div class="blog-wrapper clearfix">
+              <div class="blog-meta" style="text-align: left;">
+                <h3>Confirmar Exclusão</h3>
+              </div>
+
+              <div class="blog-desc-big" style="text-align: left;">
+                <div class="alert alert-danger">
+                  <h4>Atenção!</h4>
+                  <p>Você tem certeza que deseja deletar o tutorial "<strong>{{ tutorial.titulo }}</strong>"?</p>
+                  <p>Esta ação não pode ser desfeita.</p>
+                </div>
+
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-danger">Sim, Deletar Tutorial</button>
+                    <a href="{% url 'tutorial_detail' slug=tutorial.slug %}" class="btn btn-secondary">Cancelar</a>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
