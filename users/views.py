@@ -47,11 +47,15 @@ def profile_detail(request):
 
 
 @login_required
-def profile_edit(request):
-    profile = get_object_or_404(profile, id=id, autor=f"{request.user.first_name} {request.user.last_name}")
+def profile_edit(request, id):
+    user = get_object_or_404(CustomUser, id=id)
+    
+    # Ensure the user can only edit their own profile
+    if user != request.user:
+        messages.error(request, 'Você só pode editar seu próprio perfil.')
+        return redirect('users:profile')
 
     if request.method == 'POST':
-        user = request.user
         user.first_name = request.POST.get('first_name', user.first_name)
         user.last_name = request.POST.get('last_name', user.last_name)
         user.phone_number = request.POST.get('phone_number', user.phone_number)
@@ -63,6 +67,6 @@ def profile_edit(request):
         
         user.save()
         messages.success(request, 'Perfil atualizado com sucesso!')
-        return redirect('profile')
+        return redirect('users:profile')
     
-    return render(request, 'users/profile.html', {'user': request.user})
+    return render(request, 'users/profile_edit.html', {'user': user})
