@@ -1,0 +1,204 @@
+name: Deploy Django App to AWS EC2
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run tests
+      run: |
+        python manage.py test
+      env:
+        DJANGO_SETTINGS_MODULE: configs.settings.development
+    
+    - name: Check code quality
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    
+    - name: Create deployment package
+      run: |
+        # Create deployment directory
+        mkdir -p deployment
+        
+        # Copy necessary files
+        cp -r escola tutoriais users newsletter configs manage.py requirements.txt Dockerfile docker-entrypoint.sh deployment/
+        cp docker-compose-production.yml deployment/
+        cp -r staticfiles deployment/ 2>/dev/null || echo "No staticfiles directory found"
+        
+        # Create .env.production template
+        cat > deployment/.env.production << EOF
+        SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+        DEBUG=False
+        ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
+        
+        # Database configuration
+        POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
+        POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
+        
+        # Superuser configuration
+        USER_NAME=${{ secrets.USER_NAME }}
+        USER_EMAIL=${{ secrets.USER_EMAIL }}
+        USER_PASSWORD=${{ secrets.USER_PASSWORD }}
+        
+        # Environment
+        ENV_FILE=.env.production
+        DJANGO_SETTINGS_MODULE=configs.settings.production
+        EOF
+        
+        # Create deployment script
+        cat > deployment/deploy.sh << 'EOF'
+        #!/bin/bash
+        set -e
+        
+        echo "🚀 Starting deployment..."
+        
+        # Stop existing containers
+        docker-compose -f docker-compose-production.yml down || true
+        
+        # Remove old images
+        docker system prune -f || true
+        
+        # Build and start new containers
+        docker-compose -f docker-compose-production.yml up -d --build
+        
+        # Wait for database to be ready
+        echo "⏳ Waiting for database to be ready..."
+        sleep 30
+        
+        # Run migrations
+        echo "📊 Running database migrations..."
+        docker-compose -f docker-compose-production.yml exec -T web python manage.py migrate
+        
+        # Collect static files
+        echo "📁 Collecting static files..."
+        docker-compose -f docker-compose-production.yml exec -T web python manage.py collectstatic --noinput
+        
+        # Create superuser if it doesn't exist
+        echo "👤 Creating superuser..."
+        docker-compose -f docker-compose-production.yml exec -T web ./docker-entrypoint.sh || true
+        
+        echo "✅ Deployment completed successfully!"
+        EOF
+        
+        chmod +x deployment/deploy.sh
+        
+        # Create zip file
+        cd deployment && zip -r ../deployment.zip . && cd ..
+    
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: ${{ secrets.EC2_PORT || 22 }}
+        script: |
+          # Create application directory
+          sudo mkdir -p /opt/floripacodegurus
+          sudo chown -R $USER:$USER /opt/floripacodegurus
+          cd /opt/floripacodegurus
+          
+          # Stop existing deployment
+          docker-compose -f docker-compose-production.yml down || true
+          
+          # Remove old deployment
+          rm -rf * || true
+          
+          # Create backup directory
+          mkdir -p backups
+          if [ -f "deployment.zip" ]; then
+            mv deployment.zip backups/deployment-$(date +%Y%m%d-%H%M%S).zip
+          fi
+    
+    - name: Upload deployment package
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: ${{ secrets.EC2_PORT || 22 }}
+        source: "deployment.zip"
+        target: "/opt/floripacodegurus/"
+    
+    - name: Extract and deploy
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: ${{ secrets.EC2_PORT || 22 }}
+        script: |
+          cd /opt/floripacodegurus
+          
+          # Extract deployment package
+          unzip -o deployment.zip
+          
+          # Make deployment script executable
+          chmod +x deploy.sh
+          
+          # Run deployment
+          ./deploy.sh
+          
+          # Clean up
+          rm deployment.zip
+          
+          # Show running containers
+          docker-compose -f docker-compose-production.yml ps
+    
+    - name: Health check
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: ${{ secrets.EC2_PORT || 22 }}
+        script: |
+          echo "🔍 Performing health check..."
+          
+          # Wait for application to start
+          sleep 10
+          
+          # Check if containers are running
+          docker-compose -f docker-compose-production.yml ps
+          
+          # Test application endpoint
+          curl -f http://localhost:8000/ || echo "Health check failed"
+          
+          echo "✅ Health check completed"
