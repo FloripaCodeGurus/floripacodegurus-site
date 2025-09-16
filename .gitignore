@@ -177,3 +177,4 @@ venv.bak/
 !.env.example
 
 staticfiles/
+anotacoes.md
