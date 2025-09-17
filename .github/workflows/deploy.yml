@@ -63,14 +63,8 @@ jobs:
         cat > deployment/.env.production << EOF
         SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
         DEBUG=False
-        ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
+        ALLOWED_HOSTS=localhost,127.0.0.1
         
-        # Database configuration
-        POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-        POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
-        POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
         
         # Superuser configuration
         USER_NAME=${{ secrets.USER_NAME }}
@@ -147,58 +141,58 @@ jobs:
             mv deployment.zip backups/deployment-$(date +%Y%m%d-%H%M%S).zip
           fi
     
-    - name: Upload deployment package
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        source: "deployment.zip"
-        target: "/opt/floripacodegurus/"
+    # - name: Upload deployment package
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     source: "deployment.zip"
+    #     target: "/opt/floripacodegurus/"
     
-    - name: Extract and deploy
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          cd /opt/floripacodegurus
+    # - name: Extract and deploy
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     script: |
+    #       cd /opt/floripacodegurus
           
-          # Extract deployment package
-          unzip -o deployment.zip
+    #       # Extract deployment package
+    #       unzip -o deployment.zip
           
-          # Make deployment script executable
-          chmod +x deploy.sh
+    #       # Make deployment script executable
+    #       chmod +x deploy.sh
           
-          # Run deployment
-          ./deploy.sh
+    #       # Run deployment
+    #       ./deploy.sh
           
-          # Clean up
-          rm deployment.zip
+    #       # Clean up
+    #       rm deployment.zip
           
-          # Show running containers
-          docker-compose -f docker-compose-production.yml ps
+    #       # Show running containers
+    #       docker-compose -f docker-compose-production.yml ps
     
-    - name: Health check
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          echo "🔍 Performing health check..."
+    # - name: Health check
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     script: |
+    #       echo "🔍 Performing health check..."
           
-          # Wait for application to start
-          sleep 10
+    #       # Wait for application to start
+    #       sleep 10
           
-          # Check if containers are running
-          docker-compose -f docker-compose-production.yml ps
+    #       # Check if containers are running
+    #       docker-compose -f docker-compose-production.yml ps
           
-          # Test application endpoint
-          curl -f http://localhost:8000/ || echo "Health check failed"
+    #       # Test application endpoint
+    #       curl -f http://localhost:8000/ || echo "Health check failed"
           
-          echo "✅ Health check completed"
+    #       echo "✅ Health check completed"
