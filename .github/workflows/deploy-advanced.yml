@@ -156,6 +156,33 @@ jobs:
           # Set permissions
           chmod +x docker-entrypoint-simple.sh
           
+          # Fix docker-entrypoint.sh to use production environment
+          if [ -f "docker-entrypoint.sh" ]; then
+            sed -i 's/ENV_FILE="${ENV_FILE:-.env.development}"/ENV_FILE="${ENV_FILE:-.env.production}"/' docker-entrypoint.sh
+            chmod +x docker-entrypoint.sh
+          fi
+          
+          # Ensure environment file exists
+          if [ ! -f ".env.production" ]; then
+            echo "Creating .env.production file..."
+            cat > .env.production << 'ENV_EOF'
+SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789
+DEBUG=False
+ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1
+POSTGRES_DB=floripacodegurus_prod
+POSTGRES_USER=floripacodegurus_user
+POSTGRES_PASSWORD=secure-database-password-123
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+USER_NAME=AdminUser
+USER_EMAIL=admin@floripacodegurus.com
+USER_PASSWORD=admin123456
+ENV_FILE=.env.production
+DJANGO_SETTINGS_MODULE=configs.settings.production
+ENV_NAME=production
+ENV_EOF
+          fi
+          
           # Move back to application directory
           cd ..
           
