@@ -36,22 +36,20 @@ jobs:
           cd /opt/floripacodegurus
           
           # Create proper .env.production file
-          cat > .env.production << 'EOF'
-          SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789
-          DEBUG=False
-          ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1
-          POSTGRES_DB=floripacodegurus_prod
-          POSTGRES_USER=floripacodegurus_user
-          POSTGRES_PASSWORD=secure-database-password-123
-          POSTGRES_HOST=db
-          POSTGRES_PORT=5432
-          USER_NAME=AdminUser
-          USER_EMAIL=admin@floripacodegurus.com
-          USER_PASSWORD=admin123456
-          ENV_FILE=.env.production
-          DJANGO_SETTINGS_MODULE=configs.settings.production
-          ENV_NAME=production
-          EOF
+          echo "SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789" > .env.production
+          echo "DEBUG=False" >> .env.production
+          echo "ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1" >> .env.production
+          echo "POSTGRES_DB=floripacodegurus_prod" >> .env.production
+          echo "POSTGRES_USER=floripacodegurus_user" >> .env.production
+          echo "POSTGRES_PASSWORD=secure-database-password-123" >> .env.production
+          echo "POSTGRES_HOST=db" >> .env.production
+          echo "POSTGRES_PORT=5432" >> .env.production
+          echo "USER_NAME=AdminUser" >> .env.production
+          echo "USER_EMAIL=admin@floripacodegurus.com" >> .env.production
+          echo "USER_PASSWORD=admin123456" >> .env.production
+          echo "ENV_FILE=.env.production" >> .env.production
+          echo "DJANGO_SETTINGS_MODULE=configs.settings.production" >> .env.production
+          echo "ENV_NAME=production" >> .env.production
           
           echo "✅ Environment file created"
         EOF
@@ -85,16 +83,16 @@ jobs:
           cd /opt/floripacodegurus
           
           # Stop containers
-          docker compose -f docker compose-simple.yml down
+          docker-compose -f docker-compose-simple.yml down
           
           # Start containers
-          docker compose -f docker compose-simple.yml up -d
+          docker-compose -f docker-compose-simple.yml up -d
           
           # Wait for services to start
           sleep 30
           
           # Check status
-          docker compose -f docker compose-simple.yml ps
+          docker-compose -f docker-compose-simple.yml ps
         EOF
         
     - name: Rebuild Containers
@@ -105,25 +103,25 @@ jobs:
           cd /opt/floripacodegurus
           
           # Stop containers
-          docker compose -f docker compose-simple.yml down
+          docker-compose -f docker-compose-simple.yml down
           
           # Remove old containers and images
-          docker compose -f docker compose-simple.yml rm -f
+          docker-compose -f docker-compose-simple.yml rm -f
           docker rmi floripacodegurus-web || true
           
           # Build and start containers
-          docker compose -f docker compose-simple.yml build --no-cache web
-          docker compose -f docker compose-simple.yml up -d
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker-compose -f docker-compose-simple.yml up -d
           
           # Wait for services to start
           sleep 60
           
           # Check status
-          docker compose -f docker compose-simple.yml ps
+          docker-compose -f docker-compose-simple.yml ps
           
           # Check logs
           echo "📋 Web container logs:"
-          docker compose -f docker compose-simple.yml logs web --tail=20
+          docker-compose -f docker-compose-simple.yml logs web --tail=20
         EOF
         
     - name: Full Fix
@@ -134,7 +132,7 @@ jobs:
           cd /opt/floripacodegurus
           
           # Stop all containers
-          docker compose -f docker compose-simple.yml down
+          docker-compose -f docker-compose-simple.yml down
           
           # Clean up
           docker system prune -f
@@ -143,14 +141,14 @@ jobs:
           ls -la
           
           # Build and start
-          docker compose -f docker compose-simple.yml build --no-cache web
-          docker compose -f docker compose-simple.yml up -d
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker-compose -f docker-compose-simple.yml up -d
           
           # Wait for services
           sleep 60
           
           # Check status
-          docker compose -f docker compose-simple.yml ps
+          docker-compose -f docker-compose-simple.yml ps
           
           # Test health
           sleep 30
@@ -158,7 +156,7 @@ jobs:
             echo "✅ Application is healthy!"
           else
             echo "❌ Application health check failed"
-            docker compose -f docker compose-simple.yml logs web --tail=30
+            docker-compose -f docker-compose-simple.yml logs web --tail=30
           fi
         EOF
         
