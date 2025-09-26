@@ -35,7 +35,7 @@ jobs:
         ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           echo "📊 Container Status:"
           cd /opt/floripacodegurus
-          docker-compose -f docker-compose-simple.yml ps
+          docker compose -f docker compose-simple.yml ps
           
           echo "📋 Container Details:"
           docker ps -a
@@ -51,10 +51,10 @@ jobs:
         ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           echo "📋 Web Container Logs:"
           cd /opt/floripacodegurus
-          docker-compose -f docker-compose-simple.yml logs web --tail=50
+          docker compose -f docker compose-simple.yml logs web --tail=50
           
           echo "📋 Database Container Logs:"
-          docker-compose -f docker-compose-simple.yml logs db --tail=20
+          docker compose -f docker compose-simple.yml logs db --tail=20
           
           echo "📋 System Logs:"
           sudo journalctl -u docker --tail=20
@@ -68,19 +68,19 @@ jobs:
           cd /opt/floripacodegurus
           
           # Stop all containers
-          docker-compose -f docker-compose-simple.yml down
+          docker compose -f docker compose-simple.yml down
           
           # Clean up any orphaned containers
           docker system prune -f
           
           # Start services
-          docker-compose -f docker-compose-simple.yml up -d
+          docker compose -f docker compose-simple.yml up -d
           
           # Wait for services to start
           sleep 30
           
           # Check status
-          docker-compose -f docker-compose-simple.yml ps
+          docker compose -f docker compose-simple.yml ps
         EOF
         
     - name: Check Connectivity
@@ -120,7 +120,7 @@ jobs:
           # Docker information
           echo "🐳 Docker Info:"
           docker --version
-          docker-compose --version
+          docker compose --version
           
           # Disk usage
           echo "💾 Disk Usage:"
@@ -153,9 +153,9 @@ jobs:
           
           # Docker Compose file
           echo "🐳 Docker Compose Configuration:"
-          if [ -f "/opt/floripacodegurus/docker-compose-simple.yml" ]; then
+          if [ -f "/opt/floripacodegurus/docker compose-simple.yml" ]; then
             echo "Docker Compose file exists"
-            head -20 /opt/floripacodegurus/docker-compose-simple.yml
+            head -20 /opt/floripacodegurus/docker compose-simple.yml
           else
             echo "❌ Docker Compose file not found"
           fi

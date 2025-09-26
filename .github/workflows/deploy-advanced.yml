@@ -55,7 +55,7 @@ jobs:
     - name: Check Docker configuration
       run: |
         docker --version
-        docker-compose --version
+        docker compose version
 
   deploy:
     needs: test
@@ -113,8 +113,8 @@ jobs:
           
           # Backup database
           cd /opt/floripacodegurus
-          if docker-compose -f docker-compose-simple.yml ps | grep -q "Up"; then
-            docker-compose -f docker-compose-simple.yml exec -T db pg_dump -U floripacodegurus_user floripacodegurus_prod > "$BACKUP_PATH/database.sql"
+          if docker compose -f docker compose-simple.yml ps | grep -q "Up"; then
+            docker compose -f docker compose-simple.yml exec -T db pg_dump -U floripacodegurus_user floripacodegurus_prod > "$BACKUP_PATH/database.sql"
           fi
           
           echo "✅ Backup created at $BACKUP_PATH"
@@ -136,7 +136,7 @@ jobs:
           
           # Stop current containers gracefully
           echo "🛑 Stopping current containers..."
-          docker-compose -f docker-compose-simple.yml down || true
+          docker compose -f docker compose-simple.yml down || true
           
           # Create new deployment directory
           if [ -d "app_new" ]; then
@@ -165,22 +165,22 @@ jobs:
           # Ensure environment file exists
           if [ ! -f ".env.production" ]; then
             echo "Creating .env.production file..."
-            cat > .env.production << 'ENV_EOF'
-          SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789
-          DEBUG=False
-          ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1
-          POSTGRES_DB=floripacodegurus_prod
-          POSTGRES_USER=floripacodegurus_user
-          POSTGRES_PASSWORD=secure-database-password-123
-          POSTGRES_HOST=db
-          POSTGRES_PORT=5432
-          USER_NAME=AdminUser
-          USER_EMAIL=admin@floripacodegurus.com
-          USER_PASSWORD=admin123456
-          ENV_FILE=.env.production
-          DJANGO_SETTINGS_MODULE=configs.settings.production
-          ENV_NAME=production
-          ENV_EOF
+            cat > .env.production << 'EOF'
+SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789
+DEBUG=False
+ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1
+POSTGRES_DB=floripacodegurus_prod
+POSTGRES_USER=floripacodegurus_user
+POSTGRES_PASSWORD=secure-database-password-123
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+USER_NAME=AdminUser
+USER_EMAIL=admin@floripacodegurus.com
+USER_PASSWORD=admin123456
+ENV_FILE=.env.production
+DJANGO_SETTINGS_MODULE=configs.settings.production
+ENV_NAME=production
+EOF
           fi
           
           # Move back to application directory
@@ -200,10 +200,10 @@ jobs:
           
           # Build and start containers
           echo "🔨 Building containers..."
-          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker compose -f docker compose-simple.yml build --no-cache web
           
           echo "🚀 Starting containers..."
-          docker-compose -f docker-compose-simple.yml up -d
+          docker compose -f docker compose-simple.yml up -d
           
           # Wait for services to be ready
           echo "⏳ Waiting for services to start..."
@@ -223,11 +223,11 @@ jobs:
           
           # Run migrations
           echo "🔄 Running database migrations..."
-          docker-compose -f docker-compose-simple.yml exec -T web python manage.py migrate
+          docker compose -f docker compose-simple.yml exec -T web python manage.py migrate
           
           # Collect static files
           echo "📦 Collecting static files..."
-          docker-compose -f docker-compose-simple.yml exec -T web python manage.py collectstatic --noinput
+          docker compose -f docker compose-simple.yml exec -T web python manage.py collectstatic --noinput
           
           # Final health check
           if curl -f http://localhost:8000/ > /dev/null 2>&1; then
@@ -241,7 +241,7 @@ jobs:
               rm -rf app
               mv app_backup app
               cp -r app/* .
-              docker-compose -f docker-compose-simple.yml up -d
+              docker compose -f docker compose-simple.yml up -d
             fi
             exit 1
           fi
@@ -278,7 +278,7 @@ jobs:
           
           # Check container status
           echo "📊 Container status:"
-          docker-compose -f docker-compose-simple.yml ps
+          docker compose -f docker compose-simple.yml ps
           
           # Check system resources
           echo "💾 System resources:"
