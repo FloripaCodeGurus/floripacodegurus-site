@@ -1,0 +1,170 @@
+name: Troubleshoot Deployment Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Troubleshooting action'
+        required: true
+        type: choice
+        options:
+        - check_containers
+        - check_logs
+        - restart_services
+        - check_connectivity
+        - full_diagnosis
+
+jobs:
+  troubleshoot:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+        
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Check Containers
+      if: ${{ github.event.inputs.action == 'check_containers' || github.event.inputs.action == 'full_diagnosis' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "📊 Container Status:"
+          cd /opt/floripacodegurus
+          docker-compose -f docker-compose-simple.yml ps
+          
+          echo "📋 Container Details:"
+          docker ps -a
+          
+          echo "💾 System Resources:"
+          df -h | head -5
+          free -h
+        EOF
+        
+    - name: Check Logs
+      if: ${{ github.event.inputs.action == 'check_logs' || github.event.inputs.action == 'full_diagnosis' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "📋 Web Container Logs:"
+          cd /opt/floripacodegurus
+          docker-compose -f docker-compose-simple.yml logs web --tail=50
+          
+          echo "📋 Database Container Logs:"
+          docker-compose -f docker-compose-simple.yml logs db --tail=20
+          
+          echo "📋 System Logs:"
+          sudo journalctl -u docker --tail=20
+        EOF
+        
+    - name: Restart Services
+      if: ${{ github.event.inputs.action == 'restart_services' || github.event.inputs.action == 'full_diagnosis' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔄 Restarting services..."
+          cd /opt/floripacodegurus
+          
+          # Stop all containers
+          docker-compose -f docker-compose-simple.yml down
+          
+          # Clean up any orphaned containers
+          docker system prune -f
+          
+          # Start services
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services to start
+          sleep 30
+          
+          # Check status
+          docker-compose -f docker-compose-simple.yml ps
+        EOF
+        
+    - name: Check Connectivity
+      if: ${{ github.event.inputs.action == 'check_connectivity' || github.event.inputs.action == 'full_diagnosis' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🌐 Network Connectivity:"
+          
+          # Check if port 8000 is listening
+          netstat -tlnp | grep :8000 || echo "Port 8000 not listening"
+          
+          # Check if containers can reach each other
+          echo "🔗 Container Network:"
+          docker network ls
+          docker network inspect floripacodegurus_app-network || echo "Network not found"
+          
+          # Test internal connectivity
+          echo "🏥 Internal Health Check:"
+          curl -f http://localhost:8000/ > /dev/null 2>&1 && echo "✅ Internal health check passed" || echo "❌ Internal health check failed"
+          
+          # Check firewall
+          echo "🔥 Firewall Status:"
+          sudo iptables -L | head -10
+        EOF
+        
+    - name: Full Diagnosis
+      if: ${{ github.event.inputs.action == 'full_diagnosis' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔍 Full System Diagnosis:"
+          
+          # System information
+          echo "💻 System Info:"
+          uname -a
+          cat /etc/os-release
+          
+          # Docker information
+          echo "🐳 Docker Info:"
+          docker --version
+          docker-compose --version
+          
+          # Disk usage
+          echo "💾 Disk Usage:"
+          df -h
+          
+          # Memory usage
+          echo "🧠 Memory Usage:"
+          free -h
+          
+          # Process information
+          echo "⚙️ Running Processes:"
+          ps aux | grep -E "(docker|python)" | head -10
+          
+          # Network information
+          echo "🌐 Network Info:"
+          ip addr show | grep -E "(inet|UP)"
+          
+          # Application directory
+          echo "📁 Application Directory:"
+          ls -la /opt/floripacodegurus/
+          
+          # Environment file
+          echo "🔧 Environment Configuration:"
+          if [ -f "/opt/floripacodegurus/.env.production" ]; then
+            echo "Environment file exists"
+            wc -l /opt/floripacodegurus/.env.production
+          else
+            echo "❌ Environment file not found"
+          fi
+          
+          # Docker Compose file
+          echo "🐳 Docker Compose Configuration:"
+          if [ -f "/opt/floripacodegurus/docker-compose-simple.yml" ]; then
+            echo "Docker Compose file exists"
+            head -20 /opt/floripacodegurus/docker-compose-simple.yml
+          else
+            echo "❌ Docker Compose file not found"
+          fi
+        EOF
+        
+    - name: Generate Report
+      if: always()
+      run: |
+        echo "📊 Troubleshooting Report Generated"
+        echo "Action: ${{ github.event.inputs.action }}"
+        echo "Timestamp: $(date)"
+        echo "Status: ${{ job.status }}"
