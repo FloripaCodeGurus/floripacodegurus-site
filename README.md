@@ -52,6 +52,7 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `ssl-setup.yml`: SSL certificate automation
   - `troubleshoot.yml`: Deployment troubleshooting tools
   - `quick-fix.yml`: Quick deployment fixes
+  - `fix-security-group.yml`: Security group configuration for external access
 - **Documentation**:
   - `GITHUB_ACTIONS_SETUP.md`: Complete GitHub Actions setup guide
 
@@ -272,6 +273,14 @@ The repository includes several automated workflows:
   - Rebuild containers
   - Complete deployment fix
 
+#### 🔒 **Fix Security Group for External Access** (`fix-security-group.yml`)
+- **Trigger**: Manual workflow
+- **Features**:
+  - Check current security group rules
+  - Add port 8000 for Django access
+  - Add all required ports (22, 80, 443, 8000)
+  - Test external connectivity
+
 ### Docker Services
 
 The deployment includes:
@@ -301,6 +310,15 @@ docker-compose -f docker-compose-simple.yml logs -f web
 If deployment fails, use the troubleshooting workflows:
 
 #### **Quick Fix (Recommended for current issue):**
+1. **Go to Actions tab** in your GitHub repository
+2. **Select "Fix Security Group for External Access"**
+3. **Choose fix action**:
+   - `check_security_group`: Check current security group rules
+   - `add_port_8000`: Add port 8000 for Django access
+   - `add_all_ports`: Add all required ports (22, 80, 443, 8000)
+   - `full_setup`: Complete security group setup and test
+
+#### **Alternative Quick Fix:**
 1. **Go to Actions tab** in your GitHub repository
 2. **Select "Quick Fix Deployment"**
 3. **Choose fix action**:

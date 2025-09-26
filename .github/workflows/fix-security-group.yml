@@ -1,0 +1,180 @@
+name: Fix Security Group for External Access
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Security Group action'
+        required: true
+        type: choice
+        options:
+        - check_security_group
+        - add_port_8000
+        - add_all_ports
+        - full_setup
+
+jobs:
+  fix-security-group:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+        
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Check Security Group
+      if: ${{ github.event.inputs.action == 'check_security_group' || github.event.inputs.action == 'full_setup' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔍 Checking Security Group configuration..."
+          
+          # Get instance ID
+          INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+          echo "📋 Instance ID: $INSTANCE_ID"
+          
+          # Get security group ID
+          SECURITY_GROUP_ID=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupId' --output text 2>/dev/null || echo "AWS CLI not available")
+          echo "🔒 Security Group ID: $SECURITY_GROUP_ID"
+          
+          # Check current rules
+          echo "📊 Current Security Group Rules:"
+          aws ec2 describe-security-groups --group-ids $SECURITY_GROUP_ID --query 'SecurityGroups[0].IpPermissions' --output table 2>/dev/null || echo "AWS CLI not available - check manually in AWS Console"
+          
+          # Test internal connectivity
+          echo "🏥 Testing internal connectivity..."
+          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+            echo "✅ Internal access working"
+          else
+            echo "❌ Internal access failed"
+          fi
+        EOF
+        
+    - name: Add Port 8000 Rule
+      if: ${{ github.event.inputs.action == 'add_port_8000' || github.event.inputs.action == 'full_setup' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔧 Adding port 8000 to Security Group..."
+          
+          # Get instance ID and security group
+          INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+          SECURITY_GROUP_ID=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupId' --output text 2>/dev/null)
+          
+          if [ "$SECURITY_GROUP_ID" != "None" ] && [ "$SECURITY_GROUP_ID" != "" ]; then
+            echo "📋 Adding inbound rule for port 8000..."
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 8000 \
+              --cidr 0.0.0.0/0 \
+              --output table 2>/dev/null || echo "Rule may already exist"
+            
+            echo "✅ Port 8000 rule added"
+          else
+            echo "❌ Could not get Security Group ID - AWS CLI may not be configured"
+            echo "📝 Manual steps required:"
+            echo "1. Go to AWS Console → EC2 → Security Groups"
+            echo "2. Find your instance's security group"
+            echo "3. Add inbound rule: Type=Custom TCP, Port=8000, Source=0.0.0.0/0"
+          fi
+        EOF
+        
+    - name: Add All Required Ports
+      if: ${{ github.event.inputs.action == 'add_all_ports' || github.event.inputs.action == 'full_setup' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔧 Adding all required ports to Security Group..."
+          
+          # Get instance ID and security group
+          INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+          SECURITY_GROUP_ID=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupId' --output text 2>/dev/null)
+          
+          if [ "$SECURITY_GROUP_ID" != "None" ] && [ "$SECURITY_GROUP_ID" != "" ]; then
+            echo "📋 Adding required inbound rules..."
+            
+            # Port 22 (SSH)
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 22 \
+              --cidr 0.0.0.0/0 \
+              --output table 2>/dev/null || echo "SSH rule may already exist"
+            
+            # Port 8000 (Django)
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 8000 \
+              --cidr 0.0.0.0/0 \
+              --output table 2>/dev/null || echo "Port 8000 rule may already exist"
+            
+            # Port 80 (HTTP)
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 80 \
+              --cidr 0.0.0.0/0 \
+              --output table 2>/dev/null || echo "Port 80 rule may already exist"
+            
+            # Port 443 (HTTPS)
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 443 \
+              --cidr 0.0.0.0/0 \
+              --output table 2>/dev/null || echo "Port 443 rule may already exist"
+            
+            echo "✅ All required ports added"
+          else
+            echo "❌ Could not get Security Group ID - AWS CLI may not be configured"
+            echo "📝 Manual steps required:"
+            echo "1. Go to AWS Console → EC2 → Security Groups"
+            echo "2. Find your instance's security group"
+            echo "3. Add inbound rules:"
+            echo "   - Type=SSH, Port=22, Source=0.0.0.0/0"
+            echo "   - Type=Custom TCP, Port=8000, Source=0.0.0.0/0"
+            echo "   - Type=HTTP, Port=80, Source=0.0.0.0/0"
+            echo "   - Type=HTTPS, Port=443, Source=0.0.0.0/0"
+          fi
+        EOF
+        
+    - name: Test External Access
+      if: ${{ github.event.inputs.action == 'full_setup' }}
+      run: |
+        echo "🏥 Testing external access..."
+        sleep 10
+        
+        # Test external access
+        for i in {1..5}; do
+          echo "⏳ External access test attempt $i/5..."
+          if curl -f http://${{ secrets.EC2_HOST }}:8000/ > /dev/null 2>&1; then
+            echo "✅ External access working!"
+            echo "🌐 Application is accessible at: http://${{ secrets.EC2_HOST }}:8000"
+            exit 0
+          else
+            echo "⏳ External access attempt $i/5 failed, retrying in 10 seconds..."
+            sleep 10
+          fi
+        done
+        
+        echo "❌ External access still not working"
+        echo "📝 Please check:"
+        echo "1. Security Group has port 8000 open"
+        echo "2. Instance is running"
+        echo "3. Application is running on port 8000"
+        
+    - name: Generate Report
+      if: always()
+      run: |
+        echo "📊 Security Group Fix Report"
+        echo "Action: ${{ github.event.inputs.action }}"
+        echo "Timestamp: $(date)"
+        echo "Status: ${{ job.status }}"
+        echo ""
+        echo "🌐 If successful, your app should be accessible at:"
+        echo "http://${{ secrets.EC2_HOST }}:8000"
