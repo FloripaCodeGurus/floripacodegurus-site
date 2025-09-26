@@ -2,197 +2,146 @@ name: Deploy Django App to AWS EC2
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'
-    
+        python-version: '3.13'
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    
+        
     - name: Run tests
       run: |
-        python manage.py test
-      env:
-        DJANGO_SETTINGS_MODULE: configs.settings.development
-    
-    - name: Check code quality
-      run: |
-        pip install flake8
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-    
+        python manage.py test --settings=configs.settings.development
+        
     - name: Create deployment package
       run: |
-        # Create deployment directory
-        mkdir -p deployment
+        tar -czf deployment.tar.gz \
+          --exclude='venv' \
+          --exclude='__pycache__' \
+          --exclude='.git' \
+          --exclude='*.pyc' \
+          --exclude='.env*' \
+          --exclude='deployment.tar.gz' \
+          --exclude='.github' \
+          .
+          
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
         
-        # Copy necessary files
-        cp -r escola tutoriais users newsletter configs manage.py requirements.txt Dockerfile docker-entrypoint.sh deployment/
-        cp docker-compose-production.yml deployment/
-        cp -r staticfiles deployment/ 2>/dev/null || echo "No staticfiles directory found"
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
         
-        # Create .env.production template
-        cat > deployment/.env.production << EOF
-        SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
-        DEBUG=False
-        ALLOWED_HOSTS=localhost,127.0.0.1
-        
-        
-        # Superuser configuration
-        USER_NAME=${{ secrets.USER_NAME }}
-        USER_EMAIL=${{ secrets.USER_EMAIL }}
-        USER_PASSWORD=${{ secrets.USER_PASSWORD }}
-        
-        # Environment
-        ENV_FILE=.env.production
-        DJANGO_SETTINGS_MODULE=configs.settings.production
-        EOF
-        
-        # Create deployment script
-        cat > deployment/deploy.sh << 'EOF'
-        #!/bin/bash
-        set -e
-        
-        echo "🚀 Starting deployment..."
-        
-        # Stop existing containers
-        docker-compose -f docker-compose-production.yml down || true
-        
-        # Remove old images
-        docker system prune -f || true
-        
-        # Build and start new containers
-        docker-compose -f docker-compose-production.yml up -d --build
-        
-        # Wait for database to be ready
-        echo "⏳ Waiting for database to be ready..."
-        sleep 30
-        
-        # Run migrations
-        echo "📊 Running database migrations..."
-        docker-compose -f docker-compose-production.yml exec -T web python manage.py migrate
-        
-        # Collect static files
-        echo "📁 Collecting static files..."
-        docker-compose -f docker-compose-production.yml exec -T web python manage.py collectstatic --noinput
-        
-        # Create superuser if it doesn't exist
-        echo "👤 Creating superuser..."
-        docker-compose -f docker-compose-production.yml exec -T web ./docker-entrypoint.sh || true
-        
-        echo "✅ Deployment completed successfully!"
-        EOF
-        
-        chmod +x deployment/deploy.sh
-        
-        # Create zip file
-        cd deployment && zip -r ../deployment.zip . && cd ..
-    
     - name: Deploy to EC2
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          # Create application directory
-          sudo mkdir -p /opt/floripacodegurus
-          sudo chown -R $USER:$USER /opt/floripacodegurus
+      run: |
+        # Upload deployment package
+        scp deployment.tar.gz ec2-user@${{ secrets.EC2_HOST }}:/tmp/
+        
+        # Deploy on EC2
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          set -e
+          
+          echo "🚀 Starting deployment..."
+          
+          # Navigate to application directory
           cd /opt/floripacodegurus
           
-          # Stop existing deployment
-          docker-compose -f docker-compose-production.yml down || true
+          # Stop current containers
+          docker-compose -f docker-compose-simple.yml down || true
           
-          # Remove old deployment
-          rm -rf * || true
-          
-          # Create backup directory
-          mkdir -p backups
-          if [ -f "deployment.zip" ]; then
-            mv deployment.zip backups/deployment-$(date +%Y%m%d-%H%M%S).zip
+          # Backup current deployment
+          if [ -d "app_backup" ]; then
+            rm -rf app_backup
           fi
-    
-    - name: Upload deployment package
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        source: "deployment.zip"
-        target: "/opt/floripacodegurus/"
-    
-    - name: Extract and deploy
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          cd /opt/floripacodegurus
+          if [ -d "app" ]; then
+            mv app app_backup
+          fi
           
-          # Extract deployment package
-          unzip -o deployment.zip
+          # Extract new deployment
+          mkdir -p app
+          cd app
+          tar -xzf /tmp/deployment.tar.gz
           
-          # Make deployment script executable
-          chmod +x deploy.sh
+          # Copy environment file
+          cp ../.env.production .env.production || echo "No .env.production found"
           
-          # Run deployment
-          ./deploy.sh
+          # Move back to application directory
+          cd ..
+          
+          # Copy new files
+          cp -r app/* .
+          rm -rf app
+          
+          # Set permissions
+          chmod +x docker-entrypoint-simple.sh
+          
+          # Build and start containers
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services to be ready
+          sleep 30
+          
+          # Run migrations
+          docker-compose -f docker-compose-simple.yml exec -T web python manage.py migrate
+          
+          # Collect static files
+          docker-compose -f docker-compose-simple.yml exec -T web python manage.py collectstatic --noinput
+          
+          # Health check
+          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+            echo "✅ Deployment successful!"
+            # Clean up backup if deployment is successful
+            rm -rf app_backup
+          else
+            echo "❌ Deployment failed, rolling back..."
+            if [ -d "app_backup" ]; then
+              rm -rf app_backup
+            fi
+            exit 1
+          fi
           
           # Clean up
-          rm deployment.zip
-          
-          # Show running containers
-          docker-compose -f docker-compose-production.yml ps
-    
-    - name: Health check
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          echo "🔍 Performing health check..."
-          
-          # Wait for application to start
-          sleep 10
-          
-          # Check if containers are running
-          docker-compose -f docker-compose-production.yml ps
-          
-          # Test application endpoint
-          curl -f http://localhost:8000/ || echo "Health check failed"
-          
-          echo "✅ Health check completed"
+          rm -f /tmp/deployment.tar.gz
+        EOF
+        
+    - name: Health Check
+      run: |
+        sleep 10
+        curl -f http://${{ secrets.EC2_HOST }}:8000/ || exit 1
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Deployment successful!"
+          echo "🌐 Application is available at: http://${{ secrets.EC2_HOST }}:8000"
+        else
+          echo "❌ Deployment failed!"
+        fi

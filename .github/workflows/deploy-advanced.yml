@@ -1,0 +1,272 @@
+name: Advanced Deploy Django App to AWS EC2
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+env:
+  DEPLOYMENT_DIR: /opt/floripacodegurus
+  BACKUP_DIR: /opt/floripacodegurus/backups
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run linting
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+    - name: Run tests
+      run: |
+        python manage.py test --settings=configs.settings.development
+        
+    - name: Check Docker configuration
+      run: |
+        docker --version
+        docker-compose --version
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Create deployment package
+      run: |
+        tar -czf deployment.tar.gz \
+          --exclude='venv' \
+          --exclude='__pycache__' \
+          --exclude='.git' \
+          --exclude='*.pyc' \
+          --exclude='.env*' \
+          --exclude='deployment.tar.gz' \
+          --exclude='.github' \
+          --exclude='logs' \
+          .
+          
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+        
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Pre-deployment backup
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          set -e
+          echo "📦 Creating pre-deployment backup..."
+          
+          BACKUP_DIR="/opt/floripacodegurus/backups"
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          BACKUP_PATH="$BACKUP_DIR/pre-deploy-$TIMESTAMP"
+          
+          mkdir -p "$BACKUP_PATH"
+          
+          # Backup current application
+          if [ -d "/opt/floripacodegurus/app" ]; then
+            cp -r /opt/floripacodegurus/app "$BACKUP_PATH/"
+          fi
+          
+          # Backup environment file
+          if [ -f "/opt/floripacodegurus/.env.production" ]; then
+            cp /opt/floripacodegurus/.env.production "$BACKUP_PATH/"
+          fi
+          
+          # Backup database
+          cd /opt/floripacodegurus
+          if docker-compose -f docker-compose-simple.yml ps | grep -q "Up"; then
+            docker-compose -f docker-compose-simple.yml exec -T db pg_dump -U floripacodegurus_user floripacodegurus_prod > "$BACKUP_PATH/database.sql"
+          fi
+          
+          echo "✅ Backup created at $BACKUP_PATH"
+        EOF
+        
+    - name: Deploy to EC2
+      run: |
+        # Upload deployment package
+        scp deployment.tar.gz ec2-user@${{ secrets.EC2_HOST }}:/tmp/
+        
+        # Deploy on EC2
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          set -e
+          
+          echo "🚀 Starting deployment..."
+          
+          # Navigate to application directory
+          cd /opt/floripacodegurus
+          
+          # Stop current containers gracefully
+          echo "🛑 Stopping current containers..."
+          docker-compose -f docker-compose-simple.yml down || true
+          
+          # Create new deployment directory
+          if [ -d "app_new" ]; then
+            rm -rf app_new
+          fi
+          mkdir -p app_new
+          cd app_new
+          
+          # Extract new deployment
+          tar -xzf /tmp/deployment.tar.gz
+          
+          # Copy environment file
+          if [ -f "../.env.production" ]; then
+            cp ../.env.production .env.production
+          fi
+          
+          # Set permissions
+          chmod +x docker-entrypoint-simple.sh
+          
+          # Move back to application directory
+          cd ..
+          
+          # Backup current app
+          if [ -d "app" ]; then
+            rm -rf app_backup
+            mv app app_backup
+          fi
+          
+          # Move new app to current
+          mv app_new app
+          
+          # Copy new files to root
+          cp -r app/* .
+          
+          # Build and start containers
+          echo "🔨 Building containers..."
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          
+          echo "🚀 Starting containers..."
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services to be ready
+          echo "⏳ Waiting for services to start..."
+          sleep 30
+          
+          # Health check
+          echo "🏥 Performing health check..."
+          for i in {1..5}; do
+            if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+              echo "✅ Health check passed!"
+              break
+            else
+              echo "⏳ Health check attempt $i/5 failed, retrying..."
+              sleep 10
+            fi
+          done
+          
+          # Run migrations
+          echo "🔄 Running database migrations..."
+          docker-compose -f docker-compose-simple.yml exec -T web python manage.py migrate
+          
+          # Collect static files
+          echo "📦 Collecting static files..."
+          docker-compose -f docker-compose-simple.yml exec -T web python manage.py collectstatic --noinput
+          
+          # Final health check
+          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+            echo "✅ Deployment successful!"
+            # Clean up backup if deployment is successful
+            rm -rf app_backup
+            rm -rf app
+          else
+            echo "❌ Deployment failed, rolling back..."
+            if [ -d "app_backup" ]; then
+              rm -rf app
+              mv app_backup app
+              cp -r app/* .
+              docker-compose -f docker-compose-simple.yml up -d
+            fi
+            exit 1
+          fi
+          
+          # Clean up
+          rm -f /tmp/deployment.tar.gz
+        EOF
+        
+    - name: Post-deployment verification
+      run: |
+        echo "🔍 Performing post-deployment verification..."
+        
+        # Wait for services to be fully ready
+        sleep 20
+        
+        # Test application endpoints
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "Testing application endpoints..."
+          
+          # Test main page
+          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+            echo "✅ Main page accessible"
+          else
+            echo "❌ Main page not accessible"
+            exit 1
+          fi
+          
+          # Test admin page
+          if curl -f http://localhost:8000/admin/ > /dev/null 2>&1; then
+            echo "✅ Admin page accessible"
+          else
+            echo "⚠️ Admin page not accessible (this might be normal)"
+          fi
+          
+          # Check container status
+          echo "📊 Container status:"
+          docker-compose -f docker-compose-simple.yml ps
+          
+          # Check system resources
+          echo "💾 System resources:"
+          df -h | head -5
+          free -h
+        EOF
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Deployment successful!"
+          echo "🌐 Application is available at: http://${{ secrets.EC2_HOST }}:8000"
+          echo "📊 Deployment completed at: $(date)"
+        else
+          echo "❌ Deployment failed!"
+          echo "🔄 Check the logs for more information"
+        fi
