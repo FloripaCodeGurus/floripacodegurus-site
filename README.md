@@ -50,6 +50,7 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `deploy.yml`: Basic automated deployment
   - `deploy-advanced.yml`: Advanced deployment with backups
   - `ssl-setup.yml`: SSL certificate automation
+  - `troubleshoot.yml`: Deployment troubleshooting tools
 - **Documentation**:
   - `GITHUB_ACTIONS_SETUP.md`: Complete GitHub Actions setup guide
 
@@ -253,6 +254,15 @@ The repository includes several automated workflows:
   - Auto-renewal setup
   - HTTPS redirection
 
+#### 🔧 **Troubleshoot Deployment Issues** (`troubleshoot.yml`)
+- **Trigger**: Manual workflow
+- **Features**:
+  - Container status checking
+  - Log analysis
+  - Service restart
+  - Connectivity testing
+  - Full system diagnosis
+
 ### Docker Services
 
 The deployment includes:
@@ -276,6 +286,19 @@ docker-compose -f docker-compose-simple.yml logs -f web
 ---
 
 ## 🔧 Troubleshooting
+
+### 🔧 GitHub Actions Troubleshooting
+
+If deployment fails, use the troubleshooting workflow:
+
+1. **Go to Actions tab** in your GitHub repository
+2. **Select "Troubleshoot Deployment Issues"**
+3. **Choose troubleshooting action**:
+   - `check_containers`: Check container status
+   - `check_logs`: Analyze container logs
+   - `restart_services`: Restart all services
+   - `check_connectivity`: Test network connectivity
+   - `full_diagnosis`: Complete system analysis
 
 ### Common Issues
 
