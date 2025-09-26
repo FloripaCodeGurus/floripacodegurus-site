@@ -38,7 +38,7 @@ jobs:
           sudo yum install -y certbot python3-certbot-nginx
           
           # Stop nginx if running
-          docker-compose -f docker-compose-simple.yml stop nginx || true
+          docker compose -f docker compose-simple.yml stop nginx || true
           
           # Obtain SSL certificate
           sudo certbot certonly --standalone \
@@ -220,12 +220,12 @@ jobs:
           
           cd /opt/floripacodegurus
           
-          # Update docker-compose to use nginx with SSL
-          if [ -f "docker-compose-production.yml" ]; then
-            docker-compose -f docker-compose-production.yml up -d
+          # Update docker compose to use nginx with SSL
+          if [ -f "docker compose-production.yml" ]; then
+            docker compose -f docker compose-production.yml up -d
           else
-            echo "⚠️ Production docker-compose not found, using simple setup"
-            docker-compose -f docker-compose-simple.yml up -d
+            echo "⚠️ Production docker compose not found, using simple setup"
+            docker compose -f docker compose-simple.yml up -d
           fi
           
           # Wait for services to start
