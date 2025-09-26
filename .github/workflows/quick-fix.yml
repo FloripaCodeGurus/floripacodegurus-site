@@ -1,0 +1,171 @@
+name: Quick Fix Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Fix action'
+        required: true
+        type: choice
+        options:
+        - fix_env_file
+        - restart_containers
+        - rebuild_containers
+        - full_fix
+
+jobs:
+  quick-fix:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+        
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Fix Environment File
+      if: ${{ github.event.inputs.action == 'fix_env_file' || github.event.inputs.action == 'full_fix' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔧 Fixing environment file..."
+          cd /opt/floripacodegurus
+          
+          # Create proper .env.production file
+          cat > .env.production << 'ENV_EOF'
+          SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789
+          DEBUG=False
+          ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1
+          POSTGRES_DB=floripacodegurus_prod
+          POSTGRES_USER=floripacodegurus_user
+          POSTGRES_PASSWORD=secure-database-password-123
+          POSTGRES_HOST=db
+          POSTGRES_PORT=5432
+          USER_NAME=AdminUser
+          USER_EMAIL=admin@floripacodegurus.com
+          USER_PASSWORD=admin123456
+          ENV_FILE=.env.production
+          DJANGO_SETTINGS_MODULE=configs.settings.production
+          ENV_NAME=production
+          ENV_EOF
+          
+          echo "✅ Environment file created"
+        EOF
+        
+    - name: Fix Entrypoint Script
+      if: ${{ github.event.inputs.action == 'fix_env_file' || github.event.inputs.action == 'full_fix' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔧 Fixing entrypoint script..."
+          cd /opt/floripacodegurus
+          
+          # Fix docker-entrypoint.sh to use production environment
+          if [ -f "docker-entrypoint.sh" ]; then
+            sed -i 's/ENV_FILE="${ENV_FILE:-.env.development}"/ENV_FILE="${ENV_FILE:-.env.production}"/' docker-entrypoint.sh
+            chmod +x docker-entrypoint.sh
+            echo "✅ Entrypoint script fixed"
+          fi
+          
+          # Ensure docker-entrypoint-simple.sh exists and is executable
+          if [ -f "docker-entrypoint-simple.sh" ]; then
+            chmod +x docker-entrypoint-simple.sh
+            echo "✅ Simple entrypoint script is ready"
+          fi
+        EOF
+        
+    - name: Restart Containers
+      if: ${{ github.event.inputs.action == 'restart_containers' || github.event.inputs.action == 'full_fix' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔄 Restarting containers..."
+          cd /opt/floripacodegurus
+          
+          # Stop containers
+          docker-compose -f docker-compose-simple.yml down
+          
+          # Start containers
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services to start
+          sleep 30
+          
+          # Check status
+          docker-compose -f docker-compose-simple.yml ps
+        EOF
+        
+    - name: Rebuild Containers
+      if: ${{ github.event.inputs.action == 'rebuild_containers' || github.event.inputs.action == 'full_fix' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔨 Rebuilding containers..."
+          cd /opt/floripacodegurus
+          
+          # Stop containers
+          docker-compose -f docker-compose-simple.yml down
+          
+          # Remove old containers and images
+          docker-compose -f docker-compose-simple.yml rm -f
+          docker rmi floripacodegurus-web || true
+          
+          # Build and start containers
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services to start
+          sleep 60
+          
+          # Check status
+          docker-compose -f docker-compose-simple.yml ps
+          
+          # Check logs
+          echo "📋 Web container logs:"
+          docker-compose -f docker-compose-simple.yml logs web --tail=20
+        EOF
+        
+    - name: Full Fix
+      if: ${{ github.event.inputs.action == 'full_fix' }}
+      run: |
+        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          echo "🔧 Performing full fix..."
+          cd /opt/floripacodegurus
+          
+          # Stop all containers
+          docker-compose -f docker-compose-simple.yml down
+          
+          # Clean up
+          docker system prune -f
+          
+          # Ensure all files are in place
+          ls -la
+          
+          # Build and start
+          docker-compose -f docker-compose-simple.yml build --no-cache web
+          docker-compose -f docker-compose-simple.yml up -d
+          
+          # Wait for services
+          sleep 60
+          
+          # Check status
+          docker-compose -f docker-compose-simple.yml ps
+          
+          # Test health
+          sleep 30
+          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
+            echo "✅ Application is healthy!"
+          else
+            echo "❌ Application health check failed"
+            docker-compose -f docker-compose-simple.yml logs web --tail=30
+          fi
+        EOF
+        
+    - name: Generate Report
+      if: always()
+      run: |
+        echo "📊 Quick Fix Report"
+        echo "Action: ${{ github.event.inputs.action }}"
+        echo "Timestamp: $(date)"
+        echo "Status: ${{ job.status }}"

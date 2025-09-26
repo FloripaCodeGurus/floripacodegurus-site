@@ -51,6 +51,7 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `deploy-advanced.yml`: Advanced deployment with backups
   - `ssl-setup.yml`: SSL certificate automation
   - `troubleshoot.yml`: Deployment troubleshooting tools
+  - `quick-fix.yml`: Quick deployment fixes
 - **Documentation**:
   - `GITHUB_ACTIONS_SETUP.md`: Complete GitHub Actions setup guide
 
@@ -263,6 +264,14 @@ The repository includes several automated workflows:
   - Connectivity testing
   - Full system diagnosis
 
+#### ⚡ **Quick Fix Deployment** (`quick-fix.yml`)
+- **Trigger**: Manual workflow
+- **Features**:
+  - Fix environment file issues
+  - Restart containers
+  - Rebuild containers
+  - Complete deployment fix
+
 ### Docker Services
 
 The deployment includes:
@@ -289,8 +298,18 @@ docker-compose -f docker-compose-simple.yml logs -f web
 
 ### 🔧 GitHub Actions Troubleshooting
 
-If deployment fails, use the troubleshooting workflow:
+If deployment fails, use the troubleshooting workflows:
 
+#### **Quick Fix (Recommended for current issue):**
+1. **Go to Actions tab** in your GitHub repository
+2. **Select "Quick Fix Deployment"**
+3. **Choose fix action**:
+   - `fix_env_file`: Fix environment file issues
+   - `restart_containers`: Restart containers
+   - `rebuild_containers`: Rebuild containers
+   - `full_fix`: Complete deployment fix
+
+#### **Advanced Troubleshooting:**
 1. **Go to Actions tab** in your GitHub repository
 2. **Select "Troubleshoot Deployment Issues"**
 3. **Choose troubleshooting action**:
