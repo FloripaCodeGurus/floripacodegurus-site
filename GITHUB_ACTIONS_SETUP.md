@@ -1,238 +1,127 @@
-# GitHub Actions Setup Guide
+# GitHub Actions Setup Guide (Digital Ocean Droplet)
 
-This guide will help you set up automated deployment for your Django application using GitHub Actions.
+This guide helps you set up automated deployment for the Django application to a **Digital Ocean Droplet** (or any Ubuntu VPS) using GitHub Actions.
 
 ## 🚀 Quick Setup
 
-### 1. Repository Secrets Configuration
+### 1. Repository Secrets
 
-Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
 
-Add the following secrets:
+**Production (deploy.yml, branch `main`):**
 
-#### Required Secrets:
-```
-EC2_HOST=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com
-EC2_SSH_KEY=-----BEGIN OPENSSH PRIVATE KEY-----
-your-private-key-content-here
------END OPENSSH PRIVATE KEY-----
-```
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `DEPLOY_HOST` | Droplet IP or hostname | `134.209.73.13` |
+| `DEPLOY_SSH_KEY` | Full private SSH key (PEM) | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
+| `DEPLOY_USER` | (Optional) SSH user on server | `root` (default) |
 
-#### Optional Secrets (for advanced features):
-```
-EC2_USER=ec2-user
-EC2_PORT=22
-DJANGO_SECRET_KEY=your-django-secret-key
-POSTGRES_PASSWORD=your-database-password
-```
+**Staging (staging.yml, branch `staging`):**
+
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `DEPLOY_HOST_STG` | Staging droplet IP | `134.209.73.13` |
+| `DEPLOY_SSH_KEY` | Same private SSH key (or a staging-specific key) | (same as above) |
+| `DEPLOY_USER_STG` | (Optional) SSH user on staging server | `root` (default) |
+| `DOCKERHUB_USERNAME` | Docker Hub login | `fcgurus` |
+| `DOCKERHUB_STAGING_DEPLOY_KEY` | Docker Hub deploy token (or password) | `dckr_pat_...` |
 
 ### 2. SSH Key Setup
 
-#### Generate SSH Key Pair (if you don't have one):
+**Generate a key pair (if needed):**
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/github_actions_key
 ```
 
-#### Add Public Key to EC2 Instance:
+**Add the public key to your Droplet:**
 ```bash
-# Copy the public key to your EC2 instance
-ssh-copy-id -i ~/.ssh/github_actions_key.pub ec2-user@your-ec2-ip
-
-# Or manually add to ~/.ssh/authorized_keys on EC2
-cat ~/.ssh/github_actions_key.pub | ssh ec2-user@your-ec2-ip 'cat >> ~/.ssh/authorized_keys'
+ssh-copy-id -i ~/.ssh/github_actions_key.pub root@134.209.73.13
+# Or manually: append the .pub content to ~/.ssh/authorized_keys on the server
 ```
 
-#### Add Private Key to GitHub Secrets:
-```bash
-# Copy the private key content
-cat ~/.ssh/github_actions_key
+**Add the private key to GitHub:**
+- Copy the full content of `~/.ssh/github_actions_key` (including `-----BEGIN...` and `-----END...`).
+- Create a secret named `DEPLOY_SSH_KEY` and paste that content.
 
-# Add this content to EC2_SSH_KEY secret in GitHub
+### 3. Droplet Preparation
+
+**First-time server setup:**
+```bash
+ssh root@134.209.73.13
+curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/floripacodegurus-site/main/setup-server.sh | bash
+# Log out and log back in so the docker group is applied
 ```
 
-### 3. EC2 Instance Preparation
-
-#### Initial Server Setup:
+**Production app directory (`/opt/floripacodegurus`):**
 ```bash
-# Connect to your EC2 instance
-ssh -i your-key.pem ec2-user@your-ec2-ip
-
-# Run the setup script
-curl -fsSL https://raw.githubusercontent.com/yourusername/floripacodegurus-site/main/setup-server-amazon-linux.sh | bash
-
-# Create application directory
-sudo mkdir -p /opt/floripacodegurus
-sudo chown -R ec2-user:ec2-user /opt/floripacodegurus
+mkdir -p /opt/floripacodegurus && cd /opt/floripacodegurus
+git clone https://github.com/FloripaCodeGurus/floripacodegurus-site.git .
+cp env.production.template .env.production
+nano .env.production   # set SECRET_KEY, ALLOWED_HOSTS (include droplet IP), POSTGRES_*
 ```
 
-#### Configure Environment:
+**Staging app directory (for staging workflow):**
 ```bash
-cd /opt/floripacodegurus
-
-# Create production environment file
-cat > .env.production << 'EOF'
-SECRET_KEY=your-secret-key-here
-DEBUG=False
-ALLOWED_HOSTS=yourdomain.com,your-ec2-ip,localhost
-POSTGRES_DB=floripacodegurus_prod
-POSTGRES_USER=floripacodegurus_user
-POSTGRES_PASSWORD=your-secure-password
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-EOF
+mkdir -p /opt/floripacodegurus-staging && cd /opt/floripacodegurus-staging
+git clone https://github.com/FloripaCodeGurus/floripacodegurus-site.git .
+git checkout staging
+cp env.staging.template .env.staging
+nano .env.staging     # set SECRET_KEY, ALLOWED_HOSTS, POSTGRES_*
+# Ensure docker-compose-staging.yml and nginx.conf are in this directory (they come from the repo)
 ```
 
-### 4. Security Group Configuration
+### 4. Firewall
 
-In AWS Console → EC2 → Security Groups:
+On the droplet (or in Digital Ocean Networking):
 
-#### Add Inbound Rules:
-- **Type**: Custom TCP, **Port**: 22, **Source**: Your IP (for SSH)
-- **Type**: Custom TCP, **Port**: 8000, **Source**: 0.0.0.0/0 (for HTTP)
-- **Type**: HTTP, **Port**: 80, **Source**: 0.0.0.0/0
-- **Type**: HTTPS, **Port**: 443, **Source**: 0.0.0.0/0
+- Allow **SSH** (22)
+- Allow **HTTP** (80) and **HTTPS** (443)
+- Allow **8000** (Django/Gunicorn, optional if you use Nginx in front)
 
 ## 🎯 Workflow Usage
 
-### Automatic Deployment
-- Push to `main` or `master` branch
-- GitHub Actions will automatically:
-  - Run tests
-  - Build Docker containers
-  - Deploy to EC2
-  - Run health checks
+### Automatic deployment
+- **Production:** Push to `main`. Workflow `deploy.yml` SSHs to the server, pulls code, and runs `docker-compose-production.yml`.
+- **Staging:** Push to `staging`. Workflow `staging.yml` builds the Docker image, pushes to Docker Hub, SSHs to the staging server, and runs `docker-compose-staging.yml`.
 
-### Manual Deployment
-1. Go to **Actions** tab in your repository
-2. Select **"Advanced Deploy Django App to AWS EC2"**
-3. Click **"Run workflow"**
-4. Choose environment (production/staging)
-5. Click **"Run workflow"**
+### Manual deployment
+1. Open the **Actions** tab.
+2. Select **"Advanced Deploy Django App to Server (Digital Ocean / VPS)"**.
+3. Click **Run workflow**, choose environment (e.g. production).
+4. Click **Run workflow**.
 
-### SSL Certificate Setup
-1. Go to **Actions** tab
-2. Select **"SSL Certificate Setup"**
-3. Click **"Run workflow"**
-4. Enter your domain name and email
-5. Click **"Run workflow"**
+### SSL (HTTPS)
+1. **Actions** → **SSL Certificate Setup**.
+2. Run workflow and enter domain and email.
 
-## 🔧 Workflow Features
+## 🔧 Workflow Overview
 
-### Deploy Workflow (`deploy.yml`)
-- ✅ **Automated Testing**: Runs Django tests before deployment
-- ✅ **Docker Build**: Builds and pushes containers
-- ✅ **Health Checks**: Verifies application is running
-- ✅ **Rollback**: Automatically rolls back on failure
-
-### Advanced Deploy Workflow (`deploy-advanced.yml`)
-- ✅ **Pre-deployment Backup**: Creates backup before deployment
-- ✅ **Database Migration**: Runs Django migrations
-- ✅ **Static Files**: Collects static files
-- ✅ **Post-deployment Verification**: Comprehensive health checks
-- ✅ **Environment Selection**: Choose production or staging
-
-### SSL Setup Workflow (`ssl-setup.yml`)
-- ✅ **Let's Encrypt**: Automatic SSL certificate generation
-- ✅ **Nginx Configuration**: SSL-enabled nginx setup
-- ✅ **Auto-renewal**: Configures certificate auto-renewal
-- ✅ **HTTPS Redirect**: Redirects HTTP to HTTPS
+- **Deploy Production** (`deploy.yml`): On push to `main`, SSH deploy with `docker-compose-production.yml`.
+- **Deploy Staging** (`staging.yml`): On push to `staging`, build image, push to Docker Hub, SSH deploy with `docker-compose-staging.yml`.
+- **SSL Certificate Setup** (if present): Let's Encrypt and Nginx SSL.
 
 ## 🚨 Troubleshooting
 
-### Common Issues
+**SSH connection failed**
+- Check `DEPLOY_HOST` (IP or hostname) and `DEPLOY_SSH_KEY` (full private key).
+- Test manually: `ssh -i ~/.ssh/github_actions_key root@134.209.73.13`
 
-#### 1. SSH Connection Failed
-```bash
-# Check SSH key format
-echo "$EC2_SSH_KEY" | head -1
-# Should show: -----BEGIN OPENSSH PRIVATE KEY-----
+**Permission denied**
+- On server: `sudo chown -R $USER:$USER /opt/floripacodegurus`
+- Ensure the public key is in `~/.ssh/authorized_keys` for the user used in `DEPLOY_USER`.
 
-# Test SSH connection manually
-ssh -i ~/.ssh/github_actions_key ec2-user@your-ec2-ip
-```
+**Docker / deploy fails**
+- On server: `docker-compose -f docker-compose-production.yml logs`
+- Check disk: `df -h` and `free -h`
 
-#### 2. Permission Denied
-```bash
-# Fix permissions on EC2
-sudo chown -R ec2-user:ec2-user /opt/floripacodegurus
-chmod 600 ~/.ssh/authorized_keys
-```
+**App not reachable**
+- Open ports 80, 443, and optionally 8000 in the droplet firewall or Digital Ocean networking.
+- Ensure `ALLOWED_HOSTS` in `.env.production` includes your droplet IP (e.g. `134.209.73.13`) and domain.
 
-#### 3. Docker Build Failed
-```bash
-# Check Docker installation
-docker --version
-docker-compose --version
+## 📝 Notes
 
-# Check disk space
-df -h
-```
+- No AWS credentials or EC2-specific configuration is required.
+- Default SSH user is `root`; set `DEPLOY_USER` if you use another user.
+- All deployment uses `docker-compose-production.yml` (Nginx + web + db).
 
-#### 4. Application Not Accessible
-- Check security group rules
-- Verify port 8000 is open
-- Check application logs: `docker-compose logs web`
-
-### Debug Commands
-
-```bash
-# Check workflow logs in GitHub Actions
-# Go to Actions → Select workflow run → View logs
-
-# Check EC2 instance
-ssh ec2-user@your-ec2-ip
-cd /opt/floripacodegurus
-docker-compose ps
-docker-compose logs web
-```
-
-## 📊 Monitoring
-
-### GitHub Actions Status
-- View workflow runs in **Actions** tab
-- Check deployment status with badges in README
-- Monitor deployment logs for issues
-
-### Application Monitoring
-```bash
-# Check application status
-curl -I http://your-ec2-ip:8000/
-
-# Check container health
-docker-compose ps
-docker stats
-```
-
-## 🔄 Rollback Process
-
-If deployment fails:
-
-1. **Automatic Rollback**: Advanced workflow automatically rolls back
-2. **Manual Rollback**: 
-   ```bash
-   ssh ec2-user@your-ec2-ip
-   cd /opt/floripacodegurus
-   docker-compose -f docker-compose-simple.yml down
-   # Restore from backup if available
-   ```
-
-## 📝 Best Practices
-
-1. **Always test locally** before pushing to main branch
-2. **Use feature branches** for development
-3. **Monitor deployment logs** for issues
-4. **Keep secrets secure** and rotate regularly
-5. **Backup database** before major deployments
-6. **Use staging environment** for testing
-
-## 🆘 Support
-
-If you encounter issues:
-
-1. Check the **Actions** tab for error logs
-2. Verify all secrets are configured correctly
-3. Test SSH connection manually
-4. Check EC2 instance status and logs
-5. Review security group configuration
-
-For more help, check the troubleshooting section in the main README.md file.
+For more detail, see **DEPLOYMENT.md**.

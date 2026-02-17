@@ -1,7 +1,7 @@
 # Floripa Code Gurus
 
-[![Deploy Django App to AWS EC2](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml)
-[![Advanced Deploy Django App to AWS EC2](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml)
+[![Deploy Django App](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml)
+[![Advanced Deploy](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml)
 
 Welcome to **Floripa Code Gurus**!  
 This is a web platform dedicated to teaching programming, developing websites, apps, systems, and much more. Our mission is to empower people with technology and foster a collaborative learning environment for all skill levels.
@@ -30,7 +30,7 @@ This is a web platform dedicated to teaching programming, developing websites, a
 - **Database:** PostgreSQL 15
 - **Deployment:** Docker, Docker Compose, Gunicorn, Nginx
 - **Configuration:** Environment variables managed with `django-environ` and `python-decouple`
-- **Infrastructure:** AWS EC2, Amazon Linux 2023
+- **Infrastructure:** Digital Ocean Droplet (or any Ubuntu VPS)
 
 ---
 
@@ -42,9 +42,8 @@ This is a web platform dedicated to teaching programming, developing websites, a
 - **configs/**: Project configuration and settings
 - **deployment/**: Docker and deployment configuration
   - `Dockerfile`: Container configuration
-  - `docker-compose-simple.yml`: Simplified production setup
-  - `docker-compose-production.yml`: Full production setup with Nginx
-  - `setup-server-amazon-linux.sh`: EC2 server setup script
+  - `docker-compose-production.yml`: Production setup with Nginx and PostgreSQL
+  - `setup-server.sh`: Droplet/VPS server setup script (Ubuntu)
   - `env.production.template`: Production environment template
 - **.github/workflows/**: GitHub Actions automation
   - `deploy.yml`: Basic automated deployment
@@ -52,7 +51,6 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `ssl-setup.yml`: SSL certificate automation
   - `troubleshoot.yml`: Deployment troubleshooting tools
   - `quick-fix.yml`: Quick deployment fixes
-  - `fix-security-group.yml`: Security group configuration for external access
 - **Documentation**:
   - `GITHUB_ACTIONS_SETUP.md`: Complete GitHub Actions setup guide
 
@@ -61,21 +59,20 @@ This is a web platform dedicated to teaching programming, developing websites, a
 ## 🌐 Live Demo
 
 - **Production:** [https://www.floripacodegurus.com.br](https://www.floripacodegurus.com.br)
-- **Development:** [http://ec2-54-94-54-29.sa-east-1.compute.amazonaws.com:8000](http://ec2-54-94-54-29.sa-east-1.compute.amazonaws.com:8000) (AWS EC2)
+- **Production (Digital Ocean):** [http://134.209.73.13:8000](http://134.209.73.13:8000) (or your domain)
 
 ## 📊 Deployment Status
 
-✅ **Successfully Deployed on AWS EC2**
-- **Instance**: ec2-54-94-54-29.sa-east-1.compute.amazonaws.com
-- **Status**: Running
-- **Services**: Django + PostgreSQL + Docker
-- **Last Updated**: September 26, 2025
+✅ **Deploy to Digital Ocean Droplet**
+- **Droplet IP**: 134.209.73.13 (or your domain)
+- **Services**: Django + PostgreSQL + Nginx (Docker Compose)
+- **Workflows**: Push to main/master triggers deploy; manual workflows for SSL, troubleshoot, quick-fix
 
 ### Current Services
-- **Web Application**: Django 5.2 running on port 8000
+- **Web Application**: Django 5.2 (Gunicorn) on port 8000
 - **Database**: PostgreSQL 15 with persistent storage
-- **Container Management**: Docker Compose
-- **Infrastructure**: AWS EC2 (Amazon Linux 2023)
+- **Reverse Proxy**: Nginx (ports 80, 443)
+- **Infrastructure**: Digital Ocean Droplet (Ubuntu)
 
 ---
 
@@ -107,97 +104,71 @@ This is a web platform dedicated to teaching programming, developing websites, a
 
 ---
 
-## 🚀 Production Deployment (AWS EC2)
+## 🚀 Production Deployment (Digital Ocean Droplet)
 
 ### Prerequisites
-- AWS EC2 instance (Amazon Linux 2023 recommended)
-- SSH access to your EC2 instance
-- Domain name (optional but recommended)
+- Digital Ocean droplet (Ubuntu 22.04+ recommended) or any Ubuntu VPS
+- SSH access (root or a user with sudo)
 - GitHub repository with secrets configured
 
 ### 🎯 Automated Deployment with GitHub Actions
 
 #### 1. Configure GitHub Secrets
 
-Go to your GitHub repository → Settings → Secrets and variables → Actions, and add:
+Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**, and add:
 
-```
-EC2_HOST=your-ec2-public-ip-or-domain
-EC2_SSH_KEY=your-private-ssh-key-content
-```
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `DEPLOY_HOST` | Droplet IP or hostname | `134.209.73.13` |
+| `DEPLOY_SSH_KEY` | Full private SSH key (PEM) | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
+| `DEPLOY_USER` | (Optional) SSH user | `root` (default) |
 
 #### 2. Deploy with GitHub Actions
 
-**Automatic Deployment:**
-- Push to `main` or `master` branch
-- GitHub Actions will automatically deploy your application
+**Automatic deployment:** Push to `main` or `master` — GitHub Actions will run tests and deploy.
 
-**Manual Deployment:**
-- Go to Actions tab in your GitHub repository
-- Select "Advanced Deploy Django App to AWS EC2"
-- Click "Run workflow"
-- Choose environment (production/staging)
+**Manual deployment:**
+- Go to **Actions** → **Advanced Deploy Django App to Server**
+- Click **Run workflow**, choose environment (production/staging)
 
-#### 3. SSL Certificate Setup
+#### 3. SSL (HTTPS)
 
-For HTTPS deployment:
-- Go to Actions tab
-- Select "SSL Certificate Setup"
-- Click "Run workflow"
-- Enter your domain name and email
+- **Actions** → **SSL Certificate Setup** → Run workflow with your domain and email.
 
 ### 🔧 Manual Deployment
 
-1. **Connect to your EC2 instance:**
+1. **SSH into your droplet:**
    ```bash
-   ssh -i your-key.pem ec2-user@your-ec2-ip
+   ssh root@134.209.73.13
    ```
 
-2. **Run the setup script:**
+2. **Run the setup script (first time):**
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/yourusername/floripacodegurus-site/main/setup-server-amazon-linux.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/floripacodegurus-site/main/setup-server.sh | bash
+   # Log out and back in so the docker group applies
    ```
 
-3. **Deploy your application:**
+3. **Clone and deploy:**
    ```bash
    cd /opt/floripacodegurus
-   docker-compose -f docker-compose-simple.yml up -d
-   ```
-
-4. **Configure security group:**
-   - Add inbound rule for port 8000 (HTTP)
-   - Add inbound rule for port 80 (HTTP)
-   - Add inbound rule for port 443 (HTTPS)
-
-### Manual Deployment Steps
-
-1. **Upload your application:**
-   ```bash
-   # From your local machine
-   tar -czf deployment.tar.gz --exclude='venv' --exclude='__pycache__' --exclude='.git' .
-   scp -i your-key.pem deployment.tar.gz ec2-user@your-ec2-ip:/opt/floripacodegurus/
-   ```
-
-2. **Extract and configure:**
-   ```bash
-   cd /opt/floripacodegurus
-   tar -xzf deployment.tar.gz
+   git clone https://github.com/YOUR_USERNAME/floripacodegurus-site.git .
    cp env.production.template .env.production
-   # Edit .env.production with your values
+   nano .env.production   # set SECRET_KEY, ALLOWED_HOSTS (include 134.209.73.13), POSTGRES_PASSWORD
+   docker-compose -f docker-compose-production.yml up -d --build
+   docker-compose -f docker-compose-production.yml exec web python manage.py migrate
+   docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
    ```
 
-3. **Start the application:**
-   ```bash
-   docker-compose -f docker-compose-simple.yml up -d --build
-   ```
+4. **Firewall:** Ensure SSH (22), HTTP (80), HTTPS (443), and 8000 are allowed (Digital Ocean firewall or UFW).
 
 ### Environment Configuration
 
-Create `.env.production` with the following variables:
+Copy `env.production.template` to `.env.production` and set at least:
+
 ```bash
 SECRET_KEY=your-secret-key-here
 DEBUG=False
-ALLOWED_HOSTS=yourdomain.com,your-ec2-ip,localhost
+ALLOWED_HOSTS=134.209.73.13,yourdomain.com,localhost
 POSTGRES_DB=floripacodegurus_prod
 POSTGRES_USER=floripacodegurus_user
 POSTGRES_PASSWORD=your-secure-password
@@ -208,78 +179,20 @@ POSTGRES_PORT=5432
 ### Management Commands
 
 ```bash
-# Check container status
-docker-compose -f docker-compose-simple.yml ps
-
-# View logs
-docker-compose -f docker-compose-simple.yml logs -f
-
-# Restart containers
-docker-compose -f docker-compose-simple.yml restart
-
-# Create superuser
-docker-compose -f docker-compose-simple.yml exec web python manage.py createsuperuser
-
-# Run migrations
-docker-compose -f docker-compose-simple.yml exec web python manage.py migrate
-
-# Collect static files
-docker-compose -f docker-compose-simple.yml exec web python manage.py collectstatic --noinput
+docker-compose -f docker-compose-production.yml ps
+docker-compose -f docker-compose-production.yml logs -f
+docker-compose -f docker-compose-production.yml exec web python manage.py createsuperuser
+docker-compose -f docker-compose-production.yml exec web python manage.py migrate
+docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
 ```
 
 ### GitHub Actions Workflows
 
-The repository includes several automated workflows:
-
-#### 🚀 **Deploy Django App to AWS EC2** (`deploy.yml`)
-- **Trigger**: Push to main/master branch
-- **Features**: 
-  - Automated testing
-  - Docker container deployment
-  - Health checks
-  - Rollback on failure
-
-#### 🎯 **Advanced Deploy Django App to AWS EC2** (`deploy-advanced.yml`)
-- **Trigger**: Manual or push to main/master
-- **Features**:
-  - Pre-deployment backups
-  - Database migration
-  - Static file collection
-  - Post-deployment verification
-  - Environment selection (production/staging)
-
-#### 🔒 **SSL Certificate Setup** (`ssl-setup.yml`)
-- **Trigger**: Manual workflow
-- **Features**:
-  - Let's Encrypt certificate generation
-  - Nginx SSL configuration
-  - Auto-renewal setup
-  - HTTPS redirection
-
-#### 🔧 **Troubleshoot Deployment Issues** (`troubleshoot.yml`)
-- **Trigger**: Manual workflow
-- **Features**:
-  - Container status checking
-  - Log analysis
-  - Service restart
-  - Connectivity testing
-  - Full system diagnosis
-
-#### ⚡ **Quick Fix Deployment** (`quick-fix.yml`)
-- **Trigger**: Manual workflow
-- **Features**:
-  - Fix environment file issues
-  - Restart containers
-  - Rebuild containers
-  - Complete deployment fix
-
-#### 🔒 **Fix Security Group for External Access** (`fix-security-group.yml`)
-- **Trigger**: Manual workflow
-- **Features**:
-  - Check current security group rules
-  - Add port 8000 for Django access
-  - Add all required ports (22, 80, 443, 8000)
-  - Test external connectivity
+- **Deploy Django App to Server** (`deploy.yml`) — Push to main/master: tests, deploy, health check.
+- **Advanced Deploy** (`deploy-advanced.yml`) — Manual or push: backups, migrations, static files, verification.
+- **SSL Certificate Setup** (`ssl-setup.yml`) — Manual: Let's Encrypt, Nginx SSL, HTTPS.
+- **Troubleshoot** (`troubleshoot.yml`) — Manual: containers, logs, restart, connectivity, full diagnosis.
+- **Quick Fix** (`quick-fix.yml`) — Manual: fix env, restart/rebuild containers, full fix.
 
 ### Docker Services
 
@@ -298,7 +211,7 @@ htop
 docker stats
 
 # Application logs
-docker-compose -f docker-compose-simple.yml logs -f web
+docker-compose -f docker-compose-production.yml logs -f web
 ```
 
 ---
@@ -342,7 +255,7 @@ If deployment fails, use the troubleshooting workflows:
 **1. Containers not starting:**
 ```bash
 # Check logs
-docker-compose -f docker-compose-simple.yml logs
+docker-compose -f docker-compose-production.yml logs
 
 # Check system resources
 df -h
@@ -352,28 +265,28 @@ free -h
 **2. Database connection issues:**
 ```bash
 # Check database container
-docker-compose -f docker-compose-simple.yml logs db
+docker-compose -f docker-compose-production.yml logs db
 
 # Test database connection
-docker-compose -f docker-compose-simple.yml exec db pg_isready -U floripacodegurus_user
+docker-compose -f docker-compose-production.yml exec db pg_isready -U floripacodegurus_user
 ```
 
 **3. Static files not loading:**
 ```bash
 # Recollect static files
-docker-compose -f docker-compose-simple.yml exec web python manage.py collectstatic --noinput
+docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
 ```
 
 **4. Permission issues:**
 ```bash
 # Fix ownership
-sudo chown -R ec2-user:ec2-user /opt/floripacodegurus
+sudo chown -R $USER:$USER /opt/floripacodegurus
 ```
 
-**5. Security group issues:**
-- Ensure port 8000 is open in AWS Security Group
-- Check if the instance is running
-- Verify SSH key permissions
+**5. Firewall / connectivity:**
+- Ensure ports 22, 80, 443, 8000 are open (Digital Ocean firewall or UFW)
+- Check that the droplet is running
+- Verify SSH key and `authorized_keys` on the server
 
 ### Health Checks
 
@@ -382,7 +295,7 @@ sudo chown -R ec2-user:ec2-user /opt/floripacodegurus
 curl -I http://localhost:8000/
 
 # Container status
-docker-compose -f docker-compose-simple.yml ps
+docker-compose -f docker-compose-production.yml ps
 
 # System resources
 htop
@@ -390,8 +303,8 @@ htop
 
 ### Log Locations
 
-- **Application logs**: `docker-compose -f docker-compose-simple.yml logs web`
-- **Database logs**: `docker-compose -f docker-compose-simple.yml logs db`
+- **Application logs**: `docker-compose -f docker-compose-production.yml logs web`
+- **Database logs**: `docker-compose -f docker-compose-production.yml logs db`
 - **System logs**: `/var/log/syslog`
 
 ---

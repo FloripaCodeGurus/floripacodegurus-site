@@ -1,11 +1,11 @@
 # Floripa Code Gurus - Deployment Manual
 
-This manual provides comprehensive instructions for deploying the Floripa Code Gurus Django application to AWS EC2 using Docker and GitHub Actions.
+This manual provides instructions for deploying the Floripa Code Gurus Django application to a **Digital Ocean Droplet** (or any Ubuntu VPS) using Docker and GitHub Actions.
 
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [AWS EC2 Setup](#aws-ec2-setup)
+2. [Digital Ocean Droplet Setup](#digital-ocean-droplet-setup)
 3. [GitHub Actions Configuration](#github-actions-configuration)
 4. [Manual Deployment](#manual-deployment)
 5. [Troubleshooting](#troubleshooting)
@@ -14,110 +14,99 @@ This manual provides comprehensive instructions for deploying the Floripa Code G
 ## Prerequisites
 
 ### Required Tools
-- AWS CLI configured with appropriate permissions
-- Docker and Docker Compose installed locally
+- Docker and Docker Compose installed locally (for local testing)
 - Git configured with SSH keys
 - Access to GitHub repository
 
-### AWS Resources Needed
-- EC2 instance (Amazon Linux 2023)
-- Security Group with appropriate ports
-- Key Pair for SSH access
+### Server Requirements
+- Digital Ocean Droplet (Ubuntu 22.04+ recommended) or any Ubuntu VPS
+- SSH access (root or a user with sudo)
+- Open ports: 22 (SSH), 80 (HTTP), 443 (HTTPS), 8000 (optional, for direct app access)
 
-## AWS EC2 Setup
+## Digital Ocean Droplet Setup
 
-### 1. Launch EC2 Instance
+### 1. Create Droplet
 
-1. **Instance Configuration:**
-   - AMI: Amazon Linux 2023
-   - Instance Type: t3.micro (minimum) or t3.small (recommended)
-   - Storage: 20GB GP3 (minimum)
+1. **Droplet configuration:**
+   - Image: Ubuntu 22.04 LTS (or later)
+   - Plan: Basic (e.g. $6/mo) or higher
+   - Region: Choose closest to your users
+   - Authentication: SSH key (recommended) or password
 
-2. **Security Group Configuration:**
-   ```
-   Inbound Rules:
-   - SSH (22): Your IP
-   - HTTP (80): 0.0.0.0/0
-   - HTTPS (443): 0.0.0.0/0
-   - Custom (8000): 0.0.0.0/0 (for testing)
-   ```
+2. **Firewall / Networking:**
+   - Allow SSH (22), HTTP (80), HTTPS (443), and optionally 8000 (Django)
 
-3. **Key Pair:**
-   - Create or use existing key pair
-   - Download the `.pem` file
-   - Set proper permissions: `chmod 400 your-key.pem`
+3. **SSH key:**
+   - Add your public key in Digital Ocean or use password for first login.
 
-### 2. Connect to EC2 Instance
+### 2. Connect to Droplet
 
 ```bash
-ssh -i your-key.pem ec2-user@your-ec2-public-ip
+ssh root@134.209.73.13
+# Or: ssh your-user@134.209.73.13
 ```
 
-### 3. Install Required Software
+### 3. Run Setup Script (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/floripacodegurus-site/main/setup-server.sh | bash
+# Log out and log back in so the docker group is applied
+exit
+ssh root@134.209.73.13
+```
+
+The script installs Docker, Docker Compose, Git, creates `/opt/floripacodegurus`, backup/health scripts, and UFW rules.
+
+### 4. Or Install Manually
 
 ```bash
 # Update system
-sudo dnf update -y
+sudo apt-get update && sudo apt-get upgrade -y
 
-# Install Docker
-sudo dnf install -y docker
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -a -G docker ec2-user
+# Install Docker (see setup-server.sh for full steps)
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $USER
 
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Install Git
-sudo dnf install -y git
-
-# Install unzip
-sudo dnf install -y unzip
-
-# Logout and login again to apply group changes
-exit
-```
-
-### 4. Create Application Directory
-
-```bash
-# Create application directory
+# Create app directory
 sudo mkdir -p /opt/floripacodegurus
-sudo chown -R ec2-user:ec2-user /opt/floripacodegurus
-cd /opt/floripacodegurus
+sudo chown -R $USER:$USER /opt/floripacodegurus
 ```
 
 ## GitHub Actions Configuration
 
 ### 1. Repository Secrets
 
-Go to your GitHub repository → Settings → Secrets and variables → Actions
+Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**.
 
-Add the following secrets:
+Add:
 
-#### Required Secrets:
+#### Required secrets
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `DEPLOY_HOST` | Droplet IP or hostname | `134.209.73.13` |
+| `DEPLOY_SSH_KEY` | Full private SSH key (PEM) | See below |
+
+#### Optional
+| Secret | Description | Default |
+|--------|-------------|---------|
+| `DEPLOY_USER` | SSH user on server | `root` |
+
+#### SSH key format for DEPLOY_SSH_KEY
 ```
-AWS_ACCESS_KEY_ID: Your AWS Access Key ID
-AWS_SECRET_ACCESS_KEY: Your AWS Secret Access Key
-AWS_REGION: sa-east-1
-EC2_HOST: ec2-54-94-54-29.sa-east-1.compute.amazonaws.com
-EC2_USERNAME: ec2-user
-EC2_SSH_KEY: Your private key content (see format below)
-DJANGO_SECRET_KEY: Your Django secret key
-USER_NAME: JohnDoe
-USER_EMAIL: youremail@.com
-USER_PASSWORD: YourSecurePassword#2025
-```
+Paste the full private key, including:
+-----BEGIN OPENSSH PRIVATE KEY-----
+... key content ...
+-----END OPENSSH PRIVATE KEY-----
 
-#### SSH Key Format for EC2_SSH_KEY:
-```
-Add your private key content here. The key should be in OpenSSH format and include:
-- -----BEGIN PRIVATE KEY-----
-- Your private key content
-- -----END PRIVATE KEY-----
-
-Note: Keep your private key secure and never commit it to version control.
+Do not commit the private key to the repository.
 ```
 
 ### 2. Workflow Configuration
@@ -127,7 +116,7 @@ The deployment workflow is already configured in `.github/workflows/deploy.yml`.
 1. Run tests on every push to `main` branch
 2. Deploy automatically when tests pass
 3. Create deployment package with all necessary files
-4. Deploy to EC2 using SSH
+4. Deploy to server using SSH
 
 ## Manual Deployment
 
@@ -212,10 +201,10 @@ cd deployment && zip -r ../deployment.zip . && cd ..
 
 ```bash
 # Upload deployment package
-scp -i your-key.pem deployment.zip ec2-user@your-ec2-public-ip:/opt/floripacodegurus/
+scp deployment.tar.gz root@134.209.73.13:/opt/floripacodegurus/
 
-# Connect to EC2
-ssh -i your-key.pem ec2-user@your-ec2-public-ip
+# Connect to Droplet
+ssh root@134.209.73.13
 
 # Navigate to application directory
 cd /opt/floripacodegurus
@@ -251,8 +240,8 @@ Error: ssh: handshake failed: ssh: unable to authenticate
 ```
 
 **Solution:**
-- Verify `EC2_USERNAME` is set to `ec2-user`
-- Check `EC2_SSH_KEY` format (must include `-----BEGIN PRIVATE KEY-----` and `-----END PRIVATE KEY-----`)
+- Verify `DEPLOY_USER` is set if not using root (e.g. `root`)
+- Check `DEPLOY_SSH_KEY` format (must include `-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----`)
 - Ensure private key has correct permissions
 
 #### 2. AWS Credentials Error
@@ -261,8 +250,9 @@ Error: The request signature we calculated does not match the signature you prov
 ```
 
 **Solution:**
-- Verify `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are correct
-- Check `AWS_REGION` is set to `sa-east-1`
+- Verify `DEPLOY_HOST` is your droplet IP (e.g. `134.209.73.13`)
+- Ensure `DEPLOY_SSH_KEY` is the full private key content
+- Test SSH: `ssh root@134.209.73.13`
 
 #### 3. Docker Build Failed
 ```
@@ -356,10 +346,10 @@ docker image prune -a -f
 #### 4. Security Updates
 ```bash
 # Update system packages
-sudo dnf update -y
+sudo apt-get update && sudo apt-get upgrade -y
 
 # Update Docker
-sudo dnf update docker
+sudo apt-get update && sudo apt-get install --only-upgrade docker-ce
 
 # Restart services
 sudo systemctl restart docker
@@ -417,7 +407,7 @@ To enable HTTPS:
 For issues or questions:
 1. Check the troubleshooting section above
 2. Review GitHub Actions logs
-3. Check EC2 instance logs
+3. Check droplet/server logs
 4. Contact the development team
 
 ---
