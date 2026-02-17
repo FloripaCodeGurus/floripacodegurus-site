@@ -51,7 +51,7 @@ Add these secrets:
 
 | Secret           | Description                          | Example                    |
 |------------------|--------------------------------------|----------------------------|
-| `DEPLOY_HOST`    | Droplet IP or hostname               | `134.209.73.13`            |
+| `DEPLOY_HOST_STG`    | Droplet IP or hostname               | `134.209.73.13`            |
 | `DEPLOY_SSH_KEY` | Private SSH key content (full PEM)   | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
 
 #### Optional
