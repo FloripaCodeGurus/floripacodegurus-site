@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# EC2 Server Setup Script for Django App Deployment
-# Run this script on your EC2 instance to prepare it for deployment
+# Server Setup Script for Django App Deployment (Digital Ocean Droplet / VPS)
+# Run this script on your droplet or VPS (Ubuntu) to prepare it for deployment
 
 set -e
 
-echo "🚀 Setting up EC2 server for Django app deployment..."
+echo "🚀 Setting up server for Django app deployment..."
 
 # Update system packages
 echo "📦 Updating system packages..."

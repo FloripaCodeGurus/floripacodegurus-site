@@ -1,7 +1,10 @@
-version: '3.8'
+# Staging: same layout as production (web + db + nginx).
+# GitHub Actions builds and pushes image to Docker Hub; server pulls and runs.
+# For local staging with build: docker compose -f docker-compose-staging.yml up --build -d
 
 services:
   web:
+    image: fcgurus/floripacodegurus-site:staging
     build: .
     restart: unless-stopped
     entrypoint: []
@@ -9,10 +12,10 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env.production
+      - .env.staging
     environment:
-      - DJANGO_SETTINGS_MODULE=configs.settings.production
-      - ENV_NAME=production
+      - DJANGO_SETTINGS_MODULE=configs.settings.staging
+      - ENV_NAME=staging
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
@@ -25,9 +28,9 @@ services:
     image: postgres:15
     restart: unless-stopped
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data_staging:/var/lib/postgresql/data/
     env_file:
-      - .env.production
+      - .env.staging
     networks:
       - app-network
 
@@ -36,9 +39,8 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-staging.conf:/etc/nginx/nginx.conf
       - static_volume:/app/staticfiles
       - media_volume:/app/media
       - ./ssl:/etc/nginx/ssl
@@ -48,7 +50,7 @@ services:
       - app-network
 
 volumes:
-  postgres_data:
+  postgres_data_staging:
   static_volume:
   media_volume:
 

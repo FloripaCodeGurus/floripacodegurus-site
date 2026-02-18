@@ -1,241 +1,28 @@
-name: Deploy Django App to AWS EC2
+# Deploy production to DigitalOcean Droplet (push to main)
+# Requires: DEPLOY_HOST (or DEPLOY_HOST_PROD), DEPLOY_SSH_KEY; optional: DEPLOY_USER
+
+name: Deploy Production (DigitalOcean Droplet)
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.13'
-        
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Run tests
-      run: |
-        python manage.py test --settings=configs.settings.development
-        
-    - name: Create deployment package
-      run: |
-        tar -czf deployment.tar.gz \
-          --exclude='venv' \
-          --exclude='__pycache__' \
-          --exclude='.git' \
-          --exclude='*.pyc' \
-          --exclude='.env*' \
-          --exclude='deployment.tar.gz' \
-          --exclude='.github' \
-          .
-          
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.7.0
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-        
-    - name: Add EC2 to known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-        
-    - name: Deploy to EC2
-      run: |
-        # Upload deployment package
-        scp deployment.tar.gz ec2-user@${{ secrets.EC2_HOST }}:/tmp/
-        
-        # Deploy on EC2
-        ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          set -e
-          
-          echo "🚀 Starting deployment..."
-          
-          # Navigate to application directory
-          cd /opt/floripacodegurus
-          
-          # Stop current containers
-          docker-compose -f docker-compose-simple.yml down || true
-          
-          # Backup current deployment
-          if [ -d "app_backup" ]; then
-            rm -rf app_backup
-          fi
-          if [ -d "app" ]; then
-            mv app app_backup
-          fi
-          
-          # Extract new deployment
-          mkdir -p app
-          cd app
-          tar -xzf /tmp/deployment.tar.gz
-          
-          # Copy environment file
-          cp ../.env.production .env.production || echo "No .env.production found"
-          
-          # Move back to application directory
-          cd ..
-          
-          # Copy new files
-          cp -r app/* .
-          rm -rf app
-          
-          # Set permissions
-          chmod +x docker-entrypoint-simple.sh
-          
-          # Fix docker-entrypoint.sh to use production environment
-          if [ -f "docker-entrypoint.sh" ]; then
-            sed -i 's/ENV_FILE="${ENV_FILE:-.env.development}"/ENV_FILE="${ENV_FILE:-.env.production}"/' docker-entrypoint.sh
-            chmod +x docker-entrypoint.sh
-          fi
-          
-          # Ensure environment file exists
-          if [ ! -f ".env.production" ]; then
-            echo "Creating .env.production file..."
-            echo "SECRET_KEY=django-insecure-production-key-change-this-in-production-123456789" > .env.production
-            echo "DEBUG=False" >> .env.production
-            echo "ALLOWED_HOSTS=ec2-54-94-54-29.sa-east-1.compute.amazonaws.com,54.94.54.29,localhost,127.0.0.1" >> .env.production
-            echo "POSTGRES_DB=floripacodegurus_prod" >> .env.production
-            echo "POSTGRES_USER=floripacodegurus_user" >> .env.production
-            echo "POSTGRES_PASSWORD=secure-database-password-123" >> .env.production
-            echo "POSTGRES_HOST=db" >> .env.production
-            echo "POSTGRES_PORT=5432" >> .env.production
-            echo "USER_NAME=AdminUser" >> .env.production
-            echo "USER_EMAIL=admin@floripacodegurus.com" >> .env.production
-            echo "USER_PASSWORD=admin123456" >> .env.production
-            echo "ENV_FILE=.env.production" >> .env.production
-            echo "DJANGO_SETTINGS_MODULE=configs.settings.production" >> .env.production
-            echo "ENV_NAME=production" >> .env.production
-          fi
-          
-          # Build and start containers
-          docker-compose -f docker-compose-simple.yml build --no-cache web
-          docker-compose -f docker-compose-simple.yml up -d
-          
-          # Wait for services to be ready
-          echo "⏳ Waiting for services to start..."
-          sleep 60
-          
-          # Check container status
-          echo "📊 Container status:"
-          docker-compose -f docker-compose-simple.yml ps
-          
-          # Wait for web container to be stable
-          echo "🔄 Waiting for web container to stabilize..."
-          for i in {1..10}; do
-            if docker-compose -f docker-compose-simple.yml ps | grep -q "web.*Up"; then
-              echo "✅ Web container is running"
-              break
-            else
-              echo "⏳ Web container not ready, attempt $i/10..."
-              sleep 10
-            fi
-          done
-          
-          # Check web container logs
-          echo "📋 Web container logs:"
-          docker-compose -f docker-compose-simple.yml logs web --tail=20
-          
-          # Run migrations (with retry)
-          echo "🔄 Running database migrations..."
-          for i in {1..3}; do
-            if docker-compose -f docker-compose-simple.yml exec -T web python manage.py migrate; then
-              echo "✅ Migrations completed"
-              break
-            else
-              echo "⏳ Migration attempt $i/3 failed, retrying..."
-              sleep 10
-            fi
-          done
-          
-          # Collect static files (with retry)
-          echo "📦 Collecting static files..."
-          for i in {1..3}; do
-            if docker-compose -f docker-compose-simple.yml exec -T web python manage.py collectstatic --noinput; then
-              echo "✅ Static files collected"
-              break
-            else
-              echo "⏳ Static files collection attempt $i/3 failed, retrying..."
-              sleep 10
-            fi
-          done
-          
-          # Health check with retry
-          echo "🏥 Performing health check..."
-          for i in {1..5}; do
-            if curl -f http://localhost:8000/ > /dev/null 2>&1; then
-              echo "✅ Health check passed!"
-              break
-            else
-              echo "⏳ Health check attempt $i/5 failed, retrying..."
-              sleep 15
-            fi
-          done
-          
-          # Final health check
-          if curl -f http://localhost:8000/ > /dev/null 2>&1; then
-            echo "✅ Deployment successful!"
-            # Clean up backup if deployment is successful
-            rm -rf app_backup
-          else
-            echo "❌ Deployment failed, rolling back..."
-            if [ -d "app_backup" ]; then
-              rm -rf app
-              mv app_backup app
-              cp -r app/* .
-              docker-compose -f docker-compose-simple.yml up -d
-            fi
-            exit 1
-          fi
-          
-          # Clean up
-          rm -f /tmp/deployment.tar.gz
-        EOF
-        
-    - name: Health Check
-      run: |
-        echo "🏥 Performing external health check..."
-        sleep 30
-        
-        # Retry health check multiple times
-        for i in {1..5}; do
-          echo "⏳ Health check attempt $i/5..."
-          if curl -f http://${{ secrets.EC2_HOST }}:8000/ > /dev/null 2>&1; then
-            echo "✅ External health check passed!"
-            exit 0
-          else
-            echo "⏳ Health check attempt $i/5 failed, retrying in 15 seconds..."
-            sleep 15
-          fi
-        done
-        
-        echo "❌ External health check failed after 5 attempts"
-        exit 1
-        
-    - name: Notify deployment status
-      if: always()
-      run: |
-        if [ "${{ job.status }}" == "success" ]; then
-          echo "✅ Deployment successful!"
-          echo "🌐 Application is available at: http://${{ secrets.EC2_HOST }}:8000"
-        else
-          echo "❌ Deployment failed!"
-        fi
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER || 'root' }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/floripacodegurus || { echo "Directory /opt/floripacodegurus missing. Run setup-server.sh and clone repo first."; exit 1; }
+            git fetch origin main
+            git reset --hard origin/main
+            docker compose -f docker-compose-production.yml up -d --build
+            docker compose -f docker-compose-production.yml exec -T web python manage.py migrate --noinput || true
+            docker compose -f docker-compose-production.yml exec -T web python manage.py collectstatic --noinput || true

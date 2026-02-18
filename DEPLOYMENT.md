@@ -1,319 +1,375 @@
-# Django App Deployment Guide - AWS EC2 with GitHub Actions
+# Floripa Code Gurus — Deployment & Development Guide
 
-This guide will walk you through deploying your Django application to AWS EC2 using GitHub Actions for continuous deployment.
-
-## 📋 Prerequisites
-
-- AWS account with EC2 access
-- GitHub repository with your Django app
-- Domain name (optional but recommended)
-- SSL certificate (for HTTPS)
-
-## 🚀 Quick Start
-
-### 1. Set up AWS EC2 Instance
-
-1. Launch an EC2 instance (Ubuntu 20.04 or later recommended)
-2. Configure security groups to allow:
-   - SSH (port 22)
-   - HTTP (port 80)
-   - HTTPS (port 443)
-3. Connect to your instance and run the setup script:
-
-```bash
-# Download and run the setup script
-curl -fsSL https://raw.githubusercontent.com/yourusername/yourrepo/main/setup-server.sh | bash
-
-# Or if you have the file locally
-chmod +x setup-server.sh
-./setup-server.sh
-```
-
-### 2. Configure GitHub Repository Secrets
-
-Go to your GitHub repository → Settings → Secrets and variables → Actions, and add these secrets:
-
-#### Required Secrets:
-```
-AWS_ACCESS_KEY_ID=your-aws-access-key
-AWS_SECRET_ACCESS_KEY=your-aws-secret-key
-AWS_REGION=us-east-1
-
-EC2_HOST=your-ec2-public-ip-or-domain
-EC2_USERNAME=ubuntu
-EC2_SSH_KEY=your-private-ssh-key-content
-EC2_PORT=22
-
-DJANGO_SECRET_KEY=your-django-secret-key
-ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com,your-ec2-ip
-
-POSTGRES_DB=floripacodegurus_prod
-POSTGRES_USER=floripacodegurus_user
-POSTGRES_PASSWORD=your-secure-database-password
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-
-USER_NAME=Admin User
-USER_EMAIL=admin@yourdomain.com
-USER_PASSWORD=your-admin-password
-```
-
-### 3. Deploy
-
-Push your code to the main/master branch to trigger automatic deployment:
-
-```bash
-git add .
-git commit -m "Deploy to production"
-git push origin main
-```
-
-## 📁 File Structure
-
-The deployment setup includes these key files:
-
-```
-├── .github/workflows/deploy.yml          # GitHub Actions workflow
-├── docker-compose-production.yml         # Production Docker setup
-├── nginx.conf                            # Nginx configuration
-├── setup-server.sh                      # EC2 server setup script
-├── env.production.template              # Environment variables template
-└── DEPLOYMENT.md                        # This documentation
-```
-
-## 🔧 Manual Deployment Steps
-
-If you prefer manual deployment or need to troubleshoot:
-
-### 1. Prepare Your Server
-
-```bash
-# Run the setup script
-./setup-server.sh
-
-# Log out and back in to apply docker group changes
-exit
-# SSH back into your server
-```
-
-### 2. Deploy Your Application
-
-```bash
-# Navigate to the application directory
-cd /opt/floripacodegurus
-
-# Copy your environment file
-cp env.production.template .env.production
-# Edit .env.production with your actual values
-nano .env.production
-
-# Deploy using Docker Compose
-docker-compose -f docker-compose-production.yml up -d --build
-
-# Run migrations
-docker-compose -f docker-compose-production.yml exec web python manage.py migrate
-
-# Collect static files
-docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
-
-# Create superuser
-docker-compose -f docker-compose-production.yml exec web python manage.py createsuperuser
-```
-
-## 🛠️ Management Commands
-
-### Monitoring
-```bash
-# Check application status
-/opt/floripacodegurus/monitor.sh
-
-# View logs
-docker-compose -f docker-compose-production.yml logs -f
-
-# Health check
-/opt/floripacodegurus/health-check.sh
-```
-
-### Backups
-```bash
-# Create backup
-/opt/floripacodegurus/backup.sh
-
-# Restore from backup (manual process)
-cd /opt/floripacodegurus/backups
-tar -xzf backup-YYYYMMDD-HHMMSS.tar.gz
-```
-
-### Updates
-```bash
-# Pull latest changes
-git pull origin main
-
-# Rebuild and restart
-docker-compose -f docker-compose-production.yml down
-docker-compose -f docker-compose-production.yml up -d --build
-
-# Run migrations if needed
-docker-compose -f docker-compose-production.yml exec web python manage.py migrate
-```
-
-## 🔒 SSL Configuration
-
-### Using Let's Encrypt (Recommended)
-
-1. Install Certbot:
-```bash
-sudo apt-get install certbot python3-certbot-nginx
-```
-
-2. Obtain SSL certificate:
-```bash
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
-```
-
-3. Update nginx.conf to use the certificates:
-```nginx
-ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
-ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-```
-
-### Using Custom Certificates
-
-1. Upload your certificates to `/opt/floripacodegurus/ssl/`
-2. Update nginx.conf with your certificate paths
-3. Restart nginx: `docker-compose -f docker-compose-production.yml restart nginx`
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-1. **Containers not starting**
-   ```bash
-   # Check logs
-   docker-compose -f docker-compose-production.yml logs
-   
-   # Check system resources
-   df -h
-   free -h
-   ```
-
-2. **Database connection issues**
-   ```bash
-   # Check database container
-   docker-compose -f docker-compose-production.yml logs db
-   
-   # Test database connection
-   docker-compose -f docker-compose-production.yml exec db pg_isready -U $POSTGRES_USER
-   ```
-
-3. **Static files not loading**
-   ```bash
-   # Recollect static files
-   docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
-   ```
-
-4. **Permission issues**
-   ```bash
-   # Fix ownership
-   sudo chown -R $USER:$USER /opt/floripacodegurus
-   ```
-
-### Log Locations
-
-- Application logs: `/var/log/floripacodegurus/django.log`
-- Nginx logs: `docker-compose -f docker-compose-production.yml logs nginx`
-- System logs: `/var/log/syslog`
-
-## 📊 Monitoring and Maintenance
-
-### Automated Tasks
-
-The setup includes these automated cron jobs:
-- Daily backups at 2 AM
-- Health checks every 5 minutes
-
-### Performance Monitoring
-
-```bash
-# System resources
-htop
-
-# Docker stats
-docker stats
-
-# Application metrics
-docker-compose -f docker-compose-production.yml exec web python manage.py shell
-```
-
-### Security Updates
-
-```bash
-# Update system packages
-sudo apt-get update && sudo apt-get upgrade
-
-# Update Docker images
-docker-compose -f docker-compose-production.yml pull
-docker-compose -f docker-compose-production.yml up -d
-```
-
-## 🔄 Rollback Process
-
-If you need to rollback to a previous version:
-
-1. **Using backups:**
-   ```bash
-   cd /opt/floripacodegurus/backups
-   # Find the backup you want to restore
-   ls -la
-   # Extract and restore
-   tar -xzf backup-YYYYMMDD-HHMMSS.tar.gz
-   ```
-
-2. **Using Git:**
-   ```bash
-   cd /opt/floripacodegurus
-   git log --oneline
-   git checkout <previous-commit-hash>
-   docker-compose -f docker-compose-production.yml up -d --build
-   ```
-
-## 📞 Support
-
-If you encounter issues:
-
-1. Check the logs first
-2. Run the health check script
-3. Review this documentation
-4. Check GitHub Actions workflow runs for deployment errors
-
-## 🔐 Security Best Practices
-
-1. **Keep your system updated:**
-   ```bash
-   sudo apt-get update && sudo apt-get upgrade
-   ```
-
-2. **Use strong passwords** for all accounts and services
-
-3. **Regular backups** - the system creates daily backups automatically
-
-4. **Monitor logs** for suspicious activity
-
-5. **Use HTTPS** - configure SSL certificates
-
-6. **Restrict SSH access** - consider using key-based authentication only
-
-7. **Firewall configuration** - only open necessary ports
+Complete guide for local development, staging, and production deployment on **DigitalOcean Droplets** (or any Ubuntu VPS) with GitHub Actions and Docker.
 
 ---
 
-## 📝 Additional Notes
+## Table of Contents
 
-- The deployment uses Docker containers for consistency
-- Nginx serves as a reverse proxy and handles SSL termination
-- PostgreSQL is used as the production database
-- Static files are served by WhiteNoise with compression
-- The system includes automated health checks and backups
-- All logs are properly configured and rotated
+1. [Overview](#overview)
+2. [Local Development](#local-development)
+3. [Staging Deployment](#staging-deployment)
+4. [Production Deployment](#production-deployment)
+5. [GitHub Actions Secrets](#github-actions-secrets)
+6. [Post-Deployment & Maintenance](#post-deployment--maintenance)
+7. [Troubleshooting](#troubleshooting)
+8. [File Reference](#file-reference)
 
-For questions or issues, please refer to the troubleshooting section or create an issue in the repository.
+---
+
+## Overview
+
+| Environment   | Branch    | Workflow     | Directory                      | URL                      |
+|--------------|-----------|--------------|--------------------------------|--------------------------|
+| **Staging**  | `staging` | `staging.yml`| `/opt/floripacodegurus-staging`| `http://YOUR_DROPLET_IP` |
+| **Production** | `main`  | `deploy.yml` | `/opt/floripacodegurus`        | `https://yourdomain.com` |
+
+**Staging:** Builds Docker image → pushes to Docker Hub → deploys via SSH.  
+**Production:** Deploys via SSH with local build on the server.
+
+---
+
+## Local Development
+
+### Run with Docker Compose
+
+```bash
+# Local
+docker compose -f docker-compose-local.yml --env-file .env.local up -d --build
+
+# Development
+docker compose -f docker-compose-development.yml --env-file .env.development up -d --build
+
+# Stop and clean
+docker compose -f docker-compose-local.yml down -v
+docker compose -f docker-compose-development.yml --env-file .env.development down -v
+```
+
+### View logs
+
+```bash
+docker logs -f floripacodegurus-site-web-1
+```
+
+### Create superuser
+
+Ensure `.env` contains:
+```bash
+USER_NAME="Your Name"
+USER_EMAIL="your@email.com"
+USER_PASSWORD="yourpassword"
+```
+
+```bash
+chmod +x create_superuser.sh
+./create_superuser.sh
+```
+
+### Migrations
+
+```bash
+export DJANGO_SETTINGS_MODULE=configs.settings.development && python3 manage.py makemigrations
+export DJANGO_SETTINGS_MODULE=configs.settings.development && python3 manage.py migrate
+
+# Reset SQLite (migration errors)
+rm db.sqlite3
+```
+
+---
+
+## Staging Deployment
+
+### Prerequisites
+
+- DigitalOcean droplet (Ubuntu 22.04+)
+- GitHub repository
+- Docker Hub account
+
+### Step 1: Create Droplet
+
+- **Image:** Ubuntu 22.04 LTS
+- **Plan:** Basic (e.g. 1 vCPU / 512MB)
+- **Authentication:** SSH key
+- **Ports:** SSH (22), HTTP (80), HTTPS (443)
+
+### Step 2: SSH Key
+
+**Option A — Reuse existing key** (if you already SSH to the droplet)
+
+**Option B — Deploy-only key**
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/deploy_staging -N "" -C "github-actions-staging"
+ssh-copy-id -i ~/.ssh/deploy_staging.pub root@YOUR_DROPLET_IP
+```
+
+Copy the **private** key content (including `-----BEGIN` and `-----END`).
+
+### Step 3: GitHub Secrets
+
+**Settings → Secrets and variables → Actions → New repository secret**
+
+| Secret                      | Description              | Example                      |
+|----------------------------|--------------------------|------------------------------|
+| `DEPLOY_HOST_STG`          | Staging droplet IP       | `134.209.73.13`              |
+| `DEPLOY_SSH_KEY`           | Full private SSH key     | `-----BEGIN OPENSSH...`      |
+| `DEPLOY_USER_STG`          | (Optional) SSH user      | `root`                       |
+| `DOCKERHUB_USERNAME`       | Docker Hub login         | `fcgurus`                    |
+| `DOCKERHUB_STAGING_DEPLOY_KEY` | Docker Hub token    | `dckr_pat_...`               |
+
+**Docker Hub token:** Account Settings → Security → New Access Token (read/write).
+
+### Step 4: Prepare Droplet
+
+```bash
+ssh root@YOUR_DROPLET_IP
+```
+
+**4.1 — Docker**
+```bash
+sudo apt-get update && sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $USER
+```
+
+**4.2 — Docker Compose plugin**
+```bash
+sudo apt-get install -y docker-compose-plugin
+docker compose version
+```
+
+**4.3 — Clone repo**
+```bash
+mkdir -p /opt/floripacodegurus-staging && cd /opt/floripacodegurus-staging
+git clone https://github.com/FloripaCodeGurus/floripacodegurus-site.git .
+git checkout staging
+```
+
+**4.4 — Environment**
+```bash
+cp env.staging.template .env.staging
+nano .env.staging
+```
+
+Set: `SECRET_KEY`, `ALLOWED_HOSTS` (include droplet IP), `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+
+**4.5 — SSL directory**
+```bash
+mkdir -p /opt/floripacodegurus-staging/ssl
+```
+
+### Step 5: Deploy
+
+**Manual first run:**
+```bash
+cd /opt/floripacodegurus-staging
+docker compose -f docker-compose-staging.yml pull web
+docker compose -f docker-compose-staging.yml up -d
+docker compose -f docker-compose-staging.yml exec -T web python manage.py migrate --noinput
+docker compose -f docker-compose-staging.yml exec -T web python manage.py collectstatic --noinput
+```
+
+**Automatic:** Push to `staging` branch.
+
+**Access:** `http://YOUR_DROPLET_IP`
+
+---
+
+## Production Deployment
+
+### Step 1: Create Droplet
+
+Same as staging: Ubuntu 22.04+, SSH key, ports 22, 80, 443.
+
+### Step 2: GitHub Secrets
+
+| Secret          | Description        | Example                  |
+|-----------------|--------------------|--------------------------|
+| `DEPLOY_HOST`   | Production droplet IP | `134.209.73.13`       |
+| `DEPLOY_SSH_KEY`| Private SSH key    | `-----BEGIN OPENSSH...`  |
+| `DEPLOY_USER`   | (Optional) SSH user| `root`                   |
+
+### Step 3: Prepare Droplet
+
+**3.1 — Setup script**
+```bash
+ssh root@YOUR_DROPLET_IP
+curl -fsSL https://raw.githubusercontent.com/FloripaCodeGurus/floripacodegurus-site/main/setup-server.sh | bash
+exit && ssh root@YOUR_DROPLET_IP
+```
+
+**3.2 — Docker Compose plugin**
+```bash
+sudo apt-get install -y docker-compose-plugin
+```
+
+**3.3 — Clone repo**
+```bash
+mkdir -p /opt/floripacodegurus && cd /opt/floripacodegurus
+git clone https://github.com/FloripaCodeGurus/floripacodegurus-site.git .
+git checkout main
+```
+
+**3.4 — Environment**
+```bash
+cp env.production.template .env.production
+nano .env.production
+```
+
+Set: `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS`, `POSTGRES_*`, `USER_NAME`, `USER_EMAIL`, `USER_PASSWORD`
+
+**3.5 — SSL directory**
+```bash
+mkdir -p /opt/floripacodegurus/ssl
+```
+
+### Step 4: SSL (HTTPS)
+
+```bash
+sudo apt-get install certbot
+sudo certbot certonly --standalone -d yourdomain.com --email your@email.com --agree-tos
+```
+
+Copy certs:
+```bash
+sudo cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem /opt/floripacodegurus/ssl/cert.pem
+sudo cp /etc/letsencrypt/live/yourdomain.com/privkey.pem /opt/floripacodegurus/ssl/key.pem
+sudo chown $USER:$USER /opt/floripacodegurus/ssl/*.pem
+```
+
+Uncomment SSL paths in `nginx.conf`:
+```nginx
+ssl_certificate /etc/nginx/ssl/cert.pem;
+ssl_certificate_key /etc/nginx/ssl/key.pem;
+ssl_protocols TLSv1.2 TLSv1.3;
+```
+
+### Step 5: Deploy
+
+```bash
+cd /opt/floripacodegurus
+docker compose -f docker-compose-production.yml up -d --build
+docker compose -f docker-compose-production.yml exec -T web python manage.py migrate --noinput
+docker compose -f docker-compose-production.yml exec -T web python manage.py collectstatic --noinput
+```
+
+Or push to `main` for automatic deploy.
+
+### Step 6: Firewall
+
+```bash
+sudo ufw allow 22 && sudo ufw allow 80 && sudo ufw allow 443
+sudo ufw enable
+```
+
+---
+
+## GitHub Actions Secrets
+
+| Environment   | Secret                         | Required |
+|---------------|--------------------------------|----------|
+| **Staging**   | `DEPLOY_HOST_STG`             | Yes      |
+| **Staging**   | `DEPLOY_SSH_KEY`              | Yes      |
+| **Staging**   | `DOCKERHUB_USERNAME`          | Yes      |
+| **Staging**   | `DOCKERHUB_STAGING_DEPLOY_KEY`| Yes      |
+| **Staging**   | `DEPLOY_USER_STG`             | No (default: root) |
+| **Production**| `DEPLOY_HOST`                 | Yes      |
+| **Production**| `DEPLOY_SSH_KEY`              | Yes      |
+| **Production**| `DEPLOY_USER`                 | No (default: root) |
+
+---
+
+## Post-Deployment & Maintenance
+
+### Create superuser
+
+```bash
+# Staging
+cd /opt/floripacodegurus-staging
+docker compose -f docker-compose-staging.yml exec web python manage.py createsuperuser
+
+# Production
+cd /opt/floripacodegurus
+docker compose -f docker-compose-production.yml exec web python manage.py createsuperuser
+```
+
+### Monitoring
+
+```bash
+docker compose -f docker-compose-staging.yml ps
+docker compose -f docker-compose-staging.yml logs -f web
+docker stats
+```
+
+### Database backup
+
+```bash
+cd /opt/floripacodegurus
+docker compose -f docker-compose-production.yml exec db pg_dump -U floripacodegurus_user floripacodegurus_prod > backup_$(date +%Y%m%d).sql
+```
+
+### Update after code changes
+
+- **Staging:** `git push origin staging`
+- **Production:** `git push origin main` or manually:
+  ```bash
+  cd /opt/floripacodegurus
+  git pull origin main
+  docker compose -f docker-compose-production.yml up -d --build
+  docker compose -f docker-compose-production.yml exec -T web python manage.py migrate --noinput
+  docker compose -f docker-compose-production.yml exec -T web python manage.py collectstatic --noinput
+  ```
+
+### Cleanup
+
+```bash
+docker system prune -f
+docker image prune -a -f
+```
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `ssh: no key found` / `missing server host` | Check `DEPLOY_SSH_KEY` (full key with `-----BEGIN`/`-----END`) and `DEPLOY_HOST_STG`/`DEPLOY_HOST` |
+| `Directory missing` | Create directory, clone repo (see Step 4.3 / 3.3) |
+| `docker compose` not found | `sudo apt-get install -y docker-compose-plugin` |
+| 502 Bad Gateway | Ensure `entrypoint: []` on web service; check `docker compose logs web` |
+| Postgres env warnings | Remove `environment` overrides in db service; use `env_file` only |
+| PR_END_OF_FILE_ERROR (HTTPS) | For HTTP-only staging: `SECURE_SSL_REDIRECT = False` in `configs/settings/staging.py` |
+| Can't connect from browser | `nc -zv YOUR_IP 80`; check UFW and DigitalOcean firewall for ports 80, 443 |
+| Nginx SSL errors | Use `nginx-staging.conf` for HTTP-only; verify cert paths in `./ssl/` for HTTPS |
+
+### Debugging commands
+
+```bash
+docker compose -f docker-compose-staging.yml logs -f web
+docker compose -f docker-compose-staging.yml logs nginx
+docker compose -f docker-compose-staging.yml exec web bash
+```
+
+---
+
+## File Reference
+
+| File | Purpose |
+|------|---------|
+| `docker-compose-staging.yml` | Staging: web, db, nginx (HTTP) |
+| `docker-compose-production.yml` | Production: web, db, nginx (HTTP/HTTPS) |
+| `nginx-staging.conf` | HTTP-only nginx for staging |
+| `nginx.conf` | Production nginx (with SSL) |
+| `env.staging.template` | Staging env template |
+| `env.production.template` | Production env template |
+| `setup-server.sh` | Initial server setup |
+| `.github/workflows/staging.yml` | Staging CI/CD |
+| `.github/workflows/deploy.yml` | Production CI/CD |
+
+---
+
+*Last updated: February 2026*
