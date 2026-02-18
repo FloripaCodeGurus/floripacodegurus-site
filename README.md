@@ -51,8 +51,7 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `ssl-setup.yml`: SSL certificate automation
   - `troubleshoot.yml`: Deployment troubleshooting tools
   - `quick-fix.yml`: Quick deployment fixes
-- **Documentation**:
-  - `GITHUB_ACTIONS_SETUP.md`: Complete GitHub Actions setup guide
+- **Documentation**: `DEPLOYMENT.md` — deployment, local development, troubleshooting
 
 ---
 
@@ -104,115 +103,14 @@ This is a web platform dedicated to teaching programming, developing websites, a
 
 ---
 
-## 🚀 Production Deployment (Digital Ocean Droplet)
+## 🚀 Deployment
 
-### Prerequisites
-- Digital Ocean droplet (Ubuntu 22.04+ recommended) or any Ubuntu VPS
-- SSH access (root or a user with sudo)
-- GitHub repository with secrets configured
+**See [DEPLOYMENT.md](DEPLOYMENT.md)** for the full guide: local development, staging, production, GitHub Actions secrets, and troubleshooting.
 
-### 🎯 Automated Deployment with GitHub Actions
-
-#### 1. Configure GitHub Secrets
-
-Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**, and add:
-
-| Secret | Description | Example |
-|--------|-------------|---------|
-| `DEPLOY_HOST` | Droplet IP or hostname | `134.209.73.13` |
-| `DEPLOY_SSH_KEY` | Full private SSH key (PEM) | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
-| `DEPLOY_USER` | (Optional) SSH user | `root` (default) |
-
-#### 2. Deploy with GitHub Actions
-
-**Automatic deployment:** Push to `main` or `master` — GitHub Actions will run tests and deploy.
-
-**Manual deployment:**
-- Go to **Actions** → **Advanced Deploy Django App to Server**
-- Click **Run workflow**, choose environment (production/staging)
-
-#### 3. SSL (HTTPS)
-
-- **Actions** → **SSL Certificate Setup** → Run workflow with your domain and email.
-
-### 🔧 Manual Deployment
-
-1. **SSH into your droplet:**
-   ```bash
-   ssh root@134.209.73.13
-   ```
-
-2. **Run the setup script (first time):**
-   ```bash
-   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/floripacodegurus-site/main/setup-server.sh | bash
-   # Log out and back in so the docker group applies
-   ```
-
-3. **Clone and deploy:**
-   ```bash
-   cd /opt/floripacodegurus
-   git clone https://github.com/YOUR_USERNAME/floripacodegurus-site.git .
-   cp env.production.template .env.production
-   nano .env.production   # set SECRET_KEY, ALLOWED_HOSTS (include 134.209.73.13), POSTGRES_PASSWORD
-   docker-compose -f docker-compose-production.yml up -d --build
-   docker-compose -f docker-compose-production.yml exec web python manage.py migrate
-   docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
-   ```
-
-4. **Firewall:** Ensure SSH (22), HTTP (80), HTTPS (443), and 8000 are allowed (Digital Ocean firewall or UFW).
-
-### Environment Configuration
-
-Copy `env.production.template` to `.env.production` and set at least:
-
-```bash
-SECRET_KEY=your-secret-key-here
-DEBUG=False
-ALLOWED_HOSTS=134.209.73.13,yourdomain.com,localhost
-POSTGRES_DB=floripacodegurus_prod
-POSTGRES_USER=floripacodegurus_user
-POSTGRES_PASSWORD=your-secure-password
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-```
-
-### Management Commands
-
-```bash
-docker-compose -f docker-compose-production.yml ps
-docker-compose -f docker-compose-production.yml logs -f
-docker-compose -f docker-compose-production.yml exec web python manage.py createsuperuser
-docker-compose -f docker-compose-production.yml exec web python manage.py migrate
-docker-compose -f docker-compose-production.yml exec web python manage.py collectstatic --noinput
-```
-
-### GitHub Actions Workflows
-
-- **Deploy Django App to Server** (`deploy.yml`) — Push to main/master: tests, deploy, health check.
-- **Advanced Deploy** (`deploy-advanced.yml`) — Manual or push: backups, migrations, static files, verification.
-- **SSL Certificate Setup** (`ssl-setup.yml`) — Manual: Let's Encrypt, Nginx SSL, HTTPS.
-- **Troubleshoot** (`troubleshoot.yml`) — Manual: containers, logs, restart, connectivity, full diagnosis.
-- **Quick Fix** (`quick-fix.yml`) — Manual: fix env, restart/rebuild containers, full fix.
-
-### Docker Services
-
-The deployment includes:
-- **Web**: Django application (port 8000)
-- **Database**: PostgreSQL 15
-- **Nginx**: Reverse proxy (ports 80, 443)
-
-### Monitoring
-
-```bash
-# System resources
-htop
-
-# Docker stats
-docker stats
-
-# Application logs
-docker-compose -f docker-compose-production.yml logs -f web
-```
+| Environment | Branch | Trigger |
+|-------------|--------|---------|
+| **Staging** | `staging` | Push → build image → deploy |
+| **Production** | `main` | Push → deploy |
 
 ---
 
