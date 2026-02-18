@@ -7,6 +7,7 @@ services:
     image: fcgurus/floripacodegurus-site:staging
     build: .
     restart: unless-stopped
+    entrypoint: []
     command: gunicorn configs.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
     ports:
       - "8000:8000"
