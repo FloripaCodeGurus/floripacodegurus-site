@@ -10,7 +10,8 @@ ALLOWED_HOSTS = config(
     default="floripacodegurus.com,localhost,127.0.0.1,134.209.73.13",
 ).split(",")
 
-SECURE_SSL_REDIRECT = True
+# HTTP-only staging (no SSL). Set to True when SSL certs are configured.
+SECURE_SSL_REDIRECT = False
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 DATABASES = {
