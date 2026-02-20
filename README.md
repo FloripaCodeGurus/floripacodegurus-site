@@ -1,8 +1,5 @@
 # Floripa Code Gurus
 
-[![Deploy Django App](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy.yml)
-[![Advanced Deploy](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml/badge.svg)](https://github.com/yourusername/floripacodegurus-site/actions/workflows/deploy-advanced.yml)
-
 Welcome to **Floripa Code Gurus**!  
 This is a web platform dedicated to teaching programming, developing websites, apps, systems, and much more. Our mission is to empower people with technology and foster a collaborative learning environment for all skill levels.
 
@@ -47,18 +44,10 @@ This is a web platform dedicated to teaching programming, developing websites, a
   - `env.production.template`: Production environment template
 - **.github/workflows/**: GitHub Actions automation
   - `deploy.yml`: Basic automated deployment
-  - `deploy-advanced.yml`: Advanced deployment with backups
   - `ssl-setup.yml`: SSL certificate automation
-  - `troubleshoot.yml`: Deployment troubleshooting tools
-  - `quick-fix.yml`: Quick deployment fixes
 - **Documentation**: `DEPLOYMENT.md` — deployment, local development, troubleshooting
 
 ---
-
-## 🌐 Live Demo
-
-- **Production:** [https://www.floripacodegurus.com.br](https://www.floripacodegurus.com.br)
-- **Production (Digital Ocean):** [http://134.209.73.13:8000](http://134.209.73.13:8000) (or your domain)
 
 ## 📊 Deployment Status
 

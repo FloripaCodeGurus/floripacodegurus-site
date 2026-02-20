@@ -1,0 +1,387 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+
+@media screen {
+  body {
+    font-size: 10px;
+  }
+}
+@media all and (max-width: 320px) {
+	.container {
+   		width: 50%;
+ 	}
+ 	.page {
+  		display: flex;
+  		flex-wrap: wrap;
+	}
+
+    .section {
+  		width: 100%;
+  		max-width: 320px;
+  		display: flex;
+  		justify-content: center;
+  		align-items: center;
+		}
+
+    p#frase{
+    font-size:0.7em;
+    }
+
+
+
+}
+
+/*Max-width 480px*//*Max-width 480px*//*Max-width 480px*//*Max-width 480px*/
+@media all and (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+  .header affix-top{
+  	width: 100%;
+  	max-width: 480px;
+  }
+  .container {
+   		width: 100%;
+   		max-width: 480px;
+ 	}
+ 	.page {
+  		display: flex;
+  		flex-wrap: wrap;
+  		width: 100%;
+  		max-width: 480px;
+	}
+
+	.section,
+	.section .footer .noover,
+  .section .bgcolor1{
+  		width: 100%;
+  		max-width: 480px;
+  		display: flex;
+  		justify-content: center;
+  		align-items: center;
+		}
+	.copyrights,
+	.col-lg-2 .col-md-2,
+	.col-lg-3 .col-md-3,
+	.col-md-6,
+	.col-md-12,
+	.invis,
+	.shop-desc,
+	.tab-content,
+	.shop-extra,
+	.nav .nav-tabs,
+	.active,
+	.row,
+	.col-md-4 .col-sm-4 .col-xs-4,
+  .section .gb,
+  .container,
+  .section-title .text-center,
+  .lead{
+  		max-width: 480px;
+  		display: block;
+  
+	}
+
+	.parallax .event-section{
+		width: 100%;
+		max-width: 40em;
+		text-align: center;
+		background-attachment: fixed;
+    background-position: 50% 0;
+    background-repeat: repeat;
+    height: 20%;
+    position: relative;
+	}
+	#parallax{
+           width: 100%;
+           max-width: 30em;
+           text-align: center;
+           background-attachment: fixed;
+           background-position: center;
+           background-repeat: repeat;
+           height: 1em;
+           max-height: 3em;
+           position: relative;
+	}
+	#frase-ruby-h3,
+	#frase-java-h3,
+	#frase-message-h3,
+	#h3django{
+		font-size: 1.4em;
+	}
+	#small-index1{
+		font-size: 11.2px;
+	}
+	.home-message{
+		padding-top: 6em;
+	}
+  #localizacao.container{
+    width:50%; 
+    max-width: 10em;
+    height: 70%
+    max-height: 10em;
+    text-align: center;
+  }
+  #mapa{
+    width: 50%%;
+    max-width: 10em;
+    height: 50%;
+    max-height: 10em;
+    text-align: center;
+    float: left;
+  }
+  #promo-h3{
+    font-size: 4em;
+    text-align: center;
+  }
+  #image-pay-pal{
+    width: 60%;
+    max-width: 14em;
+  }
+  #image-pagseguro{
+    width: 80%;
+    max-width: 20em;
+  }
+  #pague-com-pagseguro{
+    width: 100%;
+    max-width: 19em;
+    text-align: center;
+    padding-left: 3em;
+    padding-right: 1em;
+    margin-left: 1em;
+  }
+  #promocao.lead{
+    width: 100%;
+    max-width: 20em;
+    font-size: 1.2em;
+    padding-left: 1em;
+  }
+  .dropdown-menu{
+    width: 100%;
+    max-width: 25em;
+  }
+  #imagem-destaque{
+    width: 50%;
+    max-width:100%;
+  }
+  
+  #atendimento-email{
+      width: 100%;
+      max-width: 21em;
+      font-size: 0.8em;
+  }
+  .tagline-message.page-title.text-center{
+      padding-top: 6em;
+  }
+  #decricao-ul{
+    font-size: 0.85em;
+    text-align: left;
+    padding-left: 1.8em;
+  }
+  #descricao-p{
+    font-size: 0.85em;
+    text-align: justify;
+    padding:0.6em;
+  }
+  
+  #curso-h4{
+    padding-left:0.9em;
+  }
+  #categorias-li{
+    padding-left:0.9em;
+  }
+  #professor-p{
+    padding-left: 0.9em;
+  }
+  #professor-div{
+    padding: 0em;
+  }
+  #tutorial-ul{
+    padding-left: 1em;
+    font-size: 0.8em;
+  }
+  #referencias{
+    width: 100%ç
+    max-width:2em;
+  }
+  #img-plot-bio{
+    width: 100;
+    max-width: 14em;
+  }
+  #invis-tutorial{
+    max-width: 21em;
+  }
+.zoom:hover {
+        -ms-transform: scale(1); /* IE 9 */
+        -webkit-transform: scale(1); /* Safari 3-8 */
+        transform: scale(1); 
+    }
+#aprenda-programar{
+    font-size: 2em;
+  }
+#texto-home-p{
+  font-size: 14px;
+  text-align: justify;
+}
+p#frase{
+    font-size:0.7em;
+}
+
+#texto-testimonials-p{
+  font-size: 14px;
+  text-align: justify;
+  padding:1em;
+}
+#proximas_turmas.col-md-4.text-center h3{
+    font-size: 3.8em;
+  }
+
+.lead{
+  font-size: 12px;
+  }
+
+.video-section {
+    position: relative;
+    width: 100%;
+    max-width: 30em;
+  }
+#home-buttons{
+    border-radius: 3px;
+    font-size: 12px;
+    color: #ffffff !important;
+    padding: 10px 10px;
+    text-transform: capitalize;
+}
+#accordionExample.accordion h3 {
+      text-align: center;
+      font-size: 1em;
+      margin-left: 0em;
+  }
+#escolha-pagamento{
+    width: 100%;
+    max-width: 8em;
+    padding-left: 1em;
+    font-size: 0.86em;
+  }
+#PayPal-button-csharp{
+    max-width: 6em;
+  }
+#cards-csharp{
+    font-size: 0.6em;
+    list-style-type: none;
+  }
+.metade{
+    width: 9em;
+  }
+#accordionExample.accordion{
+    margin-left: 0.5em;
+    width: 100%;
+    max-width: 10em;
+    }
+#headingOne.card-header,#headingTwo.card-header,#headingThree.card-header,#headingFour.card-header,#headingFive.card-header,
+#headingSix.card-header,#headingSeven.card-header,#headingEight.card-header,#headingNine.card-header,
+#headingTen.card-header,#headingEleven.card-header,#headingTwelve.card-header,#headingThirteen.card-header,
+#headingEighteen.card-header,#headingNineteen.card-header,#headingTwenty.card-header{
+    width:10em;
+    border-radius: 0.4em;
+    }
+
+
+#descricao_curso_csharp1,
+#descricao_curso_csharp2{
+    text-align: justify;
+    margin-left: 3.8em;
+    font-size: 0.6em;
+    }
+.column_cursos h4{
+    text-align: center;
+    font-size: 0.8em;
+    }
+
+
+
+}
+/*Max-width 480px*//*Max-width 480px*//*Max-width 480px*//*Max-width 480px*/
+
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-lg-2 {width: 16.66%;}
+  .col-md-2 {width: 16.66%;}
+  .col-lg-3 {width: 25%;}
+  .col-md-3 {width: 25%;}
+  .col-lg-4 {width: 33.33%;}
+  .col-md-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-md-6 {width: 50%;}
+  .col-sm-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-md-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+
+@media (max-width: 768px) {
+ .shop-extra .nav-tabs>li>a,
+    .shop-extra .nav-tabs>li {
+        float: none;
+        display: block;
+        width: 80%;
+        text-align: center;
+    }
+    .shop-extra {
+        padding: 30px 10px;
+    }
+    .home-message p {
+        font-size: 14px;
+    }
+    .topbar .text-left {
+        text-align: center;
+    }
+    .authorbox img {
+        float: none;
+        margin: 0 0 30px !important;
+        min-width: 100px;
+    }
+    .media-left,
+    .media>.pull-left {
+        display: block;
+        float: none;
+        margin: 0 0 30px;
+        padding-right: 10px;
+    }
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-lg-2 {width: 16.66%;}
+  .col-md-2 {width: 16.66%;}
+  .col-md-3 {width: 25%;}
+  .col-lg-3 {width: 25%;}
+  .col-lg-4 {width: 33.33%;}
+  .col-md-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-md-6 {width: 50%;}
+  .col-sm-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-md-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
+
+
+}
